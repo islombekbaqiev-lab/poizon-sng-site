@@ -1,26 +1,36 @@
 import { NextResponse } from 'next/server'
 
-const BASE = 'https://poizonshop.ru'
+const BASE = 'https://www.thepoizon.ru'
 const UA   = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
 
 const SOURCES = [
-  { path: '/sneakers', category: 'Кроссовки' },
-  { path: '/apparel',  category: 'Одежда'    },
+  { path: '/category/sneakers', category: 'Кроссовки' },
+  { path: '/category/apparel',  category: 'Одежда'    },
 ]
 
 const BRANDS = [
-  'New Balance','Stone Island','Off-White','Fear of God','The North Face',
-  'Louis Vuitton','Rick Owens','Air Jordan',
-  'Nike','Adidas','Jordan','Asics','Puma','Vans','Converse','Reebok',
-  'Salomon','Hoka','Balenciaga','Gucci','Supreme','Moncler','Carhartt',
-  'Stussy','BAPE','Y-3','Burberry','Valentino','Palm Angels','Amiri',
+  'Nike','Adidas','Jordan','New Balance','Puma','Vans','Converse','Reebok','Asics',
+  'Salomon','Hoka','Saucony','On Running',
+  'Stone Island','Off-White','Fear of God','Supreme','Stussy','BAPE','Carhartt',
+  'The North Face','Arc\'teryx','Moncler','Palm Angels','Amiri','Rick Owens',
+  'Louis Vuitton','Gucci','Balenciaga','Valentino','Burberry',
+  'UGG','Birkenstock',
 ]
 
 function extractBrand(name: string): string {
+  const lower = name.toLowerCase()
   for (const b of BRANDS) {
-    if (name.toLowerCase().startsWith(b.toLowerCase())) return b
+    if (lower.startsWith(b.toLowerCase())) return b
   }
   return name.split(' ')[0]
+}
+
+function cleanName(raw: string): string {
+  // thepoizon.ru names are verbose machine translations — truncate at key info
+  return raw
+    .replace(/\s+(Сетчатая|Кожа|Натуральная|Синтетическая|Дышащ|Устойчив|Амортиз|Текстиль|Искусств|Низкий|Высокий).*/i, '')
+    .trim()
+    .slice(0, 80)
 }
 
 function parseProducts(html: string, category: string) {
@@ -28,36 +38,28 @@ function parseProducts(html: string, category: string) {
   const chunks = html.split('href="/product/')
 
   for (const chunk of chunks.slice(1)) {
-    // slug
     const slug = chunk.match(/^([^"]+)"/)?.[1]
     if (!slug) continue
 
-    // name from alt attribute
-    const nameRaw = chunk.match(/alt="([^"]+)"/)?.[1]
-    if (!nameRaw) continue
-    const name = nameRaw
-      .replace(/&#x27;/g, "'")
-      .replace(/&amp;/g, '&')
-      .replace(/&quot;/g, '"')
-      .trim()
-
-    // image — full proxy URL
-    const imgM = chunk.match(/src="(https:\/\/proxy\.b2baisolutions\.io[^"]+)"/)
+    // image — cdn-img.thepoizon.ru
+    const imgM = chunk.match(/src="(https:\/\/cdn-img\.thepoizon\.ru[^"]+)"/)
     if (!imgM) continue
-    const image = imgM[1].replace(/&amp;/g, '&')
+    // use original jpg without webp conversion for better quality
+    const image = imgM[1].split('?')[0]
 
-    // price — handle both formats:
-    //   "<!-- -->11 490<!-- --> <span>₽"
-    //   "от<!-- --> <!-- -->4 990<!-- --> <span>₽"
-    const priceBlock = chunk.match(/price_num[^>]+>([\s\S]{0,120}?)<span>₽/)
-    if (!priceBlock) continue
-    const priceDigits = priceBlock[1].match(/[\d][\d \s]+/)
-    if (!priceDigits) continue
-    const priceRUB = parseInt(priceDigits[0].replace(/[ \s]/g, ''), 10)
-    if (!priceRUB || priceRUB < 1500) continue
+    // name from <h3>
+    const nameM = chunk.match(/<h3[^>]*>([^<]+)<\/h3>/)
+    if (!nameM) continue
+    const name = cleanName(nameM[1].trim())
+
+    // price — "X XXX ₽"
+    const priceM = chunk.match(/([\d\s]+)\s*₽/)
+    if (!priceM) continue
+    const priceRUB = parseInt(priceM[1].replace(/\s/g, ''), 10)
+    if (!priceRUB || priceRUB < 1000) continue
 
     out.push({
-      id:       slug.replace(/[/?=]/g, '-'),
+      id:       slug.replace(/[/?=]/g, '-').slice(0, 60),
       name,
       brand:    extractBrand(name),
       category,
@@ -82,7 +84,7 @@ export async function GET() {
       SOURCES.map(s =>
         fetch(`${BASE}${s.path}`, {
           headers: { 'User-Agent': UA, 'Accept-Language': 'ru-RU,ru;q=0.9' },
-          next:    { revalidate: 3600 },
+          next: { revalidate: 3600 },
         })
           .then(r => r.text())
           .then(html => parseProducts(html, s.category))
@@ -92,7 +94,7 @@ export async function GET() {
 
     const all = pages.flat()
     if (all.length === 0) {
-      return NextResponse.json({ error: 'no products' }, { status: 503 })
+      return NextResponse.json([], { status: 503 })
     }
 
     const products = all
