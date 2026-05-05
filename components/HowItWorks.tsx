@@ -1,19 +1,52 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { Country } from "@/app/page"
 
 const STEPS = [
-  { num: "01", title: "Выбираешь",  desc: "Из каталога или скидываешь ссылку с Poizon — мы найдём любой товар." },
-  { num: "02", title: "Пишешь",     desc: "В Telegram — рассчитаем финальную цену вместе с доставкой за 5 минут." },
-  { num: "03", title: "Платишь",    desc: "₽, ₸, с., сум — принимаем всё. Безопасная сделка." },
-  { num: "04", title: "Получаешь",  desc: "Три варианта доставки: авиа от 3 дней, экспресс, стандарт." },
+  { num: "01", title: "Выбираешь",  desc: "Из каталога или скидываешь ссылку с Poizon — найдём любой товар." },
+  { num: "02", title: "Пишешь",     desc: "В Telegram — рассчитаем финальную цену с доставкой за 5 минут." },
+  { num: "03", title: "Платишь",    desc: "₽, ₸, сум — принимаем всё. Безопасная сделка." },
+  { num: "04", title: "Получаешь",  desc: "Доставка выбирается под твою страну и бюджет." },
 ]
 
-const DELIVERY = [
-  { icon: "✈️", label: "Авиа",     days: "3–5 дней",   price: "225 ¥/кг" },
-  { icon: "⚡️", label: "Экспресс", days: "10–12 дней", price: "173 ¥/кг" },
-  { icon: "📦", label: "Стандарт", days: "25 дней",    price: "77 ¥/кг"  },
-]
+type DeliveryOption = { icon: string; label: string; days: string; price: string }
+
+const DELIVERY: Record<Country | "default", DeliveryOption[]> = {
+  default: [
+    { icon: "✈️", label: "Авиа",      days: "3–5 дней",    price: "225 ¥/кг" },
+    { icon: "⚡️", label: "Экспресс",  days: "10–12 дней",  price: "173 ¥/кг" },
+    { icon: "📦", label: "СДЭК",      days: "по России",   price: "доплата отдельно" },
+  ],
+  RU: [
+    { icon: "✈️", label: "Авиа",      days: "3–5 дней",    price: "225 ¥/кг" },
+    { icon: "⚡️", label: "Экспресс",  days: "10–12 дней",  price: "173 ¥/кг" },
+    { icon: "📦", label: "СДЭК",      days: "по России",   price: "доплата отдельно" },
+  ],
+  BY: [
+    { icon: "✈️", label: "Авиа",           days: "5–7 дней",   price: "225 ¥/кг" },
+    { icon: "🚚", label: "Авто",           days: "20–25 дней", price: "87 ¥/кг"  },
+    { icon: "📦", label: "Через Москву",   days: "СДЭК",       price: "доплата отдельно" },
+  ],
+  KZ: [
+    { icon: "🚚", label: "Авто",      days: "4–8 дней",    price: "100 ¥/кг" },
+  ],
+  AM: [
+    { icon: "✈️", label: "Авиа",           days: "уточняйте",  price: "225 ¥/кг" },
+    { icon: "📦", label: "Через Москву",   days: "СДЭК",       price: "доплата отдельно" },
+  ],
+  GE: [
+    { icon: "✈️", label: "Авиа до Москвы", days: "3–5 дней",  price: "225 ¥/кг" },
+    { icon: "📦", label: "Далее СДЭК",     days: "уточняйте", price: "доплата отдельно" },
+  ],
+  AZ: [
+    { icon: "✈️", label: "Авиа до Москвы", days: "3–5 дней",  price: "225 ¥/кг" },
+    { icon: "📦", label: "Далее СДЭК",     days: "уточняйте", price: "доплата отдельно" },
+  ],
+  UZ: [
+    { icon: "✈️", label: "Авиа",      days: "3–6 дней",    price: "100 ¥/кг" },
+  ],
+}
 
 function fadeUp(delay = 0) {
   return {
@@ -24,7 +57,9 @@ function fadeUp(delay = 0) {
   }
 }
 
-export default function HowItWorks() {
+export default function HowItWorks({ country }: { country?: Country | null }) {
+  const options = country ? DELIVERY[country] : DELIVERY.default
+
   return (
     <section id="how" className="py-28" style={{ borderTop: "1px solid rgba(255,255,255,.05)" }}>
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
@@ -61,28 +96,42 @@ export default function HowItWorks() {
                 {s.desc}
               </p>
               <div className="mt-6 h-px w-10 rounded-full"
-                style={{ background: "rgba(77,150,255,.35)", transition: "width .3s" }} />
+                style={{ background: "rgba(77,150,255,.35)" }} />
             </motion.div>
           ))}
         </div>
 
-        {/* Delivery */}
-        <motion.div className="mt-8 grid grid-cols-3 gap-4" {...fadeUp(0.24)}>
-          {DELIVERY.map((d, i) => (
-            <div key={i} className="glass-card rounded-2xl p-6 flex items-center gap-4">
-              <span style={{ fontSize: "2rem" }}>{d.icon}</span>
-              <div>
-                <p className="font-bold text-sm">{d.label}</p>
-                <p className="font-black text-sm" style={{ color: "#4D96FF" }}>{d.days}</p>
-                <p className="text-[11px] mt-0.5" style={{ color: "rgba(255,255,255,.25)" }}>{d.price}</p>
+        {/* Delivery — country-aware */}
+        <motion.div className="mt-8" {...fadeUp(0.24)}>
+          {country && (
+            <p className="text-xs mb-3" style={{ color: "rgba(255,255,255,.28)" }}>
+              Доставка в {
+                { RU: "Россию", BY: "Беларусь", KZ: "Казахстан", AM: "Армению",
+                  GE: "Грузию", AZ: "Азербайджан", UZ: "Узбекистан" }[country]
+              }
+            </p>
+          )}
+          <div className={`grid gap-4 ${
+            options.length === 1 ? "grid-cols-1 max-w-xs" :
+            options.length === 2 ? "grid-cols-1 sm:grid-cols-2" :
+            "grid-cols-1 sm:grid-cols-3"
+          }`}>
+            {options.map((d, i) => (
+              <div key={i} className="glass-card rounded-2xl p-5 flex items-center gap-4">
+                <span style={{ fontSize: "1.75rem", flexShrink: 0 }}>{d.icon}</span>
+                <div>
+                  <p className="font-bold text-sm">{d.label}</p>
+                  <p className="font-black text-sm" style={{ color: "#4D96FF" }}>{d.days}</p>
+                  <p className="text-[11px] mt-0.5" style={{ color: "rgba(255,255,255,.25)" }}>{d.price}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </motion.div>
 
         {/* Trust badges */}
         <motion.div className="mt-8 flex flex-wrap gap-2.5" {...fadeUp(0.3)}>
-          {["✅ Оригиналы", "🛡️ Гарантия", "📦 Трек-номер", "💬 Поддержка 24/7", "🚚 СДЭК по России"].map(b => (
+          {["✅ Оригиналы", "🛡️ Гарантия", "📦 Трек-номер", "💬 Поддержка 24/7"].map(b => (
             <span key={b} className="px-3.5 py-1.5 rounded-full text-xs"
               style={{ background: "rgba(255,255,255,.03)", border: "1px solid rgba(255,255,255,.07)", color: "rgba(255,255,255,.38)" }}>
               {b}

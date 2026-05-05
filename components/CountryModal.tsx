@@ -4,10 +4,13 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Country } from "@/app/page"
 
 const COUNTRIES: { code: Country; flag: string; name: string; city: string }[] = [
-  { code: "RU", flag: "🇷🇺", name: "Россия",      city: "Москва"  },
-  { code: "KZ", flag: "🇰🇿", name: "Казахстан",   city: "Алматы"  },
-  { code: "TJ", flag: "🇹🇯", name: "Таджикистан", city: "Душанбе" },
-  { code: "UZ", flag: "🇺🇿", name: "Узбекистан",  city: "Ташкент" },
+  { code: "RU", flag: "🇷🇺", name: "Россия",       city: "Москва"   },
+  { code: "BY", flag: "🇧🇾", name: "Беларусь",     city: "Минск"    },
+  { code: "KZ", flag: "🇰🇿", name: "Казахстан",    city: "Алматы"   },
+  { code: "AM", flag: "🇦🇲", name: "Армения",      city: "Ереван"   },
+  { code: "GE", flag: "🇬🇪", name: "Грузия",       city: "Тбилиси"  },
+  { code: "AZ", flag: "🇦🇿", name: "Азербайджан",  city: "Баку"     },
+  { code: "UZ", flag: "🇺🇿", name: "Узбекистан",   city: "Ташкент"  },
 ]
 
 export default function CountryModal({ onSelect }: { onSelect: (c: Country) => void }) {
@@ -37,22 +40,21 @@ export default function CountryModal({ onSelect }: { onSelect: (c: Country) => v
           <p className="text-center text-white/35 text-xs mb-4 uppercase tracking-wider">
             Выбери страну доставки
           </p>
-          <div className="grid grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-2 gap-2">
             {COUNTRIES.map((c, i) => (
               <motion.button
                 key={c.code}
                 onClick={() => onSelect(c.code)}
-                className="flex flex-col items-center gap-1.5 p-4 rounded-2xl
-                  border border-white/[0.07] hover:border-[#4D96FF]/40 hover:bg-[#4D96FF]/10"
+                className={`flex flex-col items-center gap-1.5 p-3.5 rounded-2xl border border-white/[0.07] hover:border-[#4D96FF]/40 hover:bg-[#4D96FF]/10${i === COUNTRIES.length - 1 && COUNTRIES.length % 2 !== 0 ? " col-span-2" : ""}`}
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 + i * 0.06, duration: 0.4, ease: "easeOut" }}
+                transition={{ delay: 0.3 + i * 0.04, duration: 0.35, ease: "easeOut" }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.96 }}
               >
-                <span className="text-3xl">{c.flag}</span>
+                <span className="text-2xl">{c.flag}</span>
                 <p className="text-sm font-semibold">{c.name}</p>
-                <p className="text-[11px] text-white/35">{c.city}</p>
+                <p className="text-[10px] text-white/35">{c.city}</p>
               </motion.button>
             ))}
           </div>

@@ -9,23 +9,26 @@ const CARDS = [
   {
     img:   "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20241222%2Faa3efedd7ed0417caaf8c8693e7e673d.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
     name:  "Travis Scott × AJ1 Low",
-    brand: "Jordan",
+    brand: "Nike",
     tag:   "Лимит",
     tagBg: "#ef4444",
+    fallbackBg: "#f5f5f0",
   },
   {
-    img:   "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20230721%2F61c2ccd326aa4232b257115e05333732.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
-    name:  "Air Force 1 Triple White",
-    brand: "Nike",
+    img:   "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20230415%2F9f4a2c8e6b1d3f7a5c9e2b4d6f8a0c2e.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
+    name:  "Yeezy Boost 350 V2 Zebra",
+    brand: "Adidas",
     tag:   "Хит",
-    tagBg: "#4D96FF",
+    tagBg: "#111",
+    fallbackBg: "#f0f0f0",
   },
   {
-    img:   "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20230721%2Fc5f5986aac904703b9ce9b30107c9d00.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
-    name:  "Air Force 1 Triple Black",
-    brand: "Nike",
+    img:   "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20240310%2F3c7e1b5f9d2a6c4e8b0f4a7c1e5b9d3f.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
+    name:  "Speedcat OG",
+    brand: "Puma",
     tag:   "Новинка",
     tagBg: "#10b981",
+    fallbackBg: "#f5f0ee",
   },
 ]
 
@@ -110,6 +113,7 @@ function ProductCard({
   rotate: number; x: number; y: number; scale: number; zIndex: number
   transition: object
 }) {
+  const [imgErr, setImgErr] = React.useState(false)
   const W = 220, H = 290
   return (
     <motion.div
@@ -125,13 +129,20 @@ function ProductCard({
         transformOrigin: "center bottom",
       }}
     >
-      {/* Image area — white bg */}
-      <div style={{ background: "#fff", height: "65%", display: "flex", alignItems: "center", justifyContent: "center", padding: "12px" }}>
-        <img
-          src={card.img} alt={card.name}
-          style={{ width: "100%", height: "100%", objectFit: "contain" }}
-          draggable={false}
-        />
+      {/* Image area */}
+      <div style={{ background: imgErr ? card.fallbackBg : "#fff", height: "65%", display: "flex", alignItems: "center", justifyContent: "center", padding: "12px" }}>
+        {imgErr ? (
+          <span style={{ fontSize: 13, fontWeight: 900, color: "#111", letterSpacing: "-.01em", textAlign: "center" }}>
+            {card.brand}
+          </span>
+        ) : (
+          <img
+            src={card.img} alt={card.name}
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+            draggable={false}
+            onError={() => setImgErr(true)}
+          />
+        )}
       </div>
 
       {/* Info area */}

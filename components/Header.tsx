@@ -5,10 +5,13 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Country, Rates } from "@/app/page"
 
 const META: Record<Country, { flag: string; name: string; currency: string; rateKey: keyof Rates }> = {
-  RU: { flag: "🇷🇺", name: "Россия",      currency: "₽",   rateKey: "RUB" },
-  KZ: { flag: "🇰🇿", name: "Казахстан",   currency: "₸",   rateKey: "KZT" },
-  TJ: { flag: "🇹🇯", name: "Таджикистан", currency: "с.",  rateKey: "TJS" },
-  UZ: { flag: "🇺🇿", name: "Узбекистан",  currency: "сум", rateKey: "UZS" },
+  RU: { flag: "🇷🇺", name: "Россия",       currency: "₽",   rateKey: "RUB" },
+  BY: { flag: "🇧🇾", name: "Беларусь",     currency: "₽",   rateKey: "RUB" },
+  KZ: { flag: "🇰🇿", name: "Казахстан",    currency: "₸",   rateKey: "KZT" },
+  AM: { flag: "🇦🇲", name: "Армения",      currency: "₽",   rateKey: "RUB" },
+  GE: { flag: "🇬🇪", name: "Грузия",       currency: "₽",   rateKey: "RUB" },
+  AZ: { flag: "🇦🇿", name: "Азербайджан",  currency: "₽",   rateKey: "RUB" },
+  UZ: { flag: "🇺🇿", name: "Узбекистан",   currency: "сум", rateKey: "UZS" },
 }
 
 const NAV_LINKS = [

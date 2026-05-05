@@ -15,7 +15,7 @@ import Intro           from "@/components/Intro"
 import MobileFloatingCTA from "@/components/MobileFloatingCTA"
 import FAQ             from "@/components/FAQ"
 
-export type Country = "RU" | "KZ" | "TJ" | "UZ"
+export type Country = "RU" | "BY" | "KZ" | "AM" | "GE" | "AZ" | "UZ"
 
 export interface Rates {
   RUB: number
@@ -104,7 +104,7 @@ export default function Home() {
         <div id="catalog">
           <ProductGrid country={country} rates={rates} />
         </div>
-        <HowItWorks />
+        <HowItWorks country={country} />
         <FAQ />
         <Testimonials />
         <Footer />

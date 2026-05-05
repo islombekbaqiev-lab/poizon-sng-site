@@ -15,8 +15,11 @@ interface Product {
 
 const RATE_MAP: Record<Country, { key: keyof Rates; symbol: string }> = {
   RU: { key: "RUB", symbol: "₽"   },
+  BY: { key: "RUB", symbol: "₽"   },
   KZ: { key: "KZT", symbol: "₸"   },
-  TJ: { key: "TJS", symbol: "с."  },
+  AM: { key: "RUB", symbol: "₽"   },
+  GE: { key: "RUB", symbol: "₽"   },
+  AZ: { key: "RUB", symbol: "₽"   },
   UZ: { key: "UZS", symbol: "сум" },
 }
 
