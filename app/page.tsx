@@ -42,9 +42,10 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
+    const VALID: Country[] = ["RU", "BY", "KZ", "AM", "GE", "AZ", "UZ"]
     const saved = localStorage.getItem("pzn_country") as Country | null
-    if (saved) setCountry(saved)
-    else       setShowModal(true)
+    if (saved && VALID.includes(saved)) setCountry(saved)
+    else { localStorage.removeItem("pzn_country"); setShowModal(true) }
   }, [])
 
   useEffect(() => {

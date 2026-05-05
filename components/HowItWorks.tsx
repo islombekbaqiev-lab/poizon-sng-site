@@ -58,7 +58,7 @@ function fadeUp(delay = 0) {
 }
 
 export default function HowItWorks({ country }: { country?: Country | null }) {
-  const options = country ? DELIVERY[country] : DELIVERY.default
+  const options = (country ? DELIVERY[country] : null) ?? DELIVERY.default
 
   return (
     <section id="how" className="py-28" style={{ borderTop: "1px solid rgba(255,255,255,.05)" }}>
