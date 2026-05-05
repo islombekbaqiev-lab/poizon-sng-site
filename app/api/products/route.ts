@@ -4,8 +4,13 @@ const BASE = 'https://www.thepoizon.ru'
 const UA   = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
 
 const SOURCES = [
-  { path: '/category/sneakers', category: 'Кроссовки' },
-  { path: '/category/apparel',  category: 'Одежда'    },
+  { path: '/category/sneakers',        category: 'Кроссовки' },
+  { path: '/category/sneakers?page=3', category: 'Кроссовки' },
+  { path: '/category/sneakers?page=4', category: 'Кроссовки' },
+  { path: '/category/sneakers?page=5', category: 'Кроссовки' },
+  { path: '/category/sneakers?page=6', category: 'Кроссовки' },
+  { path: '/category/sneakers?page=7', category: 'Кроссовки' },
+  { path: '/category/apparel',         category: 'Одежда'    },
 ]
 
 const BRANDS = [
@@ -26,9 +31,8 @@ function extractBrand(name: string): string {
 }
 
 function cleanName(raw: string): string {
-  // thepoizon.ru names are verbose machine translations — truncate at key info
   return raw
-    .replace(/\s+(Сетчатая|Кожа|Натуральная|Синтетическая|Дышащ|Устойчив|Амортиз|Текстиль|Искусств|Низкий|Высокий).*/i, '')
+    .replace(/\s+(Сетчатая|Кожа|Натуральная|Синтетическая|Дышащ|Устойчив|Амортиз|Текстиль|Искусств|Низкий|Высокий|Уличная|Повседневная|Баскетбольные|Кроссовки|Обувь|Мужские|Женские|Унисекс|Скейт|Беговые|Низкие|Высокие|Слип|Трек|Абразив|Легк|Дышащие|Поддержк|Износостойк|Нескольз|Амортизир).*/i, '')
     .trim()
     .slice(0, 80)
 }
@@ -47,15 +51,15 @@ function parseProducts(html: string, category: string) {
     // use original jpg without webp conversion for better quality
     const image = imgM[1].split('?')[0]
 
-    // name from <h3>
-    const nameM = chunk.match(/<h3[^>]*>([^<]+)<\/h3>/)
+    // name from title attribute on <a>
+    const nameM = chunk.match(/title="([^"]+)"/)
     if (!nameM) continue
     const name = cleanName(nameM[1].trim())
 
-    // price — "X XXX ₽"
-    const priceM = chunk.match(/([\d\s]+)\s*₽/)
+    // price — "13 814 ₽" (space may be non-breaking  )
+    const priceM = chunk.match(/(\d[\d\s ]{1,8}\d)\s*₽/)
     if (!priceM) continue
-    const priceRUB = parseInt(priceM[1].replace(/\s/g, ''), 10)
+    const priceRUB = parseInt(priceM[1].replace(/[\s ]/g, ''), 10)
     if (!priceRUB || priceRUB < 1000) continue
 
     out.push({
@@ -92,14 +96,29 @@ export async function GET() {
       )
     )
 
-    const all = pages.flat()
+    // Dedup sneakers from pages 1, 3, 5, 7 by id
+    const seenIds = new Set<string>()
+    const allSneakers = [...pages[0], ...pages[1], ...pages[2], ...pages[3], ...pages[4], ...pages[5]].filter(p => {
+      if (seenIds.has(p.id)) return false
+      seenIds.add(p.id)
+      return true
+    })
+
+    const mainSneakers = allSneakers.slice(0, 43)
+    const mainIdSet    = new Set(mainSneakers.map((p: any) => p.id))
+    const budgetSneakers = allSneakers
+      .filter((p: any) => p.priceRUB <= 4500 && !mainIdSet.has(p.id))
+      .sort((a: any, b: any) => a.priceRUB - b.priceRUB)
+      .slice(0, 15)
+
+    const apparel = pages[6].slice(0, 20)
+    const all = [...mainSneakers, ...budgetSneakers, ...apparel]
+
     if (all.length === 0) {
       return NextResponse.json([], { status: 503 })
     }
 
-    const products = all
-      .slice(0, 28)
-      .map((p, i) => ({ ...p, tag: assignTag(p.priceRUB, i) }))
+    const products = all.map((p, i) => ({ ...p, tag: assignTag(p.priceRUB, i) }))
 
     return NextResponse.json(products, {
       headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' },
