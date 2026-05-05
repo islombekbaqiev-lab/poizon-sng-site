@@ -22,9 +22,16 @@ export interface Rates {
   KZT: number
   TJS: number
   UZS: number
+  BYN: number
+  AMD: number
+  GEL: number
+  AZN: number
 }
 
-const DEFAULT_RATES: Rates = { RUB: 13.2, KZT: 555, TJS: 1.08, UZS: 1645 }
+const DEFAULT_RATES: Rates = {
+  RUB: 13.2, KZT: 555, TJS: 1.08, UZS: 1645,
+  BYN: 0.40, AMD: 55,  GEL: 0.40, AZN: 0.24,
+}
 
 export default function Home() {
   const [country,    setCountry]    = useState<Country | null>(null)
@@ -57,6 +64,10 @@ export default function Home() {
           KZT: Math.round(d.rates.KZT + 8),
           TJS: Math.round((d.rates.TJS + 0.2) * 100) / 100,
           UZS: Math.round(d.rates.UZS),
+          BYN: Math.round((d.rates.BYN + 0.03) * 100) / 100,
+          AMD: Math.round(d.rates.AMD + 5),
+          GEL: Math.round((d.rates.GEL + 0.03) * 100) / 100,
+          AZN: Math.round((d.rates.AZN + 0.02) * 100) / 100,
         })
       })
       .catch(() => {})

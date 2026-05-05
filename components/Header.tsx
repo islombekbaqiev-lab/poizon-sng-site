@@ -6,12 +6,12 @@ import { Country, Rates } from "@/app/page"
 
 const META: Record<Country, { flag: string; name: string; currency: string; rateKey: keyof Rates }> = {
   RU: { flag: "🇷🇺", name: "Россия",       currency: "₽",   rateKey: "RUB" },
-  BY: { flag: "🇧🇾", name: "Беларусь",     currency: "₽",   rateKey: "RUB" },
+  BY: { flag: "🇧🇾", name: "Беларусь",     currency: "Br",  rateKey: "BYN" },
   KZ: { flag: "🇰🇿", name: "Казахстан",    currency: "₸",   rateKey: "KZT" },
   TJ: { flag: "🇹🇯", name: "Таджикистан",  currency: "с.",  rateKey: "TJS" },
-  AM: { flag: "🇦🇲", name: "Армения",      currency: "₽",   rateKey: "RUB" },
-  GE: { flag: "🇬🇪", name: "Грузия",       currency: "₽",   rateKey: "RUB" },
-  AZ: { flag: "🇦🇿", name: "Азербайджан",  currency: "₽",   rateKey: "RUB" },
+  AM: { flag: "🇦🇲", name: "Армения",      currency: "֏",   rateKey: "AMD" },
+  GE: { flag: "🇬🇪", name: "Грузия",       currency: "₾",   rateKey: "GEL" },
+  AZ: { flag: "🇦🇿", name: "Азербайджан",  currency: "₼",   rateKey: "AZN" },
   UZ: { flag: "🇺🇿", name: "Узбекистан",   currency: "сум", rateKey: "UZS" },
 }
 
