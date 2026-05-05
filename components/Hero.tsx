@@ -1,36 +1,17 @@
 "use client"
 
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { motion, useMotionValue, useSpring, useInView, animate } from "framer-motion"
 
 const TG_LINK = "https://t.me/PoizonAdvisor"
 
+const TRAVIS_IMG = "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20241222%2Faa3efedd7ed0417caaf8c8693e7e673d.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1"
+
 const CARDS = [
-  {
-    img:   "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20241222%2Faa3efedd7ed0417caaf8c8693e7e673d.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
-    name:  "Travis Scott × AJ1 Low",
-    brand: "Nike",
-    tag:   "Лимит",
-    tagBg: "#ef4444",
-    fallbackBg: "#f5f5f0",
-  },
-  {
-    img:   "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20230415%2F9f4a2c8e6b1d3f7a5c9e2b4d6f8a0c2e.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
-    name:  "Yeezy Boost 350 V2 Zebra",
-    brand: "Adidas",
-    tag:   "Хит",
-    tagBg: "#111",
-    fallbackBg: "#f0f0f0",
-  },
-  {
-    img:   "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20240310%2F3c7e1b5f9d2a6c4e8b0f4a7c1e5b9d3f.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
-    name:  "Speedcat OG",
-    brand: "Puma",
-    tag:   "Новинка",
-    tagBg: "#10b981",
-    fallbackBg: "#f5f0ee",
-  },
-]
+  { name: "Travis Scott × AJ1 Low",    brand: "Nike",   tag: "Лимит",   tagBg: "#ef4444", fallbackBg: "#f5f5f0" },
+  { name: "Yeezy Boost 350 V2 Zebra",  brand: "Adidas", tag: "Хит",     tagBg: "#111",    fallbackBg: "#f0f0f0" },
+  { name: "Speedcat OG",               brand: "Puma",   tag: "Новинка", tagBg: "#10b981", fallbackBg: "#f5f0ee" },
+] as const
 
 // closed stack: [rotate, x, y, scale]
 const STACK_POS = [
@@ -105,11 +86,13 @@ function CountUp({ value }: { value: string }) {
   return <span ref={ref}>{value}</span>
 }
 
+type CardData = typeof CARDS[number] & { img: string }
+
 // ── Single product card ───────────────────────────────────────────────────────
 function ProductCard({
   card, rotate, x, y, scale, zIndex, transition,
 }: {
-  card: typeof CARDS[0]
+  card: CardData
   rotate: number; x: number; y: number; scale: number; zIndex: number
   transition: object
 }) {
@@ -177,7 +160,20 @@ function ProductCard({
 // ── Stacked cards ─────────────────────────────────────────────────────────────
 function StackedCards() {
   const [open, setOpen] = React.useState(false)
+  const [imgs, setImgs]   = useState<string[]>([TRAVIS_IMG, "", ""])
 
+  useEffect(() => {
+    fetch("/api/products")
+      .then(r => r.json())
+      .then((products: { brand: string; image: string }[]) => {
+        const adidas = products.find(p => p.brand.toLowerCase() === "adidas" && p.image)
+        const puma   = products.find(p => p.brand.toLowerCase() === "puma"   && p.image)
+        setImgs([TRAVIS_IMG, adidas?.image ?? "", puma?.image ?? ""])
+      })
+      .catch(() => {})
+  }, [])
+
+  const cards: CardData[] = CARDS.map((c, i) => ({ ...c, img: imgs[i] }))
   const t = { type: "spring", stiffness: 260, damping: 24 }
 
   return (
@@ -196,16 +192,16 @@ function StackedCards() {
         filter: "blur(50px)",
       }} />
 
-      {[...CARDS].reverse().map((card, ri) => {
-        const i  = CARDS.length - 1 - ri  // 2,1,0
+      {[...cards].reverse().map((card, ri) => {
+        const i  = cards.length - 1 - ri
         const pos = open ? FAN_POS[i] : STACK_POS[i]
         return (
           <ProductCard
             key={i}
             card={card}
             rotate={pos[0]} x={pos[1]} y={pos[2]} scale={pos[3]}
-            zIndex={open ? (i === 1 ? 3 : 1) : CARDS.length - i}
-            transition={{ ...t, delay: open ? i * 0.04 : (CARDS.length - 1 - i) * 0.03 }}
+            zIndex={open ? (i === 1 ? 3 : 1) : cards.length - i}
+            transition={{ ...t, delay: open ? i * 0.04 : (cards.length - 1 - i) * 0.03 }}
           />
         )
       })}
