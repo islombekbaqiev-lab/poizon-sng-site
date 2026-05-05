@@ -31,6 +31,9 @@ const DELIVERY: Record<Country | "default", DeliveryOption[]> = {
   KZ: [
     { icon: "🚚", label: "Авто",      days: "4–8 дней",    price: "100 ¥/кг" },
   ],
+  TJ: [
+    { icon: "✈️", label: "Авиа",      days: "3–6 дней",    price: "100 ¥/кг" },
+  ],
   AM: [
     { icon: "✈️", label: "Авиа",           days: "уточняйте",  price: "225 ¥/кг" },
     { icon: "📦", label: "Через Москву",   days: "СДЭК",       price: "доплата отдельно" },
@@ -106,8 +109,8 @@ export default function HowItWorks({ country }: { country?: Country | null }) {
           {country && (
             <p className="text-xs mb-3" style={{ color: "rgba(255,255,255,.28)" }}>
               Доставка в {
-                { RU: "Россию", BY: "Беларусь", KZ: "Казахстан", AM: "Армению",
-                  GE: "Грузию", AZ: "Азербайджан", UZ: "Узбекистан" }[country]
+                { RU: "Россию", BY: "Беларусь", KZ: "Казахстан", TJ: "Таджикистан",
+                  AM: "Армению", GE: "Грузию", AZ: "Азербайджан", UZ: "Узбекистан" }[country]
               }
             </p>
           )}

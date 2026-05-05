@@ -7,6 +7,7 @@ const COUNTRIES: { code: Country; flag: string; name: string; city: string }[] =
   { code: "RU", flag: "🇷🇺", name: "Россия",       city: "Москва"   },
   { code: "BY", flag: "🇧🇾", name: "Беларусь",     city: "Минск"    },
   { code: "KZ", flag: "🇰🇿", name: "Казахстан",    city: "Алматы"   },
+  { code: "TJ", flag: "🇹🇯", name: "Таджикистан",  city: "Душанбе"  },
   { code: "AM", flag: "🇦🇲", name: "Армения",      city: "Ереван"   },
   { code: "GE", flag: "🇬🇪", name: "Грузия",       city: "Тбилиси"  },
   { code: "AZ", flag: "🇦🇿", name: "Азербайджан",  city: "Баку"     },

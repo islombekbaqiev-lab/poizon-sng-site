@@ -15,7 +15,7 @@ import Intro           from "@/components/Intro"
 import MobileFloatingCTA from "@/components/MobileFloatingCTA"
 import FAQ             from "@/components/FAQ"
 
-export type Country = "RU" | "BY" | "KZ" | "AM" | "GE" | "AZ" | "UZ"
+export type Country = "RU" | "BY" | "KZ" | "TJ" | "AM" | "GE" | "AZ" | "UZ"
 
 export interface Rates {
   RUB: number
@@ -42,7 +42,7 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    const VALID: Country[] = ["RU", "BY", "KZ", "AM", "GE", "AZ", "UZ"]
+    const VALID: Country[] = ["RU", "BY", "KZ", "TJ", "AM", "GE", "AZ", "UZ"]
     const saved = localStorage.getItem("pzn_country") as Country | null
     if (saved && VALID.includes(saved)) setCountry(saved)
     else { localStorage.removeItem("pzn_country"); setShowModal(true) }

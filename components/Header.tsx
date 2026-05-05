@@ -8,6 +8,7 @@ const META: Record<Country, { flag: string; name: string; currency: string; rate
   RU: { flag: "🇷🇺", name: "Россия",       currency: "₽",   rateKey: "RUB" },
   BY: { flag: "🇧🇾", name: "Беларусь",     currency: "₽",   rateKey: "RUB" },
   KZ: { flag: "🇰🇿", name: "Казахстан",    currency: "₸",   rateKey: "KZT" },
+  TJ: { flag: "🇹🇯", name: "Таджикистан",  currency: "с.",  rateKey: "TJS" },
   AM: { flag: "🇦🇲", name: "Армения",      currency: "₽",   rateKey: "RUB" },
   GE: { flag: "🇬🇪", name: "Грузия",       currency: "₽",   rateKey: "RUB" },
   AZ: { flag: "🇦🇿", name: "Азербайджан",  currency: "₽",   rateKey: "RUB" },
