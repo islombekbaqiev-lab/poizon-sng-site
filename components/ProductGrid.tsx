@@ -25,6 +25,7 @@ const RATE_MAP: Record<Country, { key: keyof Rates; symbol: string }> = {
 }
 
 const CATEGORIES = ["Все", "Кроссовки", "Одежда"]
+const PAGE_SIZE = 12
 
 const TAG_COLOR: Record<string, { bg: string; text: string }> = {
   "Хит":    { bg: "#4D96FF", text: "#fff" },
@@ -133,29 +134,19 @@ function NoImg({ brand }: { brand: string }) {
   )
 }
 
-// ── BIG hero card (col-span-2 row-span-2) ────────────────────────────────────
+// ── BIG hero card ────────────────────────────────────────────────────────────
 function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symbol: string }) {
-  const tgUrl      = `${TG_BASE}?start=${encodeURIComponent(p.name)}`
+  const tgUrl       = `${TG_BASE}?start=${encodeURIComponent(p.name)}`
   const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
 
   return (
-    <motion.div
-      className="col-span-2 row-span-2 flex flex-col rounded-2xl overflow-hidden group"
-      style={{ border: "1px solid rgba(255,255,255,0.07)" }}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-30px" }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ scale: 1.015, borderColor: "rgba(77,150,255,0.3)", boxShadow: "0 20px 56px rgba(0,0,0,0.5), 0 0 0 1px rgba(77,150,255,0.2)" }}
-      whileTap={{ scale: 0.98 }}
-    >
-      {/* Image area — white */}
+    <div className="col-span-2 row-span-2 flex flex-col rounded-2xl overflow-hidden group transition-all duration-300 hover:scale-[1.015] hover:shadow-[0_20px_56px_rgba(0,0,0,0.5)]"
+      style={{ border: "1px solid rgba(255,255,255,0.07)" }}>
       <div className="flex-1 relative overflow-hidden flex items-center justify-center"
         style={{ background: "#FFFFFF", minHeight: 0 }}>
         {p.image
           ? <img src={p.image} alt={p.name} loading="lazy"
-              className="w-full h-full object-contain p-6 group-hover:scale-[1.04] transition-transform duration-500"
-              style={{ transitionTimingFunction: "cubic-bezier(0.22,1,0.36,1)" }} />
+              className="w-full h-full object-contain p-6 group-hover:scale-[1.04] transition-transform duration-500" />
           : <NoImg brand={p.brand} />
         }
         {p.tag && TAG_COLOR[p.tag] && (
@@ -164,60 +155,40 @@ function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symb
             {p.tag}
           </span>
         )}
-        {/* Subtle bottom gradient over white */}
-        <div className="absolute bottom-0 left-0 right-0 h-12 pointer-events-none"
-          style={{ background: "linear-gradient(to top, rgba(5,10,24,0.08), transparent)" }} />
       </div>
-
-      {/* Info panel */}
       <div className="flex-shrink-0 p-4" style={{ background: "rgba(5,10,24,0.98)" }}>
-        <p className="text-[9px] font-black uppercase tracking-[0.18em] mb-0.5" style={{ color: "#4D96FF" }}>
-          {p.brand}
-        </p>
+        <p className="text-[9px] font-black uppercase tracking-[0.18em] mb-0.5" style={{ color: "#4D96FF" }}>{p.brand}</p>
         <p className="font-bold text-sm leading-tight mb-3 line-clamp-2">{displayName}</p>
         <div className="flex items-center justify-between gap-3">
           {local !== null
             ? <p className="text-xl font-black tracking-tight">{fmtPrice(local, symbol)}</p>
             : <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>Укажите страну</p>
           }
-          <motion.a
-            href={tgUrl} target="_blank" rel="noopener noreferrer"
-            className="flex-shrink-0 px-5 py-2 text-white text-xs font-bold rounded-xl"
+          <a href={tgUrl} target="_blank" rel="noopener noreferrer"
+            className="flex-shrink-0 px-5 py-2 text-white text-xs font-bold rounded-xl transition-all duration-150 hover:scale-105 active:scale-95"
             style={{ background: "#4D96FF" }}
-            onClick={e => e.stopPropagation()}
-            whileHover={{ scale: 1.06, backgroundColor: "#3a86ef" }}
-            whileTap={{ scale: 0.92 }}>
+            onClick={e => e.stopPropagation()}>
             Купить →
-          </motion.a>
+          </a>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
-// ── Small card (col-span-1 row-span-1) ───────────────────────────────────────
-function SmallCard({ p, local, symbol, delay = 0 }: { p: Product; local: number | null; symbol: string; delay?: number }) {
+// ── Small card ───────────────────────────────────────────────────────────────
+function SmallCard({ p, local, symbol }: { p: Product; local: number | null; symbol: string }) {
   const tgUrl       = `${TG_BASE}?start=${encodeURIComponent(p.name)}`
   const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
 
   return (
-    <motion.div
-      className="col-span-1 row-span-1 flex flex-col rounded-2xl overflow-hidden group"
-      style={{ border: "1px solid rgba(255,255,255,0.07)" }}
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-20px" }}
-      transition={{ duration: 0.45, delay, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -3, borderColor: "rgba(77,150,255,0.22)", boxShadow: "0 12px 32px rgba(0,0,0,0.45)", transition: { duration: 0.2 } }}
-      whileTap={{ scale: 0.97 }}
-    >
-      {/* Image area — white */}
+    <div className="col-span-1 row-span-1 flex flex-col rounded-2xl overflow-hidden group transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(0,0,0,0.45)]"
+      style={{ border: "1px solid rgba(255,255,255,0.07)" }}>
       <div className="flex-1 relative overflow-hidden flex items-center justify-center"
         style={{ background: "#FFFFFF", minHeight: 0 }}>
         {p.image
           ? <img src={p.image} alt={p.name} loading="lazy"
-              className="w-full h-full object-contain p-3 group-hover:scale-[1.05] transition-transform duration-500"
-              style={{ transitionTimingFunction: "cubic-bezier(0.22,1,0.36,1)" }} />
+              className="w-full h-full object-contain p-3 group-hover:scale-[1.05] transition-transform duration-500" />
           : <NoImg brand={p.brand} />
         }
         {p.tag && TAG_COLOR[p.tag] && (
@@ -227,30 +198,23 @@ function SmallCard({ p, local, symbol, delay = 0 }: { p: Product; local: number 
           </span>
         )}
       </div>
-
-      {/* Info panel */}
       <div className="flex-shrink-0 p-2.5" style={{ background: "rgba(5,10,24,0.98)" }}>
-        <p className="text-[8px] font-black uppercase tracking-[0.16em] mb-0.5" style={{ color: "#4D96FF" }}>
-          {p.brand}
-        </p>
+        <p className="text-[8px] font-black uppercase tracking-[0.16em] mb-0.5" style={{ color: "#4D96FF" }}>{p.brand}</p>
         <p className="text-[10px] font-semibold leading-tight line-clamp-1 mb-2">{displayName}</p>
         <div className="flex items-center justify-between gap-1">
           {local !== null
             ? <p className="text-xs font-black tracking-tight">{fmtPrice(local, symbol)}</p>
             : <p className="text-[9px]" style={{ color: "rgba(255,255,255,0.28)" }}>—</p>
           }
-          <motion.a
-            href={tgUrl} target="_blank" rel="noopener noreferrer"
-            className="flex-shrink-0 px-2.5 py-1 text-white text-[9px] font-bold rounded-lg"
+          <a href={tgUrl} target="_blank" rel="noopener noreferrer"
+            className="flex-shrink-0 px-2.5 py-1 text-white text-[9px] font-bold rounded-lg transition-all duration-150 hover:scale-105 active:scale-90"
             style={{ background: "#4D96FF" }}
-            onClick={e => e.stopPropagation()}
-            whileHover={{ scale: 1.08, backgroundColor: "#3a86ef" }}
-            whileTap={{ scale: 0.9 }}>
+            onClick={e => e.stopPropagation()}>
             Купить
-          </motion.a>
+          </a>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
@@ -277,6 +241,7 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
   const [query,    setQuery]    = useState("")
   const [products, setProducts] = useState<Product[]>([])
   const [loading,  setLoading]  = useState(true)
+  const [page,     setPage]     = useState(1)
 
   useEffect(() => {
     const ctrl = new AbortController()
@@ -294,12 +259,15 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
   const rateMeta = country ? RATE_MAP[country] : null
   const source   = products.length > 0 ? products : (!loading ? FALLBACK : [])
 
-  const items = source
+  const filtered = source
     .filter(p => cat === "Все" || p.category === cat)
     .filter(p => !query ||
       p.name.toLowerCase().includes(query.toLowerCase()) ||
       p.brand.toLowerCase().includes(query.toLowerCase())
     )
+
+  const items    = filtered.slice(0, page * PAGE_SIZE)
+  const hasMore  = filtered.length > items.length
 
   const calcLocal = (p: Product) => {
     const priceCNY = p.priceRUB / rates.RUB
@@ -332,7 +300,7 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
         </div>
         <div className="flex gap-1 glass rounded-xl p-1">
           {CATEGORIES.map(c => (
-            <motion.button key={c} onClick={() => setCat(c)}
+            <motion.button key={c} onClick={() => { setCat(c); setPage(1) }}
               className="relative px-3.5 py-1.5 rounded-lg text-sm font-semibold z-10"
               style={{ color: cat === c ? "#fff" : "rgba(255,255,255,0.38)" }}
               whileTap={{ scale: 0.95 }}>
@@ -389,12 +357,24 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
             {hero && <HeroCard p={hero} local={calcLocal(hero)} symbol={sym} />}
 
             {/* Small cards */}
-            {rest.map((p, i) => (
-              <SmallCard key={p.id} p={p} local={calcLocal(p)} symbol={sym} delay={i * 0.05} />
+            {rest.map((p) => (
+              <SmallCard key={p.id} p={p} local={calcLocal(p)} symbol={sym} />
             ))}
           </>
         )}
       </div>
+
+      {/* Load more */}
+      {hasMore && (
+        <div className="mt-6 flex justify-center">
+          <button
+            onClick={() => setPage(p => p + 1)}
+            className="px-8 py-3 rounded-2xl text-sm font-bold transition-all duration-200 hover:scale-105 active:scale-95"
+            style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}>
+            Показать ещё ({filtered.length - items.length})
+          </button>
+        </div>
+      )}
 
       {/* CTA */}
       {!loading && items.length > 0 && (
