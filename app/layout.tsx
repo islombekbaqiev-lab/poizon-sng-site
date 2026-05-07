@@ -82,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ru">
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <meta name="yandex-verification" content="0d2ad6627b65aae0" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
