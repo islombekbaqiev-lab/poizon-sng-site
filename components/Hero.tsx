@@ -37,7 +37,7 @@ const FAN_POS = [
 const STATS = [
   { n: "245+", label: "заказов"       },
   { n: "от 3", label: "дней авиа"     },
-  { n: "4",    label: "страны СНГ"    },
+  { n: "8",    label: "стран СНГ"     },
   { n: "100%", label: "оригиналы"     },
 ]
 
@@ -118,7 +118,7 @@ function ProductCard({
       }}
     >
       {/* Image area */}
-      <div style={{ background: imgErr ? card.fallbackBg : "#fff", height: "65%", display: "flex", alignItems: "center", justifyContent: "center", padding: "12px" }}>
+      <div style={{ background: imgErr ? card.fallbackBg : "#f0ede8", height: "65%", display: "flex", alignItems: "center", justifyContent: "center", padding: "12px" }}>
         {imgErr ? (
           <span style={{ fontSize: 13, fontWeight: 900, color: "#111", letterSpacing: "-.01em", textAlign: "center" }}>
             {card.brand}

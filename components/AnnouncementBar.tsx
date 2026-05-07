@@ -28,7 +28,7 @@ export default function AnnouncementBar() {
         {doubled.map((msg, i) => (
           <span key={i} className="inline-flex items-center shrink-0">
             <span className="text-[11px] font-medium tracking-wide px-5"
-              style={{ color: "rgba(255,255,255,0.45)" }}>
+              style={{ color: "rgba(255,255,255,0.75)" }}>
               {msg}
             </span>
             <span style={{ color: "rgba(77,150,255,0.22)", fontSize: "8px" }}>◆</span>
