@@ -60,9 +60,9 @@ body {
 @keyframes blob1 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(50px,-65px) scale(1.08)} 70%{transform:translate(-28px,38px) scale(0.94)} }
 @keyframes blob2 { 0%,100%{transform:translate(0,0) scale(1)} 35%{transform:translate(-55px,45px) scale(0.92)} 65%{transform:translate(38px,-28px) scale(1.07)} }
 @keyframes blob3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(28px,55px) scale(1.05)} }
-.blob1 { animation: blob1 55s ease-in-out infinite; }
-.blob2 { animation: blob2 65s ease-in-out infinite; }
-.blob3 { animation: blob3 75s ease-in-out infinite; }
+.blob1 { animation: blob1 55s ease-in-out infinite; will-change: transform; }
+.blob2 { animation: blob2 65s ease-in-out infinite; will-change: transform; }
+.blob3 { animation: blob3 75s ease-in-out infinite; will-change: transform; }
 
 /* Hero float / spin */
 @keyframes heroFloat { 0%,100%{transform:translateY(0)}  50%{transform:translateY(-18px)} }

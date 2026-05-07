@@ -38,14 +38,13 @@ export default function Home() {
   const [country,    setCountry]    = useState<Country | null>(null)
   const [showModal,  setShowModal]  = useState(false)
   const [rates,      setRates]      = useState<Rates>(DEFAULT_RATES)
-  const [showIntro,  setShowIntro]  = useState(true)
+  const [showIntro,  setShowIntro]  = useState(false)
 
   useEffect(() => {
-    // Show intro only once per browser session
-    if (sessionStorage.getItem("pzn_intro")) {
-      setShowIntro(false)
-    } else {
+    // Show intro only once per browser session — default false prevents flash on return visits
+    if (!sessionStorage.getItem("pzn_intro")) {
       sessionStorage.setItem("pzn_intro", "1")
+      setShowIntro(true)
     }
   }, [])
 
