@@ -118,7 +118,7 @@ function ProductCard({
       }}
     >
       {/* Image area */}
-      <div style={{ background: imgErr ? card.fallbackBg : "#f0f0f0", height: "65%", display: "flex", alignItems: "center", justifyContent: "center", padding: "12px" }}>
+      <div style={{ background: imgErr ? card.fallbackBg : "#fff", height: "65%", display: "flex", alignItems: "center", justifyContent: "center", padding: "12px" }}>
         {imgErr ? (
           <span style={{ fontSize: 13, fontWeight: 900, color: "#111", letterSpacing: "-.01em", textAlign: "center" }}>
             {card.brand}
