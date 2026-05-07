@@ -317,17 +317,6 @@ export default function Hero() {
               Кроссовки, одежда, аксессуары.
             </motion.p>
 
-            {/* Mobile cards */}
-            <motion.div
-              className="lg:hidden flex justify-center mb-8"
-              initial={{ opacity: 0, scale: .9 }} animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-            >
-              <div style={{ transform: "scale(0.72)", transformOrigin: "center center", height: 260 }}>
-                <StackedCards />
-              </div>
-            </motion.div>
-
             {/* CTA buttons */}
             <motion.div
               className="flex flex-wrap items-center gap-3 mb-10"
@@ -382,6 +371,17 @@ export default function Hero() {
                   </span>
                 </div>
               ))}
+            </motion.div>
+
+            {/* Mobile cards — after CTAs so they don't overlap */}
+            <motion.div
+              className="lg:hidden flex justify-center mt-10"
+              initial={{ opacity: 0, scale: .9 }} animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+            >
+              <div style={{ transform: "scale(0.78)", transformOrigin: "center top", height: 290 }}>
+                <StackedCards />
+              </div>
             </motion.div>
           </div>
 
