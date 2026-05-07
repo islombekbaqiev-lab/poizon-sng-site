@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { motion, useMotionValue, useSpring, useInView, animate } from "framer-motion"
 
 const TG_LINK = "https://t.me/PoizonAdvisor"
@@ -232,8 +232,18 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
   )
 }
 
+function useOnlineStatus() {
+  const [online, setOnline] = useState(false)
+  useEffect(() => {
+    const h = new Date(new Date().toLocaleString("en", { timeZone: "Europe/Moscow" })).getHours()
+    setOnline(h >= 9 && h < 23)
+  }, [])
+  return online
+}
+
 // ── Hero ─────────────────────────────────────────────────────────────────────
 export default function Hero() {
+  const online = useOnlineStatus()
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-[60px]">
 
@@ -346,7 +356,13 @@ export default function Hero() {
                   color: "rgba(255,255,255,.6)",
                 }}
               >
-                Написать →
+                <span className="relative flex h-2 w-2 flex-shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                    style={{ background: online ? "#22c55e" : "#94a3b8" }} />
+                  <span className="relative inline-flex rounded-full h-2 w-2"
+                    style={{ background: online ? "#22c55e" : "#94a3b8" }} />
+                </span>
+                {online ? "Написать →" : "Написать (ответим утром) →"}
               </Magnetic>
             </motion.div>
 

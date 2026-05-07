@@ -138,6 +138,8 @@ function NoImg({ brand }: { brand: string }) {
 function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symbol: string }) {
   const tgUrl       = `${TG_BASE}?start=${encodeURIComponent(p.name)}`
   const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
+  const retail      = local !== null ? Math.round(local * 1.45 / 100) * 100 : null
+  const savePct     = retail !== null && local !== null ? Math.round((1 - local / retail) * 100) : null
 
   return (
     <div className="col-span-2 row-span-2 flex flex-col rounded-2xl overflow-hidden group transition-all duration-300 hover:scale-[1.015] hover:shadow-[0_20px_56px_rgba(0,0,0,0.5)]"
@@ -155,15 +157,29 @@ function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symb
             {p.tag}
           </span>
         )}
+        {savePct && (
+          <span className="absolute top-3 right-3 text-[9px] font-black px-2 py-1 rounded-full"
+            style={{ background: "#22c55e", color: "#fff" }}>
+            -{savePct}%
+          </span>
+        )}
       </div>
       <div className="flex-shrink-0 p-4" style={{ background: "rgba(5,10,24,0.98)" }}>
         <p className="text-[9px] font-black uppercase tracking-[0.18em] mb-0.5" style={{ color: "#4D96FF" }}>{p.brand}</p>
         <p className="font-bold text-sm leading-tight mb-3 line-clamp-2">{displayName}</p>
         <div className="flex items-center justify-between gap-3">
-          {local !== null
-            ? <p className="text-xl font-black tracking-tight">{fmtPrice(local, symbol)}</p>
-            : <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>Укажите страну</p>
-          }
+          {local !== null ? (
+            <div className="flex flex-col">
+              {retail && (
+                <span className="text-[10px] line-through" style={{ color: "rgba(255,255,255,0.28)" }}>
+                  {fmtPrice(retail, symbol)}
+                </span>
+              )}
+              <p className="text-xl font-black tracking-tight">{fmtPrice(local, symbol)}</p>
+            </div>
+          ) : (
+            <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>Укажите страну</p>
+          )}
           <a href={tgUrl} target="_blank" rel="noopener noreferrer"
             className="flex-shrink-0 px-5 py-2 text-white text-xs font-bold rounded-xl transition-all duration-150 hover:scale-105 active:scale-95"
             style={{ background: "#4D96FF" }}
