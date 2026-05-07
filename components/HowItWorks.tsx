@@ -12,42 +12,27 @@ const STEPS = [
 
 type DeliveryOption = { icon: string; label: string; days: string; price: string }
 
+const RU_GROUP: DeliveryOption[] = [
+  { icon: "✈️", label: "Авиа",             days: "3–5 дней",   price: "225 ¥/кг" },
+  { icon: "⚡️", label: "СДЭК Экспресс",   days: "10–12 дней", price: "173 ¥/кг" },
+  { icon: "📦", label: "СДЭК Стандарт",   days: "~25 дней",   price: "77 ¥/кг"  },
+]
+
 const DELIVERY: Record<Country | "default", DeliveryOption[]> = {
-  default: [
-    { icon: "✈️", label: "Авиа",      days: "3–5 дней",    price: "225 ¥/кг" },
-    { icon: "⚡️", label: "Экспресс",  days: "10–12 дней",  price: "173 ¥/кг" },
-    { icon: "📦", label: "СДЭК",      days: "по России",   price: "доплата отдельно" },
-  ],
-  RU: [
-    { icon: "✈️", label: "Авиа",      days: "3–5 дней",    price: "225 ¥/кг" },
-    { icon: "⚡️", label: "Экспресс",  days: "10–12 дней",  price: "173 ¥/кг" },
-    { icon: "📦", label: "СДЭК",      days: "по России",   price: "доплата отдельно" },
-  ],
-  BY: [
-    { icon: "✈️", label: "Авиа",           days: "5–7 дней",   price: "225 ¥/кг" },
-    { icon: "🚚", label: "Авто",           days: "20–25 дней", price: "87 ¥/кг"  },
-    { icon: "📦", label: "Через Москву",   days: "СДЭК",       price: "доплата отдельно" },
-  ],
+  default: RU_GROUP,
+  RU:      RU_GROUP,
+  AM:      RU_GROUP,
+  BY:      RU_GROUP,
+  GE:      RU_GROUP,
+  AZ:      RU_GROUP,
   KZ: [
-    { icon: "🚚", label: "Авто",      days: "4–8 дней",    price: "100 ¥/кг" },
-  ],
-  TJ: [
-    { icon: "✈️", label: "Авиа",      days: "3–6 дней",    price: "100 ¥/кг" },
-  ],
-  AM: [
-    { icon: "✈️", label: "Авиа",           days: "уточняйте",  price: "225 ¥/кг" },
-    { icon: "📦", label: "Через Москву",   days: "СДЭК",       price: "доплата отдельно" },
-  ],
-  GE: [
-    { icon: "✈️", label: "Авиа до Москвы", days: "3–5 дней",  price: "225 ¥/кг" },
-    { icon: "📦", label: "Далее СДЭК",     days: "уточняйте", price: "доплата отдельно" },
-  ],
-  AZ: [
-    { icon: "✈️", label: "Авиа до Москвы", days: "3–5 дней",  price: "225 ¥/кг" },
-    { icon: "📦", label: "Далее СДЭК",     days: "уточняйте", price: "доплата отдельно" },
+    { icon: "🚗", label: "Авто",  days: "4–8 дней",  price: "100 ¥/кг" },
   ],
   UZ: [
-    { icon: "✈️", label: "Авиа",      days: "3–6 дней",    price: "100 ¥/кг" },
+    { icon: "✈️", label: "Авиа", days: "3–6 дней",  price: "100 ¥/кг" },
+  ],
+  TJ: [
+    { icon: "✈️", label: "Авиа", days: "3–6 дней",  price: "100 ¥/кг" },
   ],
 }
 

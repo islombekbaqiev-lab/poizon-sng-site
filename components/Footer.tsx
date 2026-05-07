@@ -28,7 +28,7 @@ export default function Footer() {
           <motion.p
             className="font-black tracking-tighter leading-none select-none text-center"
             style={{
-              fontSize: "clamp(4.5rem, 18vw, 18rem)",
+              fontSize: "clamp(3.5rem, 12vw, 10rem)",
               WebkitTextStroke: "1px rgba(255,255,255,.08)",
               color: "transparent",
               letterSpacing: "-.04em",

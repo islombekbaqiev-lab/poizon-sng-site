@@ -18,7 +18,7 @@ export default function Marquee() {
         {items.map((b, i) => (
           <span key={i} className="inline-flex items-center shrink-0">
             <span className="text-xs font-bold uppercase tracking-[.24em]"
-              style={{ color: "rgba(255,255,255,.14)" }}>
+              style={{ color: "rgba(255,255,255,.45)" }}>
               {b}
             </span>
             <span className="mx-5 text-[6px]" style={{ color: "rgba(77,150,255,.28)" }}>◆</span>

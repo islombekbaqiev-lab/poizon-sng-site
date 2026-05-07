@@ -14,6 +14,7 @@ import CustomCursor    from "@/components/CustomCursor"
 import Intro           from "@/components/Intro"
 import MobileFloatingCTA from "@/components/MobileFloatingCTA"
 import FAQ             from "@/components/FAQ"
+import CTASection      from "@/components/CTASection"
 
 export type Country = "RU" | "BY" | "KZ" | "TJ" | "AM" | "GE" | "AZ" | "UZ"
 
@@ -119,6 +120,7 @@ export default function Home() {
         <HowItWorks country={country} />
         <FAQ />
         <Testimonials />
+        <CTASection />
         <Footer />
         <MobileFloatingCTA />
       </div>
