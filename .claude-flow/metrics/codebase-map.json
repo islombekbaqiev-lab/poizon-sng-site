@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-05T22:52:22.977Z",
+  "timestamp": "2026-05-05T23:39:36.375Z",
   "projectRoot": "/Users/yangjunjie/poizon_site",
   "structure": {
     "hasPackageJson": true,
@@ -7,5 +7,5 @@
     "hasClaudeConfig": true,
     "hasClaudeFlow": true
   },
-  "scannedAt": 1778021542977
+  "scannedAt": 1778024376375
 }

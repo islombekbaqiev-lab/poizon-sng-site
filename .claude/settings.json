@@ -82,17 +82,7 @@
         ]
       }
     ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "sh -c 'exec node \"${CLAUDE_PROJECT_DIR:-.}/.claude/helpers/auto-memory-hook.mjs\" sync'",
-            "timeout": 10000
-          }
-        ]
-      }
-    ],
+    "Stop": [],
     "PreCompact": [
       {
         "matcher": "manual",

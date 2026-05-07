@@ -137,15 +137,13 @@ export default function Header({ country, rates, onChangeCountry }: {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            className="fixed top-[60px] left-0 right-0 z-39 md:hidden"
+            className="fixed top-[60px] left-0 right-0 bottom-0 z-[200] md:hidden overflow-y-auto"
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
             style={{
-              background: "rgba(4,6,15,0.97)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
+              background: "#04060f",
               borderBottom: "1px solid rgba(255,255,255,0.07)",
             }}
           >
