@@ -212,7 +212,7 @@ export default function Testimonials() {
           transition={{ duration: 0.45, delay: 0.15 }}
         >
           <div className="text-center">
-            <p className="text-3xl font-black" style={{ color: "#4D96FF" }}>5.0</p>
+            <p className="text-3xl font-black" style={{ color: "#4D96FF" }}>4.7</p>
             <Stars n={5} />
             <p className="text-[10px] text-white/30 mt-1">Средняя оценка</p>
           </div>
@@ -228,8 +228,8 @@ export default function Testimonials() {
           </div>
           <div className="w-px h-10 hidden sm:block" style={{ background: "rgba(255,255,255,0.06)" }} />
           <div className="text-center">
-            <p className="text-3xl font-black">4</p>
-            <p className="text-[10px] text-white/30 mt-1">Страны доставки</p>
+            <p className="text-3xl font-black">8</p>
+            <p className="text-[10px] text-white/30 mt-1">Стран СНГ</p>
           </div>
         </motion.div>
 
