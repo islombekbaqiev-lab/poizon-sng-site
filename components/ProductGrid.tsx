@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
+import { useState, useEffect, useRef } from "react"
+import { motion, useScroll, useTransform } from "framer-motion"
 import { Country, Rates } from "@/app/page"
 
 const TG_BASE = "https://t.me/PoizonAdvisor"
@@ -141,16 +141,26 @@ function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symb
   const retail      = local !== null ? Math.round(local * 1.45 / 100) * 100 : null
   const savePct     = retail !== null && local !== null ? Math.round((1 - local / retail) * 100) : null
 
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const imgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"])
+
   return (
-    <div className="col-span-2 row-span-2 flex flex-col rounded-2xl overflow-hidden group transition-all duration-300 hover:scale-[1.015] hover:shadow-[0_20px_56px_rgba(0,0,0,0.5)]"
-      style={{ border: "1px solid rgba(255,255,255,0.07)" }}>
+    <div
+      ref={ref}
+      data-cursor="buy"
+      className="col-span-2 row-span-2 flex flex-col rounded-2xl overflow-hidden group transition-all duration-300 hover:scale-[1.015] hover:shadow-[0_20px_56px_rgba(0,0,0,0.5)]"
+      style={{ border: "1px solid rgba(255,255,255,0.07)" }}
+    >
       <div className="flex-1 relative overflow-hidden flex items-center justify-center"
         style={{ background: "#FFFFFF", minHeight: 0 }}>
-        {p.image
-          ? <img src={p.image} alt={p.name} loading="lazy"
-              className="w-full h-full object-contain p-6 group-hover:scale-[1.04] transition-transform duration-500" />
-          : <NoImg brand={p.brand} />
-        }
+        <motion.div className="w-full h-full" style={{ y: imgY }}>
+          {p.image
+            ? <img src={p.image} alt={p.name} loading="lazy"
+                className="w-full h-full object-contain p-6 group-hover:scale-[1.04] transition-transform duration-500" />
+            : <NoImg brand={p.brand} />
+          }
+        </motion.div>
         {p.tag && TAG_COLOR[p.tag] && (
           <span className="absolute top-3 left-3 text-[9px] font-black px-2.5 py-1 rounded-full tracking-wide"
             style={{ background: TAG_COLOR[p.tag].bg, color: TAG_COLOR[p.tag].text }}>
@@ -197,16 +207,25 @@ function SmallCard({ p, local, symbol }: { p: Product; local: number | null; sym
   const tgUrl       = `${TG_BASE}?start=${encodeURIComponent(p.name)}`
   const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
 
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
+  const imgY = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"])
+
   return (
-    <div className="col-span-1 row-span-1 flex flex-col rounded-2xl overflow-hidden group transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(0,0,0,0.45)]"
+    <div
+      ref={ref}
+      data-cursor="buy"
+      className="col-span-1 row-span-1 flex flex-col rounded-2xl overflow-hidden group transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(0,0,0,0.45)]"
       style={{ border: "1px solid rgba(255,255,255,0.07)" }}>
       <div className="flex-1 relative overflow-hidden flex items-center justify-center"
         style={{ background: "#FFFFFF", minHeight: 0 }}>
-        {p.image
-          ? <img src={p.image} alt={p.name} loading="lazy"
-              className="w-full h-full object-contain p-3 group-hover:scale-[1.05] transition-transform duration-500" />
-          : <NoImg brand={p.brand} />
-        }
+        <motion.div className="w-full h-full" style={{ y: imgY }}>
+          {p.image
+            ? <img src={p.image} alt={p.name} loading="lazy"
+                className="w-full h-full object-contain p-3 group-hover:scale-[1.05] transition-transform duration-500" />
+            : <NoImg brand={p.brand} />
+          }
+        </motion.div>
         {p.tag && TAG_COLOR[p.tag] && (
           <span className="absolute top-2 left-2 text-[8px] font-black px-1.5 py-0.5 rounded-full"
             style={{ background: TAG_COLOR[p.tag].bg, color: TAG_COLOR[p.tag].text }}>
