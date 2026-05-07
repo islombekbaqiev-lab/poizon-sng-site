@@ -1,8 +1,16 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useScroll, useTransform, useMotionValue } from "framer-motion"
 import { Country, Rates } from "@/app/page"
+
+function useIsDesktop() {
+  const [desktop, setDesktop] = useState(false)
+  useEffect(() => {
+    setDesktop(window.matchMedia("(pointer: fine) and (min-width: 768px)").matches)
+  }, [])
+  return desktop
+}
 
 const TG_BASE = "https://t.me/PoizonAdvisor"
 const MARKUP  = 1.15
@@ -141,9 +149,12 @@ function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symb
   const retail      = local !== null ? Math.round(local * 1.45 / 100) * 100 : null
   const savePct     = retail !== null && local !== null ? Math.round((1 - local / retail) * 100) : null
 
+  const desktop = useIsDesktop()
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-11%", "11%"])
+  const imgYDesktop = useTransform(scrollYProgress, [0, 1], ["-11%", "11%"])
+  const imgYStatic  = useMotionValue("0%")
+  const imgY = desktop ? imgYDesktop : imgYStatic
 
   return (
     <div
@@ -207,9 +218,12 @@ function SmallCard({ p, local, symbol }: { p: Product; local: number | null; sym
   const tgUrl       = `${TG_BASE}?start=${encodeURIComponent(p.name)}`
   const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
 
+  const desktop = useIsDesktop()
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-9%", "9%"])
+  const imgYDesktop = useTransform(scrollYProgress, [0, 1], ["-9%", "9%"])
+  const imgYStatic  = useMotionValue("0%")
+  const imgY = desktop ? imgYDesktop : imgYStatic
 
   return (
     <div
