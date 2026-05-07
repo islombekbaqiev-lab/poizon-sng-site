@@ -15,42 +15,29 @@ const DEFAULT_KEYWORDS = [
   "байер Китай", "купить кроссовки СНГ", "оригинальные кроссовки",
 ]
 
-async function buildSeoFromProducts() {
-  try {
-    const res = await fetch(`${SITE_URL}/api/products`, {
-      next: { revalidate: 86400 }, // обновлять раз в сутки
-    })
-    if (!res.ok) return { keywords: DEFAULT_KEYWORDS, description: null }
-
-    const products: any[] = await res.json()
-    if (!products.length) return { keywords: DEFAULT_KEYWORDS, description: null }
-
-    const brands = [...new Set(products.map(p => p.brand).filter(Boolean))]
-
-    const brandKeywords = brands.flatMap(brand =>
-      INTENTS.map(intent => `${intent} ${brand}`)
-    )
-    const geoKeywords = brands.slice(0, 6).flatMap(brand =>
-      COUNTRIES.map(c => `${brand} ${c}`)
-    )
-    const base = [
-      "Poizon", "байер Poizon", "кроссовки из Китая",
-      "купить кроссовки СНГ", "оригинальные кроссовки доставка",
-      "得物 СНГ", "одежда из Китая оригинал",
-    ]
-
-    const keywords = [...new Set([...base, ...brandKeywords, ...geoKeywords])].slice(0, 50)
-    const topBrands = brands.slice(0, 6).join(", ")
-    const description = `Байер с Poizon. ${products.length}+ товаров: ${topBrands} и другие. Оригиналы с доставкой в Россию, Казахстан, Беларусь. Авиа от 3 дней.`
-
-    return { keywords, description }
-  } catch {
-    return { keywords: DEFAULT_KEYWORDS, description: null }
-  }
+// Статические keywords — не делаем fetch во время SSR чтобы не вешать страницу
+function buildSeoFromProducts() {
+  const brands = [
+    "Nike", "Adidas", "Jordan", "New Balance", "Puma", "Stone Island",
+    "Fear of God", "Supreme", "The North Face", "Balenciaga",
+  ]
+  const brandKeywords = brands.flatMap(brand =>
+    INTENTS.map(intent => `${intent} ${brand}`)
+  )
+  const geoKeywords = brands.slice(0, 6).flatMap(brand =>
+    COUNTRIES.map(c => `${brand} ${c}`)
+  )
+  const base = [
+    "Poizon", "байер Poizon", "кроссовки из Китая",
+    "купить кроссовки СНГ", "оригинальные кроссовки доставка",
+    "得物 СНГ", "одежда из Китая оригинал",
+  ]
+  const keywords = [...new Set([...base, ...brandKeywords, ...geoKeywords])].slice(0, 50)
+  return { keywords, description: null }
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  const { keywords, description } = await buildSeoFromProducts()
+export function generateMetadata(): Metadata {
+  const { keywords, description } = buildSeoFromProducts()
 
   const desc = description ?? "Байер с Poizon. Оригинальные кроссовки, одежда и аксессуары с доставкой в Россию, Казахстан, Беларусь. Авиа от 3 дней. 100% оригиналы."
 

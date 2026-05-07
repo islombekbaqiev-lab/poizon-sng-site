@@ -24,22 +24,22 @@ export default function CustomCursor() {
     setMounted(true)
     if (!window.matchMedia("(pointer: fine)").matches) return
 
-    const move  = (e: MouseEvent) => { mx.set(e.clientX); my.set(e.clientY); setVisible(true) }
-    const down  = () => setClicking(true)
-    const up    = () => setClicking(false)
-    const over  = (e: MouseEvent) => {
+    const move = (e: MouseEvent) => {
+      mx.set(e.clientX)
+      my.set(e.clientY)
+      setVisible(true)
       setHovering(!!(e.target as HTMLElement).closest("a, button, [data-hover]"))
     }
+    const down = () => setClicking(true)
+    const up   = () => setClicking(false)
 
     window.addEventListener("mousemove", move)
     window.addEventListener("mousedown", down)
     window.addEventListener("mouseup",   up)
-    document.addEventListener("mouseover", over)
     return () => {
       window.removeEventListener("mousemove", move)
       window.removeEventListener("mousedown", down)
       window.removeEventListener("mouseup",   up)
-      document.removeEventListener("mouseover", over)
     }
   }, [])
 

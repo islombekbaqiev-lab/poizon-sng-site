@@ -279,11 +279,16 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
   const [loading,  setLoading]  = useState(true)
 
   useEffect(() => {
-    fetch('/api/products')
+    const ctrl = new AbortController()
+    const timeout = setTimeout(() => ctrl.abort(), 8000)
+
+    fetch('/api/products', { signal: ctrl.signal })
       .then(r => r.json())
       .then((d: Product[]) => { if (Array.isArray(d) && d.length > 0) setProducts(d) })
       .catch(() => {})
-      .finally(() => setLoading(false))
+      .finally(() => { clearTimeout(timeout); setLoading(false) })
+
+    return () => { ctrl.abort(); clearTimeout(timeout) }
   }, [])
 
   const rateMeta = country ? RATE_MAP[country] : null
