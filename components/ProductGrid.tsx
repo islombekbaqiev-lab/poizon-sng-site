@@ -143,7 +143,7 @@ function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symb
 
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"])
+  const imgY = useTransform(scrollYProgress, [0, 1], ["-16%", "16%"])
 
   return (
     <div
@@ -209,7 +209,7 @@ function SmallCard({ p, local, symbol }: { p: Product; local: number | null; sym
 
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"])
+  const imgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"])
 
   return (
     <div
