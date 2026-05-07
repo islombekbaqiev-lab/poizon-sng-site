@@ -3,45 +3,64 @@ import "./globals.css"
 import SmoothScroll from "@/components/SmoothScroll"
 import NoiseOverlay from "@/components/NoiseOverlay"
 import { Analytics } from "@vercel/analytics/next"
+import fs from "fs"
+import path from "path"
 
 const OG_IMAGE = "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20241222%2Faa3efedd7ed0417caaf8c8693e7e673d.jpg&w=1200&q=85&fit=contain&fmt=auto"
 const SITE_URL = "https://poizonsite.vercel.app"
 
-export const metadata: Metadata = {
-  title: "POIZON SNG — Оригинальные кроссовки и одежда из Китая",
-  description: "Байер с Poizon. Оригинальные кроссовки, одежда и аксессуары с доставкой в Россию, Казахстан, Таджикистан, Узбекистан. Авиа от 3 дней. 100% оригиналы. 847+ заказов.",
-  keywords: ["Poizon", "кроссовки из Китая", "Nike", "Air Jordan", "Travis Scott", "Air Force 1", "байер Китай", "купить кроссовки СНГ", "доставка из Китая", "оригинальные кроссовки"],
-  metadataBase: new URL(SITE_URL),
-  openGraph: {
-    title: "POIZON SNG — Оригинальные кроссовки из Китая",
-    description: "Байер с Poizon. Кроссовки, одежда, аксессуары с доставкой в СНГ. Авиа от 3 дней. 847+ заказов.",
-    url: SITE_URL,
-    siteName: "POIZON SNG",
-    images: [
-      {
-        url: OG_IMAGE,
-        width: 1200,
-        height: 630,
-        alt: "POIZON SNG — Оригинальные кроссовки из Китая",
-      },
-    ],
-    locale: "ru_RU",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "POIZON SNG — Оригинальные кроссовки из Китая",
-    description: "Байер с Poizon. Авиадоставка от 3 дней в СНГ. Оригиналы.",
-    images: [OG_IMAGE],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true },
-  },
-  alternates: {
-    canonical: SITE_URL,
-  },
+const DEFAULT_KEYWORDS = [
+  "Poizon", "кроссовки из Китая", "Nike", "Air Jordan", "Travis Scott",
+  "Air Force 1", "байер Китай", "купить кроссовки СНГ", "доставка из Китая",
+  "оригинальные кроссовки",
+]
+
+const DEFAULT_DESCRIPTION = "Байер с Poizon. Оригинальные кроссовки, одежда и аксессуары с доставкой в Россию, Казахстан, Таджикистан, Узбекистан. Авиа от 3 дней. 100% оригиналы."
+
+function loadSeoData() {
+  try {
+    const filePath = path.join(process.cwd(), "public", "seo-data.json")
+    if (fs.existsSync(filePath)) {
+      const data = JSON.parse(fs.readFileSync(filePath, "utf-8"))
+      return {
+        keywords: data.keywords ?? DEFAULT_KEYWORDS,
+        description: data.description ?? DEFAULT_DESCRIPTION,
+      }
+    }
+  } catch {}
+  return { keywords: DEFAULT_KEYWORDS, description: DEFAULT_DESCRIPTION }
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { keywords, description } = loadSeoData()
+
+  return {
+    title: "POIZON SNG — Оригинальные кроссовки и одежда из Китая",
+    description,
+    keywords,
+    metadataBase: new URL(SITE_URL),
+    openGraph: {
+      title: "POIZON SNG — Оригинальные кроссовки из Китая",
+      description,
+      url: SITE_URL,
+      siteName: "POIZON SNG",
+      images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "POIZON SNG" }],
+      locale: "ru_RU",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "POIZON SNG — Оригинальные кроссовки из Китая",
+      description,
+      images: [OG_IMAGE],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true },
+    },
+    alternates: { canonical: SITE_URL },
+  }
 }
 
 const jsonLd = {
