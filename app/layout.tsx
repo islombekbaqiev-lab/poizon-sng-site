@@ -32,7 +32,7 @@ function buildSeoFromProducts() {
     "купить кроссовки СНГ", "оригинальные кроссовки доставка",
     "得物 СНГ", "одежда из Китая оригинал",
   ]
-  const keywords = [...new Set([...base, ...brandKeywords, ...geoKeywords])].slice(0, 50)
+  const keywords = [...new Set([...base, ...brandKeywords, ...geoKeywords])].slice(0, 10)
   return { keywords, description: null }
 }
 
@@ -99,6 +99,67 @@ const jsonLd = {
         target: `${SITE_URL}/#catalog`,
         "query-input": "required name=search_term_string",
       },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "Как убедиться, что товар оригинальный?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Poizon (得物) — крупнейшая платформа аутентификации Китая. Каждый товар проходит экспертизу перед отправкой. В комплекте идёт чек Poizon с QR-кодом — вы можете проверить подлинность прямо в приложении.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Сколько стоит доставка?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Авиа (3–5 дней) — 225 ¥/кг, Экспресс (10–12 дней) — 173 ¥/кг, Стандарт (~25 дней) — 77 ¥/кг. Точная стоимость зависит от веса и объёма.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Как оплатить из России / Казахстана / Узбекистана?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Принимаем переводы в ₽, ₸, сомони и сумах. Конкретный способ оплаты обсуждаем в Telegram — подберём удобный для вашей страны.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Можно ли заказать товар, которого нет в каталоге?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Да — это основная услуга. Скиньте ссылку с Poizon или название товара в Telegram, и мы выкупим всё что продаётся на платформе.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Как узнать свой размер?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "На Poizon размеры в EU и US. Для Nike/Jordan стандартная таблица, для New Balance часто советуют +0.5. Уточняйте в Telegram — подскажем по конкретной модели.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Что если товар придёт с дефектом?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Мы проверяем товар после получения от Poizon — фотографируем до отправки. Если Poizon прислал брак, открываем спор и добиваемся возврата или замены.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Есть ли трек-номер?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Да, трек-номер выдаётся на каждый заказ. Вы сможете отслеживать посылку через СДЭК, Почту России или международный трекер — зависит от выбранного способа доставки.",
+          },
+        },
+      ],
     },
   ],
 }
