@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Country, Rates } from "@/app/page"
+import { Country, Rates } from "@/lib/types"
 
 const META: Record<Country, { flag: string; name: string; currency: string; rateKey: keyof Rates }> = {
   RU: { flag: "🇷🇺", name: "Россия",       currency: "₽",   rateKey: "RUB" },

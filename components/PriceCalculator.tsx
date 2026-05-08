@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Rates } from "@/app/page"
+import { Rates } from "@/lib/types"
 
 const DELIVERY_OPTIONS = [
   { id: "air",      icon: "✈️", label: "Авиа",     days: "3–5 дн",   rate: 225 },

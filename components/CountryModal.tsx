@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, AnimatePresence } from "framer-motion"
-import { Country } from "@/app/page"
+import { Country } from "@/lib/types"
 
 const COUNTRIES: { code: Country; flag: string; name: string; city: string }[] = [
   { code: "RU", flag: "🇷🇺", name: "Россия",       city: "Москва"   },

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { motion, useScroll, useTransform, useMotionValue } from "framer-motion"
-import { Country, Rates } from "@/app/page"
+import { Country, Rates } from "@/lib/types"
 
 function useIsDesktop() {
   const [desktop, setDesktop] = useState(false)

@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Country } from "@/app/page"
+import { Country } from "@/lib/types"
 
 const STEPS = [
   { num: "01", title: "Выбираешь",  desc: "Из каталога или скидываешь ссылку с Poizon — найдём любой товар." },
