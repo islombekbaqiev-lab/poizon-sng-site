@@ -7,39 +7,46 @@ import { Analytics } from "@vercel/analytics/next"
 const OG_IMAGE = "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20241222%2Faa3efedd7ed0417caaf8c8693e7e673d.jpg&w=1200&q=85&fit=contain&fmt=auto"
 const SITE_URL = "https://poizonsite.vercel.app"
 
-const INTENTS = ["купить", "заказать", "оригинал"]
-const COUNTRIES = ["Россия", "Казахстан", "СНГ"]
-
-const DEFAULT_KEYWORDS = [
-  "Poizon", "кроссовки из Китая", "Nike", "Air Jordan",
-  "байер Китай", "купить кроссовки СНГ", "оригинальные кроссовки",
+const FALLBACK_KEYWORDS = [
+  "Poizon", "байер Poizon", "кроссовки из Китая",
+  "купить кроссовки СНГ", "оригинальные кроссовки доставка",
+  "得物 СНГ", "одежда из Китая оригинал",
+  "купить Nike оригинал", "купить Adidas из Китая", "байер Китай доставка",
 ]
 
-// Статические keywords — не делаем fetch во время SSR чтобы не вешать страницу
-function buildSeoFromProducts() {
-  const brands = [
-    "Nike", "Adidas", "Jordan", "New Balance", "Puma", "Stone Island",
-    "Fear of God", "Supreme", "The North Face", "Balenciaga",
-  ]
-  const brandKeywords = brands.flatMap(brand =>
-    INTENTS.map(intent => `${intent} ${brand}`)
-  )
-  const geoKeywords = brands.slice(0, 6).flatMap(brand =>
-    COUNTRIES.map(c => `${brand} ${c}`)
-  )
-  const base = [
-    "Poizon", "байер Poizon", "кроссовки из Китая",
-    "купить кроссовки СНГ", "оригинальные кроссовки доставка",
-    "得物 СНГ", "одежда из Китая оригинал",
-  ]
-  const keywords = [...new Set([...base, ...brandKeywords, ...geoKeywords])].slice(0, 10)
-  return { keywords, description: null }
+const FALLBACK_DESC = "Байер с Poizon. Оригинальные кроссовки, одежда и аксессуары с доставкой в Россию, Казахстан, Беларусь. Авиа от 3 дней. 100% оригиналы."
+
+function buildKeywords(products: { brand?: string; name: string }[]): string[] {
+  const intents = ["купить", "заказать", "оригинал"]
+  const geos = ["Россия", "Казахстан", "СНГ"]
+  const brands = [...new Set(products.map(p => p.brand).filter(Boolean))] as string[]
+  const base = [...FALLBACK_KEYWORDS]
+  const brandKw = brands.slice(0, 6).flatMap(b => intents.slice(0, 2).map(i => `${i} ${b}`))
+  const geoKw = brands.slice(0, 4).flatMap(b => geos.slice(0, 2).map(g => `${b} ${g}`))
+  return [...new Set([...base, ...brandKw, ...geoKw])].slice(0, 10)
 }
 
-export function generateMetadata(): Metadata {
-  const { keywords, description } = buildSeoFromProducts()
+function buildDescription(products: { brand?: string; name: string }[]): string {
+  const brands = [...new Set(products.slice(0, 6).map(p => p.brand).filter(Boolean))].join(", ")
+  return `Байер с Poizon. ${products.length}+ товаров: ${brands}. Оригиналы с доставкой в Россию, Казахстан, Беларусь. Авиа от 3 дней.`
+}
 
-  const desc = description ?? "Байер с Poizon. Оригинальные кроссовки, одежда и аксессуары с доставкой в Россию, Казахстан, Беларусь. Авиа от 3 дней. 100% оригиналы."
+export async function generateMetadata(): Promise<Metadata> {
+  let keywords = FALLBACK_KEYWORDS
+  let desc = FALLBACK_DESC
+
+  try {
+    const res = await fetch(`${SITE_URL}/api/products`, {
+      next: { revalidate: 604800, tags: ["seo-data"] },
+    })
+    if (res.ok) {
+      const products = await res.json()
+      if (Array.isArray(products) && products.length > 0) {
+        keywords = buildKeywords(products)
+        desc = buildDescription(products)
+      }
+    }
+  } catch {}
 
   return {
     title: "POIZON SNG — Оригинальные кроссовки и одежда из Китая",
