@@ -151,13 +151,11 @@ export default function AuroraBackground() {
           z-index: 0;
         }
 
-        /* Mobile: kill all animations and blur */
+        /* Mobile: grid off, only 2 static blobs */
         @media (max-width: 768px) {
-          .aurora-blob { animation: none !important; filter: blur(60px); }
+          .aurora-grid-wrap { display: none; }
+          .aurora-blob { animation: none !important; filter: blur(70px); }
           .aurora-3, .aurora-4, .aurora-5 { display: none; }
-          .aurora-grid-plane { animation: none !important; }
-          .aurora-scanlines { display: none; }
-          .aurora-vp-glow { filter: none; }
         }
 
         /* Blue primary — top right */
