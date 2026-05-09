@@ -177,7 +177,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <meta name="yandex-verification" content="0d2ad6627b65aae0" />
-        <meta name="google-site-verification" content="4hlM12eRQxECWPu6jL61e9VpK3Gkg4AYwDVQSbvzsj4" />
+        <meta name="google-site-verification" content="dvUw6mvHVsCIfUr1M-kVZGQp-cgXfWXVTy9x9BNjm58" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
