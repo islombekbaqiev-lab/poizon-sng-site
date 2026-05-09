@@ -12,12 +12,12 @@ const CARDS = [
     name: "Travis Scott × AJ1 Low", brand: "Nike",  tag: "Лимит",   tagBg: "#ef4444", fallbackBg: "#f5f5f0",
   },
   {
-    img: "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20230721%2Fdf3170de0e69448fb764a0f010e1cee8.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
-    name: "Samba OG", brand: "Adidas", tag: "Хит",     tagBg: "#111",    fallbackBg: "#f0f0f0",
+    img: "/card-nike-tee.jpg",
+    name: "Round-Neck Comfort Fit", brand: "Nike", tag: "Хит", tagBg: "#111", fallbackBg: "#f5f5f0",
   },
   {
-    img: "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20241122%2F08dea3882eaf47539bea473737782a49.jpeg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
-    name: "Speedcat OG", brand: "Puma", tag: "Новинка", tagBg: "#10b981", fallbackBg: "#f5f0ee",
+    img: "/card-coach-bag.jpg",
+    name: "Charter 19", brand: "Coach", tag: "Новинка", tagBg: "#10b981", fallbackBg: "#f0efee",
   },
 ]
 
