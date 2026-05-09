@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react"
 import { motion, useMotionValue, useSpring, useInView, animate } from "framer-motion"
+import AuroraBackground from "@/components/AuroraBackground"
 
 const TG_LINK = "https://t.me/PoizonAdvisor"
 
@@ -247,21 +248,8 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-[60px]">
 
-      {/* Background glow */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[40%] right-[10%] -translate-y-1/2 w-[700px] h-[700px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(77,150,255,.1) 0%, transparent 65%)", filter: "blur(80px)" }} />
-        <div className="blob1 absolute top-[-15%] left-[-8%] w-[600px] h-[600px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(37,99,235,.16), transparent 70%)", filter: "blur(70px)" }} />
-        <div className="blob2 absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(99,102,241,.13), transparent 70%)", filter: "blur(70px)" }} />
-
-        {/* Dot grid */}
-        <div className="absolute inset-0 opacity-100" style={{
-          backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-        }} />
-      </div>
+      {/* Aurora background */}
+      <AuroraBackground />
 
       <div className="max-w-7xl mx-auto px-5 sm:px-8 py-16 w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-0 items-center min-h-[calc(100vh-120px)]">
