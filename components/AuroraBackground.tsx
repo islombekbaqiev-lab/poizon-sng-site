@@ -7,12 +7,6 @@ export default function AuroraBackground() {
       <div className="aurora-grid-wrap">
         <div className="aurora-grid-plane" />
         <div className="aurora-grid-fade" />
-        {/* Horizon glow line */}
-        <div className="aurora-horizon-line" />
-        {/* Vanishing point glow */}
-        <div className="aurora-vp-glow" />
-        {/* Scanlines */}
-        <div className="aurora-scanlines" />
       </div>
 
       {/* Grain overlay */}
@@ -80,63 +74,20 @@ export default function AuroraBackground() {
           background:
             linear-gradient(to bottom,
               #050C1A 0%,
-              #050C1A 22%,
-              rgba(5,12,26,0.85) 32%,
-              rgba(5,12,26,0.3) 38%,
-              transparent 44%,
-              transparent 72%,
-              rgba(5,12,26,0.5) 82%,
+              #050C1A 25%,
+              rgba(5,12,26,0.6) 36%,
+              transparent 46%,
+              transparent 75%,
+              rgba(5,12,26,0.7) 88%,
+              #050C1A 100%
+            ),
+            linear-gradient(to right,
+              #050C1A 0%,
+              transparent 18%,
+              transparent 82%,
               #050C1A 100%
             );
           z-index: 3;
-        }
-
-        .aurora-horizon-line {
-          position: absolute;
-          left: 0; right: 0;
-          top: 36%;
-          height: 1px;
-          background: linear-gradient(to right,
-            transparent 0%,
-            rgba(77,150,255,0.08) 10%,
-            rgba(77,150,255,0.5) 35%,
-            rgba(140,210,255,0.95) 50%,
-            rgba(77,150,255,0.5) 65%,
-            rgba(77,150,255,0.08) 90%,
-            transparent 100%
-          );
-          z-index: 4;
-          filter: blur(0.5px);
-        }
-
-        .aurora-vp-glow {
-          position: absolute;
-          left: 50%;
-          top: 36%;
-          transform: translate(-50%, -50%);
-          width: 700px;
-          height: 400px;
-          background: radial-gradient(ellipse at center 70%,
-            rgba(77,150,255,0.22) 0%,
-            rgba(77,150,255,0.06) 45%,
-            transparent 70%
-          );
-          z-index: 2;
-          filter: blur(12px);
-        }
-
-        .aurora-scanlines {
-          position: absolute;
-          inset: 0;
-          background: repeating-linear-gradient(
-            to bottom,
-            transparent 0px,
-            transparent 3px,
-            rgba(0,0,0,0.08) 3px,
-            rgba(0,0,0,0.08) 4px
-          );
-          z-index: 5;
-          pointer-events: none;
         }
 
         @keyframes grid-scroll {
