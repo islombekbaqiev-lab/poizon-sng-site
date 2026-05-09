@@ -3,6 +3,15 @@
 export default function AuroraBackground() {
   return (
     <div className="aurora-root" aria-hidden>
+      {/* Hero video */}
+      <video
+        autoPlay muted loop playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ opacity: 0.18 }}
+      >
+        <source src="/hero.mp4" type="video/mp4" />
+      </video>
+
       {/* Grain overlay */}
       <svg className="aurora-grain" xmlns="http://www.w3.org/2000/svg">
         <filter id="grain">
