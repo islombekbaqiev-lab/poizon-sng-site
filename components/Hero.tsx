@@ -249,16 +249,6 @@ export default function Hero() {
 
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Cinematic video background */}
-        <video
-          autoPlay muted loop playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ opacity: 0.13, mixBlendMode: "screen" }}
-        >
-          <source src="/travis_alpha.webm" type="video/webm" />
-          <source src="/travis.mp4" type="video/mp4" />
-        </video>
-
         <div className="absolute top-[40%] right-[10%] -translate-y-1/2 w-[700px] h-[700px] rounded-full"
           style={{ background: "radial-gradient(circle, rgba(77,150,255,.1) 0%, transparent 65%)", filter: "blur(80px)" }} />
         <div className="blob1 absolute top-[-15%] left-[-8%] w-[600px] h-[600px] rounded-full"
