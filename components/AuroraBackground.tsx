@@ -7,7 +7,7 @@ export default function AuroraBackground() {
       <video
         autoPlay muted loop playsInline
         className="absolute inset-0 w-full h-full object-cover"
-        style={{ opacity: 0.18 }}
+        style={{ opacity: 0.13, mixBlendMode: "screen" }}
       >
         <source src="/hero.mp4" type="video/mp4" />
       </video>
@@ -66,52 +66,52 @@ export default function AuroraBackground() {
 
         /* Blue primary — top right */
         .aurora-1 {
-          width: 800px;
-          height: 800px;
-          top: -15%;
-          right: -10%;
-          background: rgba(77,150,255,0.28);
+          width: 700px;
+          height: 700px;
+          top: -10%;
+          right: -5%;
+          background: rgba(77,150,255,0.22);
           animation: aurora-drift-1 18s ease-in-out infinite;
         }
 
         /* Indigo — top left */
         .aurora-2 {
-          width: 650px;
-          height: 650px;
-          top: -20%;
-          left: -10%;
-          background: rgba(99,102,241,0.22);
+          width: 600px;
+          height: 600px;
+          top: -15%;
+          left: -8%;
+          background: rgba(99,102,241,0.18);
           animation: aurora-drift-2 22s ease-in-out infinite;
         }
 
         /* Cyan accent — center right */
         .aurora-3 {
-          width: 500px;
-          height: 500px;
-          top: 25%;
-          right: 10%;
-          background: rgba(6,182,212,0.18);
+          width: 400px;
+          height: 400px;
+          top: 30%;
+          right: 15%;
+          background: rgba(6,182,212,0.13);
           animation: aurora-drift-3 15s ease-in-out infinite;
           filter: blur(70px);
         }
 
         /* Purple — bottom left */
         .aurora-4 {
-          width: 550px;
-          height: 550px;
-          bottom: -15%;
-          left: 5%;
-          background: rgba(139,92,246,0.2);
+          width: 500px;
+          height: 500px;
+          bottom: -10%;
+          left: 10%;
+          background: rgba(139,92,246,0.14);
           animation: aurora-drift-4 25s ease-in-out infinite;
         }
 
         /* Deep blue — bottom center */
         .aurora-5 {
-          width: 400px;
-          height: 400px;
-          bottom: 0%;
-          left: 35%;
-          background: rgba(37,99,235,0.22);
+          width: 350px;
+          height: 350px;
+          bottom: 5%;
+          left: 40%;
+          background: rgba(37,99,235,0.16);
           animation: aurora-drift-5 20s ease-in-out infinite;
           filter: blur(80px);
         }
