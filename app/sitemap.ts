@@ -23,6 +23,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/#faq`,                        lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
   ]
 
+  const sizeGuideRoutes: MetadataRoute.Sitemap = [
+    { url: `${SITE_URL}/size-guide/nike`,        lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/size-guide/adidas`,      lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/size-guide/jordan`,      lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/size-guide/new-balance`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+  ]
+
   const productRoutes: MetadataRoute.Sitemap = products.map(p => ({
     url:             `${SITE_URL}/product/${p.id}`,
     lastModified:    new Date(),
@@ -30,5 +37,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority:        0.8,
   }))
 
-  return [...staticRoutes, ...productRoutes]
+  return [...staticRoutes, ...sizeGuideRoutes, ...productRoutes]
 }
