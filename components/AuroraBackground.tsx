@@ -80,13 +80,12 @@ export default function AuroraBackground() {
           background:
             linear-gradient(to bottom,
               #050C1A 0%,
-              #050C1A 30%,
-              transparent 42%,
-              transparent 78%,
-              #050C1A 100%
-            ),
-            radial-gradient(ellipse 60% 40% at 50% 36%,
-              transparent 0%,
+              #050C1A 22%,
+              rgba(5,12,26,0.85) 32%,
+              rgba(5,12,26,0.3) 38%,
+              transparent 44%,
+              transparent 72%,
+              rgba(5,12,26,0.5) 82%,
               #050C1A 100%
             );
           z-index: 3;
@@ -99,11 +98,11 @@ export default function AuroraBackground() {
           height: 1px;
           background: linear-gradient(to right,
             transparent 0%,
-            rgba(77,150,255,0.15) 15%,
-            rgba(77,150,255,0.7) 40%,
-            rgba(120,200,255,1) 50%,
-            rgba(77,150,255,0.7) 60%,
-            rgba(77,150,255,0.15) 85%,
+            rgba(77,150,255,0.08) 10%,
+            rgba(77,150,255,0.5) 35%,
+            rgba(140,210,255,0.95) 50%,
+            rgba(77,150,255,0.5) 65%,
+            rgba(77,150,255,0.08) 90%,
             transparent 100%
           );
           z-index: 4;
@@ -115,15 +114,15 @@ export default function AuroraBackground() {
           left: 50%;
           top: 36%;
           transform: translate(-50%, -50%);
-          width: 600px;
-          height: 300px;
-          background: radial-gradient(ellipse at center bottom,
-            rgba(77,150,255,0.28) 0%,
-            rgba(77,150,255,0.08) 40%,
+          width: 700px;
+          height: 400px;
+          background: radial-gradient(ellipse at center 70%,
+            rgba(77,150,255,0.22) 0%,
+            rgba(77,150,255,0.06) 45%,
             transparent 70%
           );
           z-index: 2;
-          filter: blur(8px);
+          filter: blur(12px);
         }
 
         .aurora-scanlines {
