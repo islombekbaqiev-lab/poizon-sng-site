@@ -5,7 +5,7 @@ import NoiseOverlay from "@/components/NoiseOverlay"
 import { Analytics } from "@vercel/analytics/next"
 
 const OG_IMAGE = "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20241222%2Faa3efedd7ed0417caaf8c8693e7e673d.jpg&w=1200&q=85&fit=contain&fmt=auto"
-const SITE_URL = "https://poizonsite.vercel.app"
+const SITE_URL = "https://poizonsng.com"
 
 const FALLBACK_KEYWORDS = [
   "Poizon", "байер Poizon", "кроссовки из Китая",

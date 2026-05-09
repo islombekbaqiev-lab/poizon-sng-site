@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next"
 
-const SITE_URL = "https://poizonsite.vercel.app"
+const SITE_URL = "https://poizonsng.com"
 
 interface Product { id: string; name: string }
 

@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-const SITE_URL = "https://poizonsite.vercel.app"
+const SITE_URL = "https://poizonsng.com"
 const TG_LINK  = "https://t.me/PoizonAdvisor"
 
 interface Product {
