@@ -1,0 +1,47 @@
+# POIZON SNG
+
+## What We Do
+POIZON SNG is a buyer agent service for authentic sneakers, clothing, and accessories from Poizon (得物) — China's largest authenticated fashion marketplace. We purchase items on behalf of customers in CIS countries and deliver them directly.
+
+## How It Works
+1. Customer finds a product on Poizon (dewu.com) or requests a specific item
+2. Customer contacts us via Telegram (@PoizonAdvisor)
+3. We purchase the item in China through verified Poizon platform
+4. Item ships to customer in Russia, Kazakhstan, Belarus, or other CIS countries
+
+## Key Facts
+- All items are 100% authentic — Poizon authenticates every product before shipping
+- Every purchase includes a Poizon authentication certificate with QR code
+- Delivery to 8 CIS countries: Russia, Kazakhstan, Belarus, Uzbekistan, Tajikistan, Armenia, Georgia, Azerbaijan
+- Shipping options: Air (3–5 days), Express (10–12 days), Standard (25 days)
+- We accept local currencies: RUB, KZT, BYN, UZS, TJS, AMD, GEL, AZN
+
+## Brands Available
+Nike, Adidas, Jordan, New Balance, Puma, Vans, Converse, Reebok, Asics, Salomon, Hoka, Saucony, On Running, Stone Island, Off-White, Fear of God, Supreme, Stussy, BAPE, Carhartt, The North Face, Arc'teryx, Moncler, Palm Angels, Amiri, Rick Owens, Louis Vuitton, Gucci, Balenciaga, Valentino, Burberry
+
+## Contact
+- Telegram: https://t.me/PoizonAdvisor
+- Channel: https://t.me/poizonsnggg
+
+## Website Sections
+- / — Main catalog with current products and prices
+- /#catalog — Product catalog with filters by category and brand
+- /#how-it-works — Step-by-step ordering guide
+- /#faq — Frequently asked questions about authenticity, delivery, and payment
+- /product/[id] — Individual product pages with details and pricing
+
+## Pricing
+Prices shown in CNY (Chinese Yuan) and converted to local currency at current exchange rates. Exchange rate includes a small service margin. Final price in local currency is confirmed in Telegram.
+
+## Frequently Asked Questions
+Q: Are the products authentic?
+A: Yes. Poizon (得物) is China's largest authentication platform. Every item is inspected by experts before shipping and comes with an authentication certificate.
+
+Q: How long does delivery take?
+A: Air shipping: 3–5 days (225 ¥/kg). Express: 10–12 days (173 ¥/kg). Standard: ~25 days (77 ¥/kg).
+
+Q: Which payment methods are accepted?
+A: Bank transfers in RUB, KZT, BYN, UZS, TJS, and other CIS currencies. Payment method is agreed in Telegram.
+
+Q: Can I order something not in the catalog?
+A: Yes. Send any Poizon product link or item name via Telegram and we will purchase it.
