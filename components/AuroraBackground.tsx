@@ -7,6 +7,12 @@ export default function AuroraBackground() {
       <div className="aurora-grid-wrap">
         <div className="aurora-grid-plane" />
         <div className="aurora-grid-fade" />
+        {/* Horizon glow line */}
+        <div className="aurora-horizon-line" />
+        {/* Vanishing point glow */}
+        <div className="aurora-vp-glow" />
+        {/* Scanlines */}
+        <div className="aurora-scanlines" />
       </div>
 
       {/* Grain overlay */}
@@ -55,17 +61,17 @@ export default function AuroraBackground() {
 
         .aurora-grid-plane {
           position: absolute;
-          width: 220%;
-          height: 160%;
-          left: -60%;
-          top: 38%;
-          transform: rotateX(72deg);
+          width: 260%;
+          height: 180%;
+          left: -80%;
+          top: 36%;
+          transform: rotateX(75deg);
           transform-origin: top center;
           background-image:
-            linear-gradient(rgba(77,150,255,0.13) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(77,150,255,0.13) 1px, transparent 1px);
-          background-size: 70px 70px;
-          animation: grid-scroll 6s linear infinite;
+            linear-gradient(rgba(77,150,255,0.22) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(77,150,255,0.22) 1px, transparent 1px);
+          background-size: 80px 80px;
+          animation: grid-scroll 4s linear infinite;
           will-change: background-position;
         }
 
@@ -75,22 +81,69 @@ export default function AuroraBackground() {
           background:
             linear-gradient(to bottom,
               #050C1A 0%,
-              transparent 38%,
-              transparent 75%,
+              #050C1A 30%,
+              transparent 42%,
+              transparent 78%,
               #050C1A 100%
             ),
-            linear-gradient(to right,
-              #050C1A 0%,
-              transparent 20%,
-              transparent 80%,
+            radial-gradient(ellipse 60% 40% at 50% 36%,
+              transparent 0%,
               #050C1A 100%
             );
-          z-index: 1;
+          z-index: 3;
+        }
+
+        .aurora-horizon-line {
+          position: absolute;
+          left: 0; right: 0;
+          top: 36%;
+          height: 1px;
+          background: linear-gradient(to right,
+            transparent 0%,
+            rgba(77,150,255,0.15) 15%,
+            rgba(77,150,255,0.7) 40%,
+            rgba(120,200,255,1) 50%,
+            rgba(77,150,255,0.7) 60%,
+            rgba(77,150,255,0.15) 85%,
+            transparent 100%
+          );
+          z-index: 4;
+          filter: blur(0.5px);
+        }
+
+        .aurora-vp-glow {
+          position: absolute;
+          left: 50%;
+          top: 36%;
+          transform: translate(-50%, -50%);
+          width: 600px;
+          height: 300px;
+          background: radial-gradient(ellipse at center bottom,
+            rgba(77,150,255,0.28) 0%,
+            rgba(77,150,255,0.08) 40%,
+            transparent 70%
+          );
+          z-index: 2;
+          filter: blur(8px);
+        }
+
+        .aurora-scanlines {
+          position: absolute;
+          inset: 0;
+          background: repeating-linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 3px,
+            rgba(0,0,0,0.08) 3px,
+            rgba(0,0,0,0.08) 4px
+          );
+          z-index: 5;
+          pointer-events: none;
         }
 
         @keyframes grid-scroll {
           from { background-position: 0 0; }
-          to   { background-position: 0 70px; }
+          to   { background-position: 0 80px; }
         }
 
         .aurora-blob {
