@@ -3,14 +3,11 @@
 export default function AuroraBackground() {
   return (
     <div className="aurora-root" aria-hidden>
-      {/* Hero video */}
-      <video
-        autoPlay muted loop playsInline
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ opacity: 0.13, mixBlendMode: "screen" }}
-      >
-        <source src="/hero.mp4" type="video/mp4" />
-      </video>
+      {/* Perspective grid */}
+      <div className="aurora-grid-wrap">
+        <div className="aurora-grid-plane" />
+        <div className="aurora-grid-fade" />
+      </div>
 
       {/* Grain overlay */}
       <svg className="aurora-grain" xmlns="http://www.w3.org/2000/svg">
@@ -48,12 +45,52 @@ export default function AuroraBackground() {
           z-index: 10;
         }
 
-        .aurora-grid {
+        .aurora-grid-wrap {
           position: absolute;
           inset: 0;
-          background-image: radial-gradient(circle, rgba(255,255,255,0.035) 1px, transparent 1px);
-          background-size: 32px 32px;
+          perspective: 400px;
+          z-index: 2;
+          overflow: hidden;
+        }
+
+        .aurora-grid-plane {
+          position: absolute;
+          width: 220%;
+          height: 160%;
+          left: -60%;
+          top: 38%;
+          transform: rotateX(72deg);
+          transform-origin: top center;
+          background-image:
+            linear-gradient(rgba(77,150,255,0.13) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(77,150,255,0.13) 1px, transparent 1px);
+          background-size: 70px 70px;
+          animation: grid-scroll 6s linear infinite;
+          will-change: background-position;
+        }
+
+        .aurora-grid-fade {
+          position: absolute;
+          inset: 0;
+          background:
+            linear-gradient(to bottom,
+              #050C1A 0%,
+              transparent 38%,
+              transparent 75%,
+              #050C1A 100%
+            ),
+            linear-gradient(to right,
+              #050C1A 0%,
+              transparent 20%,
+              transparent 80%,
+              #050C1A 100%
+            );
           z-index: 1;
+        }
+
+        @keyframes grid-scroll {
+          from { background-position: 0 0; }
+          to   { background-position: 0 70px; }
         }
 
         .aurora-blob {
