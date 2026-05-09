@@ -65,14 +65,13 @@ export default function AuroraBackground() {
           height: 180%;
           left: -80%;
           top: 36%;
-          transform: rotateX(75deg);
+          transform: rotateX(75deg) translateZ(0);
           transform-origin: top center;
           background-image:
             linear-gradient(rgba(77,150,255,0.22) 1px, transparent 1px),
             linear-gradient(90deg, rgba(77,150,255,0.22) 1px, transparent 1px);
           background-size: 80px 80px;
           animation: grid-scroll 4s linear infinite;
-          will-change: background-position;
         }
 
         .aurora-grid-fade {
@@ -150,8 +149,16 @@ export default function AuroraBackground() {
           position: absolute;
           border-radius: 50%;
           filter: blur(90px);
-          will-change: transform;
           z-index: 0;
+        }
+
+        /* Mobile: kill all animations and blur */
+        @media (max-width: 768px) {
+          .aurora-blob { animation: none !important; filter: blur(60px); }
+          .aurora-3, .aurora-4, .aurora-5 { display: none; }
+          .aurora-grid-plane { animation: none !important; }
+          .aurora-scanlines { display: none; }
+          .aurora-vp-glow { filter: none; }
         }
 
         /* Blue primary — top right */
