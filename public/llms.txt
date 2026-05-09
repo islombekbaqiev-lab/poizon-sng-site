@@ -29,6 +29,8 @@ https://poizonsng.com
 ## Website Sections
 - / — Main catalog with current products and prices
 - /#catalog — Product catalog with filters by category and brand
+- /category/кроссовки — Sneakers catalog (Nike, Adidas, Jordan, New Balance, Salomon, Hoka)
+- /category/одежда — Apparel catalog (Stone Island, Supreme, Off-White, Fear of God, The North Face)
 - /#how-it-works — Step-by-step ordering guide
 - /#faq — Frequently asked questions about authenticity, delivery, and payment
 - /product/[id] — Individual product pages with details and pricing
