@@ -88,6 +88,8 @@ function parseProducts(html: string, category: string): Omit<ScrapedProduct, "ta
     const imgM = chunk.match(/src="(https:\/\/cdn-img\.thepoizon\.ru[^"]+)"/)
     if (!imgM) continue
     const image = imgM[1].split("?")[0]
+    // Skip placeholder images (heart icon at /node-common/, not a real product photo)
+    if (!image.includes("/pro-img/cut-img/")) continue
 
     const nameM = chunk.match(/title="([^"]+)"/)
     if (!nameM) continue
