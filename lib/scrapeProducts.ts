@@ -101,6 +101,10 @@ function parseProducts(html: string, category: string): Omit<ScrapedProduct, "ta
     const brand = extractBrand(name)
     if (!brand) continue
 
+    // Skip if name is just the brand with no model info
+    const modelPart = name.replace(new RegExp(`^${brand}\\s*`, "i"), "").trim()
+    if (!modelPart) continue
+
     out.push({
       id: slug.replace(/[/?=]/g, "-").slice(0, 60),
       name,
