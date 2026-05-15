@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react"
 import { motion, useMotionValue, useSpring, useInView, animate } from "framer-motion"
 import AuroraBackground from "@/components/AuroraBackground"
 
-const TG_LINK = "https://t.me/PoizonAdvisor"
+import { TG_LINK } from "@/lib/site"
 
 const CARDS = [
   {
@@ -295,15 +295,38 @@ export default function Hero() {
             </div>
 
             {/* Sub */}
-            <motion.p
-              className="text-base sm:text-lg mb-10 max-w-sm leading-relaxed"
-              style={{ color: "rgba(255,255,255,.38)" }}
+            <motion.div
+              className="mb-10 max-w-md"
               initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.52, duration: 0.6 }}
             >
-              Покупаем на Poizon — привозим к тебе.<br />
-              Кроссовки, одежда, аксессуары.
-            </motion.p>
+              <p
+                className="text-base sm:text-lg leading-relaxed"
+                style={{ color: "rgba(255,255,255,.38)" }}
+              >
+                Выкупаем с Poizon (得物) и доставляем в Россию, Казахстан, Беларусь и СНГ. Кроссовки, одежда, сумки, аксессуары.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {[
+                  "Фото перед отправкой",
+                  "Трек на каждый заказ",
+                  "Помощь с размером",
+                  "Оплата в валюте СНГ",
+                ].map(t => (
+                  <span
+                    key={t}
+                    className="px-3 py-1.5 rounded-full text-xs font-semibold"
+                    style={{
+                      background: "rgba(255,255,255,.04)",
+                      border: "1px solid rgba(255,255,255,.08)",
+                      color: "rgba(255,255,255,.55)",
+                    }}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
 
             {/* CTA buttons */}
             <motion.div
