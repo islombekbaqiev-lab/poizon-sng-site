@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { motion, useScroll, useTransform, useMotionValue } from "framer-motion"
 import { Country, Rates } from "@/lib/types"
+import { buildTelegramUrl, productStart } from "@/lib/telegram"
 
 function useIsDesktop() {
   const [desktop, setDesktop] = useState(false)
@@ -12,7 +13,6 @@ function useIsDesktop() {
   return desktop
 }
 
-const TG_BASE = "https://t.me/PoizonAdvisor"
 const MARKUP  = 1.15
 
 interface Product {
@@ -32,7 +32,7 @@ const RATE_MAP: Record<Country, { key: keyof Rates; symbol: string }> = {
   UZ: { key: "UZS", symbol: "сум" },
 }
 
-const CATEGORIES = ["Все", "Кроссовки", "Одежда"]
+const CATEGORIES = ["Все", "Кроссовки", "Одежда", "Футболки", "Сумки", "Кепки", "Аксессуары"]
 const PAGE_SIZE = 12
 
 const TAG_COLOR: Record<string, { bg: string; text: string }> = {
@@ -144,7 +144,7 @@ function NoImg({ brand }: { brand: string }) {
 
 // ── BIG hero card ────────────────────────────────────────────────────────────
 function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symbol: string }) {
-  const tgUrl       = `${TG_BASE}?start=${encodeURIComponent(p.name)}`
+  const tgUrl       = buildTelegramUrl({ start: productStart(p.id) })
   const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
   const retail      = local !== null ? Math.round(local * 1.45 / 100) * 100 : null
   const savePct     = retail !== null && local !== null ? Math.round((1 - local / retail) * 100) : null
@@ -215,7 +215,7 @@ function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symb
 
 // ── Small card ───────────────────────────────────────────────────────────────
 function SmallCard({ p, local, symbol }: { p: Product; local: number | null; symbol: string }) {
-  const tgUrl       = `${TG_BASE}?start=${encodeURIComponent(p.name)}`
+  const tgUrl       = buildTelegramUrl({ start: productStart(p.id) })
   const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
 
   const desktop = useIsDesktop()
@@ -435,7 +435,7 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
             <p className="text-lg font-black mb-0.5">Нет нужного товара?</p>
             <p className="text-white/32 text-sm">Скинь ссылку с Poizon — выкупим и привезём.</p>
           </div>
-          <motion.a href={TG_BASE} target="_blank" rel="noopener noreferrer"
+          <motion.a href={buildTelegramUrl()} target="_blank" rel="noopener noreferrer"
             className="flex-shrink-0 px-6 py-3 bg-[#4D96FF] text-white text-sm font-bold rounded-2xl shadow-xl shadow-[#4D96FF]/25"
             whileHover={{ scale: 1.04, backgroundColor: "#3a86ef" }} whileTap={{ scale: 0.97 }}>
             Написать в Telegram →

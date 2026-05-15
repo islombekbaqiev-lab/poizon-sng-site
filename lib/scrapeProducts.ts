@@ -1,0 +1,183 @@
+export interface ScrapedProduct {
+  id: string
+  name: string
+  brand: string
+  category: string
+  priceRUB: number
+  image: string
+  url: string
+  tag?: string
+}
+
+const BASE = "https://www.thepoizon.ru"
+const UA =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+
+const SOURCES = [
+  { path: "/category/sneakers",        category: "Кроссовки" },
+  { path: "/category/sneakers?page=3", category: "Кроссовки" },
+  { path: "/category/sneakers?page=4", category: "Кроссовки" },
+  { path: "/category/sneakers?page=5", category: "Кроссовки" },
+  { path: "/category/sneakers?page=6", category: "Кроссовки" },
+  { path: "/category/sneakers?page=7", category: "Кроссовки" },
+  { path: "/category/apparel",         category: "Одежда"    },
+  { path: "/category/apparel-tops",    category: "Футболки"  },
+  { path: "/category/bags",            category: "Сумки"     },
+  { path: "/category/bags?page=2",     category: "Сумки"     },
+  { path: "/category/hats-caps-accessories", category: "Кепки" },
+  { path: "/category/accessories-watches",   category: "Аксессуары" },
+  { path: "/category/accessories",           category: "Аксессуары" },
+] as const
+
+const BRANDS = [
+  "Nike",
+  "Adidas",
+  "Jordan",
+  "New Balance",
+  "Puma",
+  "Vans",
+  "Converse",
+  "Reebok",
+  "Asics",
+  "Salomon",
+  "Hoka",
+  "Saucony",
+  "On Running",
+  "Stone Island",
+  "Off-White",
+  "Fear of God",
+  "Supreme",
+  "Stussy",
+  "BAPE",
+  "Carhartt",
+  "The North Face",
+  "Arc'teryx",
+  "Moncler",
+  "Palm Angels",
+  "Amiri",
+  "Rick Owens",
+  "Louis Vuitton",
+  "Gucci",
+  "Balenciaga",
+  "Valentino",
+  "Burberry",
+  "UGG",
+  "Birkenstock",
+  "Prada",
+  "Dior",
+  "Chanel",
+  "Fendi",
+  "Bottega Veneta",
+  "Charles Keith",
+  "CHARLES KEITH",
+  "Loewe",
+  "Jacquemus",
+  "Longchamp",
+  "Coach",
+  "Marc Jacobs",
+  "Tory Burch",
+  "Diesel",
+  "Dickies",
+  "New Era",
+  "Casio",
+  "Apple",
+  "Samsung",
+  "Rolex",
+  "Omega",
+]
+
+function extractBrand(name: string): string {
+  const lower = name.toLowerCase()
+  for (const b of BRANDS) {
+    if (lower.startsWith(b.toLowerCase())) return b
+  }
+  return name.split(" ")[0]
+}
+
+function cleanName(raw: string): string {
+  return raw
+    .replace(
+      /\s+(Сетчатая|Кожа|Натуральная|Синтетическая|Дышащ|Устойчив|Амортиз|Текстиль|Искусств|Низкий|Высокий|Уличная|Повседневная|Баскетбольные|Кроссовки|Обувь|Мужские|Женские|Унисекс|Скейт|Беговые|Низкие|Высокие|Слип|Трек|Абразив|Легк|Дышащие|Поддержк|Износостойк|Нескольз|Амортизир|ПУ|Полиуретан|Нейлон|Полиэстер|Холст|Хлопок|Джинс|Кожаная|Замша|Велюр|Через\s+плечо|Одно\s+плечо|Сумка|Рюкзак|Кошелек|Клатч|Тоут|Шоппер|Бейсболка|Кепка|Панама|Средняя|Большая|Маленькая|Обычный|Стандартный|Мини|Футболка|Поло|Топ|Блузка|Часы|Браслет|Ожерелье|Кольцо|Серьги|Аксессуар).*/i,
+      "",
+    )
+    .trim()
+    .slice(0, 80)
+}
+
+function parseProducts(html: string, category: string): Omit<ScrapedProduct, "tag">[] {
+  const out: any[] = []
+  const chunks = html.split('href="/product/')
+
+  for (const chunk of chunks.slice(1)) {
+    const slug = chunk.match(/^([^"]+)"/)?.[1]
+    if (!slug) continue
+
+    const imgM = chunk.match(/src="(https:\/\/cdn-img\.thepoizon\.ru[^"]+)"/)
+    if (!imgM) continue
+    const image = imgM[1].split("?")[0]
+
+    const nameM = chunk.match(/title="([^"]+)"/)
+    if (!nameM) continue
+    const name = cleanName(nameM[1].trim())
+
+    const priceM = chunk.match(/(\d[\d\s ]{1,8}\d)\s*₽/)
+    if (!priceM) continue
+    const priceRUB = parseInt(priceM[1].replace(/[\s ]/g, ""), 10)
+    if (!priceRUB || priceRUB < 1000) continue
+
+    out.push({
+      id: slug.replace(/[/?=]/g, "-").slice(0, 60),
+      name,
+      brand: extractBrand(name),
+      category,
+      priceRUB,
+      image,
+      url: `${BASE}/product/${slug}`,
+    })
+  }
+  return out
+}
+
+function assignTag(priceRUB: number, idx: number): string | undefined {
+  if (priceRUB > 35_000) return "Лимит"
+  if (idx % 7 === 0) return "Хит"
+  if (idx % 11 === 4) return "Новинка"
+  return undefined
+}
+
+export async function scrapeProducts(): Promise<ScrapedProduct[]> {
+  const pages = await Promise.all(
+    SOURCES.map((s) =>
+      fetch(`${BASE}${s.path}`, {
+        headers: { "User-Agent": UA, "Accept-Language": "ru-RU,ru;q=0.9" },
+        next: { revalidate: 3600 },
+      })
+        .then((r) => r.text())
+        .then((html) => parseProducts(html, s.category))
+        .catch(() => [] as Omit<ScrapedProduct, "tag">[]),
+    ),
+  )
+
+  const seenIds = new Set<string>()
+  function dedup<T extends { id: string }>(arr: T[]): T[] {
+    return arr.filter(p => { if (seenIds.has(p.id)) return false; seenIds.add(p.id); return true })
+  }
+
+  const allSneakers = dedup([...pages[0], ...pages[1], ...pages[2], ...pages[3], ...pages[4], ...pages[5]])
+  const mainSneakers = allSneakers.slice(0, 43)
+  const mainIdSet = new Set(mainSneakers.map(p => p.id))
+  const budgetSneakers = allSneakers
+    .filter(p => p.priceRUB <= 4500 && !mainIdSet.has(p.id))
+    .sort((a, b) => a.priceRUB - b.priceRUB)
+    .slice(0, 15)
+
+  const apparel  = dedup(pages[6]).slice(0, 20)
+  const tops     = dedup(pages[7]).slice(0, 20)
+  const bags     = dedup([...pages[8], ...pages[9]]).slice(0, 30)
+  const caps     = dedup(pages[10]).slice(0, 20)
+  const access   = dedup([...pages[11], ...pages[12]]).slice(0, 20)
+
+  const all = [...mainSneakers, ...budgetSneakers, ...apparel, ...tops, ...bags, ...caps, ...access]
+  return all.map((p, i) => ({ ...p, tag: assignTag(p.priceRUB, i) }))
+}
+

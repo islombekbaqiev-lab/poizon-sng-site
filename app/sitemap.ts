@@ -11,8 +11,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: SITE_URL,                                  lastModified, changeFrequency: "daily",   priority: 1   },
     { url: `${SITE_URL}/#catalog`,                    lastModified, changeFrequency: "daily",   priority: 0.9 },
-    { url: `${SITE_URL}/category/кроссовки`,          lastModified, changeFrequency: "daily",   priority: 0.9 },
-    { url: `${SITE_URL}/category/одежда`,             lastModified, changeFrequency: "daily",   priority: 0.9 },
+    { url: `${SITE_URL}/category/кроссовки`,   lastModified, changeFrequency: "daily", priority: 0.9 },
+    { url: `${SITE_URL}/category/одежда`,     lastModified, changeFrequency: "daily", priority: 0.9 },
+    { url: `${SITE_URL}/category/футболки`,   lastModified, changeFrequency: "daily", priority: 0.85 },
+    { url: `${SITE_URL}/category/сумки`,      lastModified, changeFrequency: "daily", priority: 0.85 },
+    { url: `${SITE_URL}/category/кепки`,      lastModified, changeFrequency: "daily", priority: 0.85 },
+    { url: `${SITE_URL}/category/аксессуары`, lastModified, changeFrequency: "daily", priority: 0.85 },
     { url: `${SITE_URL}/#how-it-works`,               lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/#faq`,                        lastModified, changeFrequency: "monthly", priority: 0.6 },
   ]
@@ -37,13 +41,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority:        0.8,
   }))
 
-  const brands = [...new Set(products.map(p => p.brand).filter(Boolean))]
-  const brandRoutes: MetadataRoute.Sitemap = brands.map(brand => ({
-    url:             `${SITE_URL}/brand/${encodeURIComponent(brand.toLowerCase().replace(/\s+/g, "-"))}`,
-    lastModified,
-    changeFrequency: "weekly" as const,
-    priority:        0.85,
-  }))
-
-  return [...staticRoutes, ...sizeGuideRoutes, ...brandRoutes, ...productRoutes]
+  return [...staticRoutes, ...sizeGuideRoutes, ...productRoutes]
 }

@@ -2,8 +2,9 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 
-const SITE_URL = "https://poizonsng.com"
-const TG_LINK  = "https://t.me/PoizonAdvisor"
+import { SITE_URL, TG_LINK } from "@/lib/site"
+import { breadcrumbList, itemList, wrapGraph } from "@/lib/seo/jsonld"
+import { buildTelegramUrl, categoryStart, productStart } from "@/lib/telegram"
 
 interface Product {
   id: string; name: string; brand: string
@@ -14,13 +15,33 @@ interface Product {
 const CATEGORY_MAP: Record<string, { label: string; desc: string; keywords: string[] }> = {
   "кроссовки": {
     label: "Кроссовки",
-    desc: "Оригинальные кроссовки с Poizon (得物) — Nike, Adidas, Jordan, New Balance, Salomon. Доставка в Россию, Казахстан, Беларусь и СНГ. Авиа от 3 дней.",
+    desc: "Кроссовки с Poizon (得物) под ключ: поможем с размером, выкупим, сделаем фото перед отправкой и доставим в страны СНГ. Nike, Adidas, Jordan, New Balance, Salomon.",
     keywords: ["кроссовки из Китая", "купить кроссовки оригинал", "Nike Adidas Jordan доставка СНГ", "байер кроссовки Poizon", "оригинальные кроссовки Россия"],
   },
   "одежда": {
     label: "Одежда",
-    desc: "Оригинальная одежда с Poizon (得物) — Stone Island, Off-White, Supreme, Fear of God, The North Face. Доставка в Россию, Казахстан, Беларусь и СНГ.",
+    desc: "Одежда с Poizon (得物) с премиум‑сопровождением: проверим наличие, согласуем размер, сделаем фото перед отправкой и привезём в страны СНГ. Stone Island, Off‑White, Supreme и др.",
     keywords: ["одежда из Китая оригинал", "купить Stone Island Россия", "байер одежда Poizon", "Supreme Fear of God СНГ", "оригинальная одежда доставка"],
+  },
+  "футболки": {
+    label: "Футболки",
+    desc: "Футболки и топы с Poizon (得物): оригинальные бренды из Китая с доставкой в Россию, Казахстан, Беларусь. Nike, Supreme, Stone Island, Off-White.",
+    keywords: ["купить футболку из Китая", "футболка байер Poizon", "Supreme Nike футболка СНГ", "оригинальные футболки доставка", "топы из Китая"],
+  },
+  "сумки": {
+    label: "Сумки",
+    desc: "Сумки с Poizon (得物): шоперы, кроссбоди, рюкзаки — оригиналы с доставкой в СНГ. Gucci, Prada, Louis Vuitton, Charles Keith и другие бренды.",
+    keywords: ["купить сумку из Китая", "сумка байер Poizon", "Gucci Prada сумка СНГ", "оригинальные сумки Россия", "кроссбоди из Китая"],
+  },
+  "кепки": {
+    label: "Кепки",
+    desc: "Кепки и головные уборы с Poizon (得物): бейсболки, панамы, шапки — оригиналы с доставкой в Россию и СНГ. Nike, New Era, Supreme и другие.",
+    keywords: ["купить кепку из Китая", "бейсболка байер Poizon", "New Era кепка СНГ", "оригинальные кепки доставка", "Supreme кепка Россия"],
+  },
+  "аксессуары": {
+    label: "Аксессуары",
+    desc: "Аксессуары с Poizon (得物): часы, украшения, браслеты — оригиналы с доставкой в СНГ. Casio, Rolex, Omega и другие бренды.",
+    keywords: ["купить аксессуары из Китая", "часы байер Poizon", "Casio часы СНГ", "оригинальные аксессуары Россия", "украшения из Китая доставка"],
   },
 }
 
@@ -34,6 +55,7 @@ async function getProducts(): Promise<Product[]> {
 export async function generateStaticParams() {
   return Object.keys(CATEGORY_MAP).map(slug => ({ slug }))
 }
+
 
 export const dynamicParams = false
 
@@ -76,30 +98,17 @@ export default async function CategoryPage(
   const all      = await getProducts()
   const products = all.filter(p => p.category === cat.label).slice(0, 60)
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "POIZON SNG", item: SITE_URL },
-          { "@type": "ListItem", position: 2, name: cat.label, item: `${SITE_URL}/category/${slug}` },
-        ],
-      },
-      {
-        "@type": "ItemList",
-        name: `${cat.label} с Poizon`,
-        description: cat.desc,
-        numberOfItems: products.length,
-        itemListElement: products.slice(0, 20).map((p, i) => ({
-          "@type": "ListItem",
-          position: i + 1,
-          url: `${SITE_URL}/product/${p.id}`,
-          name: p.name,
-        })),
-      },
-    ],
-  }
+  const jsonLd = wrapGraph([
+    breadcrumbList([
+      { name: "POIZON SNG", item: SITE_URL },
+      { name: cat.label, item: `${SITE_URL}/category/${slug}` },
+    ]),
+    itemList(
+      `${cat.label} с Poizon`,
+      cat.desc,
+      products.slice(0, 20).map((p) => ({ url: `${SITE_URL}/product/${p.id}`, name: p.name })),
+    ),
+  ])
 
   return (
     <main className="min-h-screen bg-[#050C1A]" style={{ color: "#fff" }}>
@@ -137,14 +146,36 @@ export default async function CategoryPage(
             {cat.desc}
           </p>
           <p className="text-sm mt-3" style={{ color: "rgba(255,255,255,0.25)" }}>
-            {products.length} позиций · 100% оригиналы · Авиа 3–5 дней
+            {products.length} позиций · Фото перед отправкой · Трек-номер · Авиа 3–5 дней
           </p>
+        </div>
+
+        {/* Quick order */}
+        <div
+          className="mb-8 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+          style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}
+        >
+          <div>
+            <p className="text-sm font-bold mb-1">Хочешь этот товар с Poizon — без лишних шагов?</p>
+            <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
+              Напиши менеджеру: модель, размер, страна доставки — посчитаем цену «под ключ».
+            </p>
+          </div>
+          <a
+            href={buildTelegramUrl({ start: categoryStart(slug) })}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-5 py-2.5 rounded-xl text-white text-sm font-bold transition-all hover:scale-105 flex-shrink-0"
+            style={{ background: "#4D96FF" }}
+          >
+            Написать в Telegram →
+          </a>
         </div>
 
         {/* Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {products.map(p => {
-            const tgUrl  = `${TG_LINK}?start=${encodeURIComponent(p.name)}`
+            const tgUrl  = buildTelegramUrl({ start: productStart(p.id) })
             const retail = Math.round(p.priceRUB * 1.45 / 100) * 100
             const save   = Math.round((1 - p.priceRUB / retail) * 100)
             const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
