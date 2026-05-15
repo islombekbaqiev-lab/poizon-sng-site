@@ -328,6 +328,7 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
   const source = cat === "Все" ? interleave(raw) : raw
 
   const filtered = source
+    .filter(p => !!p.image)
     .filter(p => cat === "Все" || p.category === cat)
     .filter(p => !query ||
       p.name.toLowerCase().includes(query.toLowerCase()) ||

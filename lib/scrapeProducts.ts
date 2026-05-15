@@ -30,68 +30,41 @@ const SOURCES = [
 ] as const
 
 const BRANDS = [
-  "Nike",
-  "Adidas",
-  "Jordan",
-  "New Balance",
-  "Puma",
-  "Vans",
-  "Converse",
-  "Reebok",
-  "Asics",
-  "Salomon",
-  "Hoka",
-  "Saucony",
-  "On Running",
-  "Stone Island",
-  "Off-White",
-  "Fear of God",
-  "Supreme",
-  "Stussy",
-  "BAPE",
-  "Carhartt",
-  "The North Face",
-  "Arc'teryx",
-  "Moncler",
-  "Palm Angels",
-  "Amiri",
-  "Rick Owens",
-  "Louis Vuitton",
-  "Gucci",
-  "Balenciaga",
-  "Valentino",
-  "Burberry",
-  "UGG",
-  "Birkenstock",
-  "Prada",
-  "Dior",
-  "Chanel",
-  "Fendi",
-  "Bottega Veneta",
-  "Charles Keith",
-  "CHARLES KEITH",
-  "Loewe",
-  "Jacquemus",
-  "Longchamp",
-  "Coach",
-  "Marc Jacobs",
-  "Tory Burch",
-  "Diesel",
-  "Dickies",
-  "New Era",
-  "Casio",
-  "Apple",
-  "Samsung",
-  "Rolex",
-  "Omega",
+  // Кроссовки
+  "Nike", "Adidas", "Jordan", "New Balance", "Puma", "Vans", "Converse",
+  "Reebok", "Asics", "Salomon", "Hoka", "Saucony", "On Running", "On",
+  "Birkenstock", "UGG", "Crocs", "Timberland", "Dr. Martens",
+  "New Balance", "Mizuno", "Brooks", "Merrell", "Keen",
+  // Одежда / Streetwear
+  "Stone Island", "Off-White", "Fear of God", "Supreme", "Stussy", "BAPE",
+  "Carhartt", "The North Face", "Arc'teryx", "Moncler", "Palm Angels",
+  "Amiri", "Rick Owens", "Balenciaga", "Valentino", "Burberry",
+  "Kenzo", "Marni", "Acne Studios", "Jil Sander", "Lemaire",
+  "Y-3", "Yohji Yamamoto", "Comme des Garçons", "CDG", "Maison Margiela",
+  "MM6", "Raf Simons", "Undercover", "Neighborhood", "Wtaps",
+  "Palace", "Polar Skate", "Thrasher", "Obey", "HUF",
+  "Dickies", "Wrangler", "Levi's", "Tommy Hilfiger", "Ralph Lauren",
+  "Polo Ralph Lauren", "Lacoste", "Fred Perry", "Champion",
+  // Люкс
+  "Louis Vuitton", "Gucci", "Prada", "Chanel", "Dior",
+  "Fendi", "Celine", "Loewe", "Bottega Veneta", "Hermès",
+  "Givenchy", "Versace", "Dolce & Gabbana", "Balmain",
+  // Сумки / аксессуары
+  "Jacquemus", "Longchamp", "Coach", "Marc Jacobs", "Tory Burch",
+  "Kate Spade", "Charles & Keith", "Charles Keith",
+  // Кепки / головные уборы
+  "New Era", "47 Brand", "Mitchell & Ness",
+  // Часы / аксессуары
+  "Casio", "G-Shock", "Rolex", "Omega", "Cartier", "Tag Heuer",
+  "Swatch", "Daniel Wellington",
 ]
 
-function extractBrand(name: string): string {
+function extractBrand(name: string): string | null {
   const lower = name.toLowerCase()
   for (const b of BRANDS) {
     if (lower.startsWith(b.toLowerCase())) return b
   }
-  return name.split(" ")[0]
+  return null
 }
 
 function cleanName(raw: string): string {
@@ -125,10 +98,13 @@ function parseProducts(html: string, category: string): Omit<ScrapedProduct, "ta
     const priceRUB = parseInt(priceM[1].replace(/[\s ]/g, ""), 10)
     if (!priceRUB || priceRUB < 1000) continue
 
+    const brand = extractBrand(name)
+    if (!brand) continue
+
     out.push({
       id: slug.replace(/[/?=]/g, "-").slice(0, 60),
       name,
-      brand: extractBrand(name),
+      brand,
       category,
       priceRUB,
       image,

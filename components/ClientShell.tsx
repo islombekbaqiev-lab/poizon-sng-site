@@ -17,6 +17,28 @@ import FAQ               from "@/components/FAQ"
 import CTASection        from "@/components/CTASection"
 
 
+function BottomMarquee() {
+  const items = [
+    "ПОКУПАЕМ НА POIZON", "ПРИВОЗИМ К ТЕБЕ", "КРОССОВКИ", "ОДЕЖДА", "СУМКИ", "КЕПКИ", "АКСЕССУАРЫ", "ФУТБОЛКИ",
+    "ПОКУПАЕМ НА POIZON", "ПРИВОЗИМ К ТЕБЕ", "КРОССОВКИ", "ОДЕЖДА", "СУМКИ", "КЕПКИ", "АКСЕССУАРЫ", "ФУТБОЛКИ",
+  ]
+  return (
+    <div className="overflow-hidden py-5" style={{ borderTop: "1px solid rgba(255,255,255,.04)" }}>
+      <div className="marquee-inner-rev flex items-center whitespace-nowrap">
+        {items.map((t, i) => (
+          <span key={i} className="inline-flex items-center shrink-0">
+            <span className="text-xs font-black uppercase tracking-[.22em]"
+              style={{ color: i % 8 < 2 ? "rgba(77,150,255,.7)" : "rgba(255,255,255,.28)" }}>
+              {t}
+            </span>
+            <span className="mx-6 text-[6px]" style={{ color: "rgba(255,255,255,.1)" }}>◆</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function ClientShell() {
   const [country,   setCountry]   = useState<Country | null>(null)
   const [showModal, setShowModal] = useState(false)
@@ -76,6 +98,7 @@ export default function ClientShell() {
       <FAQ />
       <Testimonials />
       <CTASection />
+      <BottomMarquee />
       <Footer />
       <MobileFloatingCTA />
     </>
