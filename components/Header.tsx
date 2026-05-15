@@ -16,10 +16,11 @@ const META: Record<Country, { flag: string; name: string; currency: string; rate
 }
 
 const NAV_LINKS = [
-  { label: "Каталог",      href: "#catalog"         },
+  { label: "Каталог",      href: "/#catalog"        },
+  { label: "О нас",        href: "/about"           },
   { label: "Как заказать", href: "/how-to-order"    },
   { label: "Размеры",     href: "/size-guide/nike"  },
-  { label: "FAQ",         href: "#faq"             },
+  { label: "FAQ",         href: "/#faq"            },
 ]
 
 export default function Header({ country, rates, onChangeCountry }: {

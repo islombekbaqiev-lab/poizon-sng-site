@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Script from "next/script"
 import "./globals.css"
 import SmoothScroll from "@/components/SmoothScroll"
 import NoiseOverlay from "@/components/NoiseOverlay"
@@ -6,6 +7,8 @@ import { Analytics } from "@vercel/analytics/next"
 import { SITE_URL } from "@/lib/site"
 import { getProductIndex } from "@/lib/productIndex"
 import { faqPage, wrapGraph } from "@/lib/seo/jsonld"
+
+const YM_ID = 109131869
 
 const OG_IMAGE = "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20241222%2Faa3efedd7ed0417caaf8c8693e7e673d.jpg&w=1200&q=85&fit=contain&fmt=auto"
 
@@ -17,7 +20,7 @@ const FALLBACK_KEYWORDS = [
 ]
 
 const FALLBACK_DESC =
-  "Выкуп и доставка с Poizon (得物) в СНГ под ключ: помощь с размером, фото перед отправкой, трек-номер. Кроссовки, одежда, аксессуары. Авиа от 3 дней."
+  "Купить кроссовки, одежду и сумки с Poizon (得物) с доставкой в Россию, Казахстан, Беларусь. Оригиналы под ключ: выкуп, фото, трек-номер. Авиа от 3 дней."
 
 function buildKeywords(products: { brand?: string; name: string }[]): string[] {
   const intents = ["купить", "заказать", "оригинал"]
@@ -141,6 +144,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <NoiseOverlay />
         <SmoothScroll>{children}</SmoothScroll>
         <Analytics />
+        {/* Яндекс Метрика */}
+        <Script id="ym-init" strategy="afterInteractive">{`
+          (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+          (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+          ym(${YM_ID},"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+        `}</Script>
+        <noscript>
+          <div><img src={`https://mc.yandex.ru/watch/${YM_ID}`} style={{position:"absolute",left:"-9999px"}} alt="" /></div>
+        </noscript>
       </body>
     </html>
   )
