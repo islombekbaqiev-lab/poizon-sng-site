@@ -67,12 +67,28 @@ function extractBrand(name: string): string | null {
   return null
 }
 
+function decodeHtmlEntities(str: string): string {
+  return str
+    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(parseInt(d, 10)))
+}
+
+const BAD_MODEL_WORDS = new Set([
+  "ткань", "ткань+", "ткань +", "кожа", "нейлон", "замша", "велюр", "холст",
+  "хлопок", "текстиль", "полиэстер", "полиуретан", "искусственная кожа",
+  "натуральная кожа", "синтетическая кожа", "low", "high", "mid",
+])
+
 function cleanName(raw: string): string {
-  return raw
+  return decodeHtmlEntities(raw)
     .replace(
       /\s+(Сетчатая|Кожа|Натуральная|Синтетическая|Дышащ|Устойчив|Амортиз|Текстиль|Искусств|Низкий|Высокий|Уличная|Повседневная|Баскетбольные|Кроссовки|Обувь|Мужские|Женские|Унисекс|Скейт|Беговые|Низкие|Высокие|Слип|Трек|Абразив|Легк|Дышащие|Поддержк|Износостойк|Нескольз|Амортизир|ПУ|Полиуретан|Нейлон|Полиэстер|Холст|Хлопок|Джинс|Кожаная|Замша|Велюр|Через\s+плечо|Одно\s+плечо|Сумка|Рюкзак|Кошелек|Клатч|Тоут|Шоппер|Бейсболка|Кепка|Панама|Средняя|Большая|Маленькая|Обычный|Стандартный|Мини|Футболка|Поло|Топ|Блузка|Часы|Браслет|Ожерелье|Кольцо|Серьги|Аксессуар).*/i,
       "",
     )
+    .replace(/\s+[0-9]{6,}\].*$/, "")
     .trim()
     .slice(0, 80)
 }
@@ -106,6 +122,10 @@ function parseProducts(html: string, category: string): Omit<ScrapedProduct, "ta
     // Skip if name is just the brand with no real model info
     const modelPart = name.replace(new RegExp(`^${brand}\\s*`, "i"), "").trim()
     if (!modelPart || modelPart.toLowerCase() === brand.toLowerCase()) continue
+    // Skip if model part is just a generic material/descriptor word
+    if (modelPart.length < 4 || BAD_MODEL_WORDS.has(modelPart.toLowerCase())) continue
+    // Skip if name still contains HTML artifacts (numbers+brackets)
+    if (/\d{5,}/.test(modelPart) || /[[\]&#]/.test(modelPart)) continue
 
     out.push({
       id: slug.replace(/[/?=]/g, "-").slice(0, 60),

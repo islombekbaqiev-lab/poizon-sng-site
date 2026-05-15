@@ -145,7 +145,7 @@ function NoImg({ brand }: { brand: string }) {
 // ── BIG hero card ────────────────────────────────────────────────────────────
 function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symbol: string }) {
   const [imgFailed, setImgFailed] = useState(false)
-  if (imgFailed) return null
+  if (imgFailed || !p.image.includes("/pro-img/cut-img/")) return null
 
   const tgUrl       = buildTelegramUrl({ start: productStart(p.id) })
   const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
@@ -220,7 +220,7 @@ function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symb
 // ── Small card ───────────────────────────────────────────────────────────────
 function SmallCard({ p, local, symbol }: { p: Product; local: number | null; symbol: string }) {
   const [imgFailed, setImgFailed] = useState(false)
-  if (imgFailed) return null
+  if (imgFailed || !p.image.includes("/pro-img/cut-img/")) return null
 
   const tgUrl       = buildTelegramUrl({ start: productStart(p.id) })
   const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
@@ -336,7 +336,7 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
   const source = cat === "Все" ? interleave(raw) : raw
 
   const filtered = source
-    .filter(p => !!p.image)
+    .filter(p => !!p.image && p.image.includes("/pro-img/cut-img/"))
     .filter(p => cat === "Все" || p.category === cat)
     .filter(p => !query ||
       p.name.toLowerCase().includes(query.toLowerCase()) ||
