@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import Image from "next/image"
 import { motion, useScroll, useTransform, useMotionValue } from "framer-motion"
 import { Country, Rates } from "@/lib/types"
 import { buildTelegramUrl, productStart } from "@/lib/telegram"
@@ -143,7 +144,7 @@ function NoImg({ brand }: { brand: string }) {
 }
 
 // ── BIG hero card ────────────────────────────────────────────────────────────
-function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symbol: string }) {
+function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | null; symbol: string; priority?: boolean }) {
   const [imgFailed, setImgFailed] = useState(false)
   if (imgFailed || !p.image.includes("/pro-img/cut-img/")) return null
 
@@ -168,13 +169,14 @@ function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symb
     >
       <div className="flex-1 relative overflow-hidden flex items-center justify-center"
         style={{ background: "#FFFFFF", minHeight: 0 }}>
-        <motion.div className="w-full h-full" style={{ y: imgY }}>
-          {p.image
-            ? <img src={p.image} alt={p.name} loading="lazy"
-                className="w-full h-full object-contain p-6 group-hover:scale-[1.04] transition-transform duration-500"
-                onError={() => setImgFailed(true)} />
-            : <NoImg brand={p.brand} />
-          }
+        <motion.div className="relative w-full h-full" style={{ y: imgY }}>
+          <Image
+            src={p.image} alt={p.name}
+            fill sizes="(max-width: 768px) 50vw, 400px"
+            className="object-contain p-6 group-hover:scale-[1.04] transition-transform duration-500"
+            priority={priority}
+            onError={() => setImgFailed(true)}
+          />
         </motion.div>
         {p.tag && TAG_COLOR[p.tag] && (
           <span className="absolute top-3 left-3 text-[9px] font-black px-2.5 py-1 rounded-full tracking-wide"
@@ -218,7 +220,7 @@ function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symb
 }
 
 // ── Small card ───────────────────────────────────────────────────────────────
-function SmallCard({ p, local, symbol }: { p: Product; local: number | null; symbol: string }) {
+function SmallCard({ p, local, symbol, priority }: { p: Product; local: number | null; symbol: string; priority?: boolean }) {
   const [imgFailed, setImgFailed] = useState(false)
   if (imgFailed || !p.image.includes("/pro-img/cut-img/")) return null
 
@@ -240,13 +242,14 @@ function SmallCard({ p, local, symbol }: { p: Product; local: number | null; sym
       style={{ border: "1px solid rgba(255,255,255,0.07)" }}>
       <div className="flex-1 relative overflow-hidden flex items-center justify-center"
         style={{ background: "#FFFFFF", minHeight: 0 }}>
-        <motion.div className="w-full h-full" style={{ y: imgY }}>
-          {p.image
-            ? <img src={p.image} alt={p.name} loading="lazy"
-                className="w-full h-full object-contain p-3 group-hover:scale-[1.05] transition-transform duration-500"
-                onError={() => setImgFailed(true)} />
-            : <NoImg brand={p.brand} />
-          }
+        <motion.div className="relative w-full h-full" style={{ y: imgY }}>
+          <Image
+            src={p.image} alt={p.name}
+            fill sizes="(max-width: 768px) 50vw, 220px"
+            className="object-contain p-3 group-hover:scale-[1.05] transition-transform duration-500"
+            priority={priority}
+            onError={() => setImgFailed(true)}
+          />
         </motion.div>
         {p.tag && TAG_COLOR[p.tag] && (
           <span className="absolute top-2 left-2 text-[8px] font-black px-1.5 py-0.5 rounded-full"
@@ -431,11 +434,11 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
         ) : (
           <>
             {/* Hero card — always first */}
-            {hero && <HeroCard p={hero} local={calcLocal(hero)} symbol={sym} />}
+            {hero && <HeroCard p={hero} local={calcLocal(hero)} symbol={sym} priority />}
 
             {/* Small cards */}
-            {rest.map((p) => (
-              <SmallCard key={p.id} p={p} local={calcLocal(p)} symbol={sym} />
+            {rest.map((p, i) => (
+              <SmallCard key={p.id} p={p} local={calcLocal(p)} symbol={sym} priority={i < 4} />
             ))}
           </>
         )}
