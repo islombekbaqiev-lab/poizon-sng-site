@@ -3,9 +3,11 @@ import "./globals.css"
 import SmoothScroll from "@/components/SmoothScroll"
 import NoiseOverlay from "@/components/NoiseOverlay"
 import { Analytics } from "@vercel/analytics/next"
+import { SITE_URL } from "@/lib/site"
+import { getProductIndex } from "@/lib/productIndex"
+import { faqPage, wrapGraph } from "@/lib/seo/jsonld"
 
 const OG_IMAGE = "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20241222%2Faa3efedd7ed0417caaf8c8693e7e673d.jpg&w=1200&q=85&fit=contain&fmt=auto"
-const SITE_URL = "https://poizonsng.com"
 
 const FALLBACK_KEYWORDS = [
   "Poizon", "байер Poizon", "кроссовки из Китая",
@@ -14,7 +16,8 @@ const FALLBACK_KEYWORDS = [
   "купить Nike оригинал", "купить Adidas из Китая", "байер Китай доставка",
 ]
 
-const FALLBACK_DESC = "Байер с Poizon. Оригинальные кроссовки, одежда и аксессуары с доставкой в Россию, Казахстан, Беларусь. Авиа от 3 дней. 100% оригиналы."
+const FALLBACK_DESC =
+  "Выкуп и доставка с Poizon (得物) в СНГ под ключ: помощь с размером, фото перед отправкой, трек-номер. Кроссовки, одежда, аксессуары. Авиа от 3 дней."
 
 function buildKeywords(products: { brand?: string; name: string }[]): string[] {
   const intents = ["купить", "заказать", "оригинал"]
@@ -36,25 +39,21 @@ export async function generateMetadata(): Promise<Metadata> {
   let desc = FALLBACK_DESC
 
   try {
-    const res = await fetch(`${SITE_URL}/api/products`, {
-      next: { revalidate: 604800, tags: ["seo-data"] },
-    })
-    if (res.ok) {
-      const products = await res.json()
-      if (Array.isArray(products) && products.length > 0) {
-        keywords = buildKeywords(products)
-        desc = buildDescription(products)
-      }
+    const index = await getProductIndex()
+    const products = index?.products ?? []
+    if (products.length > 0) {
+      keywords = buildKeywords(products)
+      desc = buildDescription(products)
     }
   } catch {}
 
   return {
-    title: "POIZON SNG — Оригинальные кроссовки и одежда из Китая",
+    title: "POIZON SNG — Оригинальные товары из Китая",
     description: desc,
     keywords,
     metadataBase: new URL(SITE_URL),
     openGraph: {
-      title: "POIZON SNG — Оригинальные кроссовки из Китая",
+      title: "POIZON SNG — Оригинальные товары из Китая",
       description: desc,
       url: SITE_URL,
       siteName: "POIZON SNG",
@@ -64,7 +63,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: "POIZON SNG — Оригинальные кроссовки из Китая",
+      title: "POIZON SNG — Оригинальные товары из Китая",
       description: desc,
       images: [OG_IMAGE],
     },
@@ -77,99 +76,54 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
+const jsonLd = wrapGraph([
+  {
+    "@type": "Organization",
+    "@id": `${SITE_URL}/#organization`,
+    name: "POIZON SNG",
+    url: SITE_URL,
+    logo: OG_IMAGE,
+    description:
+      "Выкуп и доставка с Poizon (得物) в СНГ под ключ: помощь с размером, фото перед отправкой, трек-номер.",
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      availableLanguage: ["Russian", "Kazakh"],
+    },
+    areaServed: ["RU", "KZ", "BY", "TJ", "UZ", "AM", "GE", "AZ"],
+  },
+  {
+    "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
+    url: SITE_URL,
+    name: "POIZON SNG",
+    publisher: { "@id": `${SITE_URL}/#organization` },
+    inLanguage: "ru-RU",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${SITE_URL}/#catalog`,
+      "query-input": "required name=search_term_string",
+    },
+  },
+  faqPage([
     {
-      "@type": "Organization",
-      "@id": `${SITE_URL}/#organization`,
-      name: "POIZON SNG",
-      url: SITE_URL,
-      logo: OG_IMAGE,
-      description: "Байер с Poizon. Оригинальные кроссовки, одежда и аксессуары из Китая с доставкой в СНГ.",
-      contactPoint: {
-        "@type": "ContactPoint",
-        contactType: "customer service",
-        availableLanguage: ["Russian", "Kazakh"],
-      },
-      areaServed: ["RU", "KZ", "BY", "TJ", "UZ", "AM", "GE", "AZ"],
+      q: "Как убедиться, что товар оригинальный?",
+      a: "Poizon (得物) — крупнейшая платформа аутентификации Китая. Каждый товар проходит экспертизу перед отправкой. В комплекте идёт чек Poizon с QR-кодом — вы можете проверить подлинность прямо в приложении.",
     },
     {
-      "@type": "WebSite",
-      "@id": `${SITE_URL}/#website`,
-      url: SITE_URL,
-      name: "POIZON SNG",
-      publisher: { "@id": `${SITE_URL}/#organization` },
-      inLanguage: "ru-RU",
-      potentialAction: {
-        "@type": "SearchAction",
-        target: `${SITE_URL}/#catalog`,
-        "query-input": "required name=search_term_string",
-      },
+      q: "Что входит в премиум‑сопровождение?",
+      a: "Мы проверяем наличие и цену, помогаем с размером, выкупаем на Poizon, делаем фото/проверку перед отправкой и выдаём трек-номер. На связи до получения.",
     },
     {
-      "@type": "FAQPage",
-      mainEntity: [
-        {
-          "@type": "Question",
-          name: "Как убедиться, что товар оригинальный?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Poizon (得物) — крупнейшая платформа аутентификации Китая. Каждый товар проходит экспертизу перед отправкой. В комплекте идёт чек Poizon с QR-кодом — вы можете проверить подлинность прямо в приложении.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Сколько стоит доставка?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Авиа (3–5 дней) — 225 ¥/кг, Экспресс (10–12 дней) — 173 ¥/кг, Стандарт (~25 дней) — 77 ¥/кг. Точная стоимость зависит от веса и объёма.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Как оплатить из России / Казахстана / Узбекистана?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Принимаем переводы в ₽, ₸, сомони и сумах. Конкретный способ оплаты обсуждаем в Telegram — подберём удобный для вашей страны.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Можно ли заказать товар, которого нет в каталоге?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Да — это основная услуга. Скиньте ссылку с Poizon или название товара в Telegram, и мы выкупим всё что продаётся на платформе.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Как узнать свой размер?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "На Poizon размеры в EU и US. Для Nike/Jordan стандартная таблица, для New Balance часто советуют +0.5. Уточняйте в Telegram — подскажем по конкретной модели.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Что если товар придёт с дефектом?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Мы проверяем товар после получения от Poizon — фотографируем до отправки. Если Poizon прислал брак, открываем спор и добиваемся возврата или замены.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Есть ли трек-номер?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Да, трек-номер выдаётся на каждый заказ. Вы сможете отслеживать посылку через СДЭК, Почту России или международный трекер — зависит от выбранного способа доставки.",
-          },
-        },
-      ],
+      q: "Сколько стоит доставка?",
+      a: "Авиа (3–5 дней) — 225 ¥/кг, Экспресс (10–12 дней) — 173 ¥/кг, Стандарт (~25 дней) — 77 ¥/кг. Точная стоимость зависит от веса и объёма.",
     },
-  ],
-}
+    {
+      q: "Можно ли заказать товар, которого нет в каталоге?",
+      a: "Да — это основная услуга. Скиньте ссылку с Poizon или название товара в Telegram, и мы выкупим всё что продаётся на платформе.",
+    },
+  ]),
+])
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

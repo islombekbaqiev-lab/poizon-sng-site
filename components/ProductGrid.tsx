@@ -284,6 +284,24 @@ function SkeletonGrid() {
   )
 }
 
+function interleave(products: Product[]): Product[] {
+  const groups: Record<string, Product[]> = {}
+  for (const p of products) {
+    if (!groups[p.category]) groups[p.category] = []
+    groups[p.category].push(p)
+  }
+  const keys = Object.keys(groups)
+  const result: Product[] = []
+  let i = 0
+  while (result.length < products.length) {
+    const key = keys[i % keys.length]
+    const item = groups[key].shift()
+    if (item) result.push(item)
+    i++
+  }
+  return result
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 export default function ProductGrid({ country, rates }: { country: Country | null; rates: Rates }) {
   const [cat,      setCat]      = useState("Все")
@@ -306,7 +324,8 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
   }, [])
 
   const rateMeta = country ? RATE_MAP[country] : null
-  const source   = products.length > 0 ? products : (!loading ? FALLBACK : [])
+  const raw    = products.length > 0 ? products : (!loading ? FALLBACK : [])
+  const source = cat === "Все" ? interleave(raw) : raw
 
   const filtered = source
     .filter(p => cat === "Все" || p.category === cat)
