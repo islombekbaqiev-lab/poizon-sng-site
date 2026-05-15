@@ -11,12 +11,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: SITE_URL,                                  lastModified, changeFrequency: "daily",   priority: 1   },
     { url: `${SITE_URL}/#catalog`,                    lastModified, changeFrequency: "daily",   priority: 0.9 },
-    { url: `${SITE_URL}/category/кроссовки`,   lastModified, changeFrequency: "daily", priority: 0.9 },
-    { url: `${SITE_URL}/category/одежда`,     lastModified, changeFrequency: "daily", priority: 0.9 },
-    { url: `${SITE_URL}/category/футболки`,   lastModified, changeFrequency: "daily", priority: 0.85 },
-    { url: `${SITE_URL}/category/сумки`,      lastModified, changeFrequency: "daily", priority: 0.85 },
-    { url: `${SITE_URL}/category/кепки`,      lastModified, changeFrequency: "daily", priority: 0.85 },
-    { url: `${SITE_URL}/category/аксессуары`, lastModified, changeFrequency: "daily", priority: 0.85 },
+    { url: `${SITE_URL}/category/sneakers`,    lastModified, changeFrequency: "daily", priority: 0.9  },
+    { url: `${SITE_URL}/category/clothes`,     lastModified, changeFrequency: "daily", priority: 0.9  },
+    { url: `${SITE_URL}/category/tshirts`,     lastModified, changeFrequency: "daily", priority: 0.85 },
+    { url: `${SITE_URL}/category/bags`,        lastModified, changeFrequency: "daily", priority: 0.85 },
+    { url: `${SITE_URL}/category/caps`,        lastModified, changeFrequency: "daily", priority: 0.85 },
+    { url: `${SITE_URL}/category/accessories`, lastModified, changeFrequency: "daily", priority: 0.85 },
     { url: `${SITE_URL}/#how-it-works`,               lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/#faq`,                        lastModified, changeFrequency: "monthly", priority: 0.6 },
   ]

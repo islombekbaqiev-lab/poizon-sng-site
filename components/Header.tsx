@@ -16,12 +16,14 @@ const META: Record<Country, { flag: string; name: string; currency: string; rate
 }
 
 const NAV_LINKS = [
-  { label: "Каталог",      href: "#catalog"                },
-  { label: "Кроссовки",   href: "/category/кроссовки"     },
-  { label: "Одежда",      href: "/category/одежда"        },
-  { label: "Как заказать", href: "/how-to-order"           },
-  { label: "Размеры",     href: "/size-guide/nike"        },
-  { label: "FAQ",         href: "#faq"                    },
+  { label: "Каталог",      href: "#catalog"             },
+  { label: "Кроссовки",   href: "/category/sneakers"   },
+  { label: "Одежда",      href: "/category/clothes"    },
+  { label: "Сумки",       href: "/category/bags"       },
+  { label: "Кепки",       href: "/category/caps"       },
+  { label: "Как заказать", href: "/how-to-order"        },
+  { label: "Размеры",     href: "/size-guide/nike"     },
+  { label: "FAQ",         href: "#faq"                 },
 ]
 
 export default function Header({ country, rates, onChangeCountry }: {
