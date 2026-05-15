@@ -1,8 +1,12 @@
 {
   "crons": [
     {
-      "path": "/api/seo-update?secret=97c58866c65a35b36256af47f9ea064a",
+      "path": "/api/product-index/refresh?secret=97c58866c65a35b36256af47f9ea064a",
       "schedule": "0 9 * * 1"
+    },
+    {
+      "path": "/api/seo-update?secret=97c58866c65a35b36256af47f9ea064a",
+      "schedule": "0 10 * * 1"
     }
   ]
 }

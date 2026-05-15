@@ -1,47 +1,49 @@
 import { MetadataRoute } from "next"
 
-const SITE_URL = "https://poizonsng.com"
-
-interface Product { id: string; name: string }
-
-async function getProducts(): Promise<Product[]> {
-  try {
-    const res = await fetch(`${SITE_URL}/api/products`, { next: { revalidate: 3600 } })
-    return res.ok ? res.json() : []
-  } catch { return [] }
-}
+import { SITE_URL } from "@/lib/site"
+import { getProductIndex } from "@/lib/productIndex"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const products = await getProducts()
+  const index = await getProductIndex().catch(() => null)
+  const products = index?.products ?? []
+  const lastModified = index?.updatedAt ? new Date(index.updatedAt) : new Date()
 
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: SITE_URL,                                  lastModified: new Date(), changeFrequency: "daily",   priority: 1   },
-    { url: `${SITE_URL}/#catalog`,                    lastModified: new Date(), changeFrequency: "daily",   priority: 0.9 },
-    { url: `${SITE_URL}/category/кроссовки`,          lastModified: new Date(), changeFrequency: "daily",   priority: 0.9 },
-    { url: `${SITE_URL}/category/одежда`,             lastModified: new Date(), changeFrequency: "daily",   priority: 0.9 },
-    { url: `${SITE_URL}/#how-it-works`,               lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
-    { url: `${SITE_URL}/#faq`,                        lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
+    { url: SITE_URL,                                  lastModified, changeFrequency: "daily",   priority: 1   },
+    { url: `${SITE_URL}/#catalog`,                    lastModified, changeFrequency: "daily",   priority: 0.9 },
+    { url: `${SITE_URL}/category/кроссовки`,          lastModified, changeFrequency: "daily",   priority: 0.9 },
+    { url: `${SITE_URL}/category/одежда`,             lastModified, changeFrequency: "daily",   priority: 0.9 },
+    { url: `${SITE_URL}/#how-it-works`,               lastModified, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE_URL}/#faq`,                        lastModified, changeFrequency: "monthly", priority: 0.6 },
   ]
 
   const sizeGuideRoutes: MetadataRoute.Sitemap = [
-    { url: `${SITE_URL}/size-guide/nike`,        lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: `${SITE_URL}/size-guide/adidas`,      lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: `${SITE_URL}/size-guide/jordan`,      lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: `${SITE_URL}/size-guide/new-balance`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: `${SITE_URL}/size-guide/puma`,        lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: `${SITE_URL}/size-guide/vans`,        lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: `${SITE_URL}/size-guide/salomon`,     lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: `${SITE_URL}/size-guide/hoka`,        lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: `${SITE_URL}/size-guide/converse`,    lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: `${SITE_URL}/how-to-order`,           lastModified: new Date(), changeFrequency: "monthly", priority: 0.85 },
+    { url: `${SITE_URL}/size-guide/nike`,        lastModified, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/size-guide/adidas`,      lastModified, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/size-guide/jordan`,      lastModified, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/size-guide/new-balance`, lastModified, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/size-guide/puma`,        lastModified, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/size-guide/vans`,        lastModified, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/size-guide/salomon`,     lastModified, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/size-guide/hoka`,        lastModified, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/size-guide/converse`,    lastModified, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/how-to-order`,           lastModified, changeFrequency: "monthly", priority: 0.85 },
   ]
 
   const productRoutes: MetadataRoute.Sitemap = products.map(p => ({
     url:             `${SITE_URL}/product/${p.id}`,
-    lastModified:    new Date(),
+    lastModified,
     changeFrequency: "weekly" as const,
     priority:        0.8,
   }))
 
-  return [...staticRoutes, ...sizeGuideRoutes, ...productRoutes]
+  const brands = [...new Set(products.map(p => p.brand).filter(Boolean))]
+  const brandRoutes: MetadataRoute.Sitemap = brands.map(brand => ({
+    url:             `${SITE_URL}/brand/${encodeURIComponent(brand.toLowerCase().replace(/\s+/g, "-"))}`,
+    lastModified,
+    changeFrequency: "weekly" as const,
+    priority:        0.85,
+  }))
+
+  return [...staticRoutes, ...sizeGuideRoutes, ...brandRoutes, ...productRoutes]
 }
