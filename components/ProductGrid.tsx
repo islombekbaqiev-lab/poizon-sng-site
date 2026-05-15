@@ -144,6 +144,9 @@ function NoImg({ brand }: { brand: string }) {
 
 // ── BIG hero card ────────────────────────────────────────────────────────────
 function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symbol: string }) {
+  const [imgFailed, setImgFailed] = useState(false)
+  if (imgFailed) return null
+
   const tgUrl       = buildTelegramUrl({ start: productStart(p.id) })
   const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
   const retail      = local !== null ? Math.round(local * 1.45 / 100) * 100 : null
@@ -168,7 +171,8 @@ function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symb
         <motion.div className="w-full h-full" style={{ y: imgY }}>
           {p.image
             ? <img src={p.image} alt={p.name} loading="lazy"
-                className="w-full h-full object-contain p-6 group-hover:scale-[1.04] transition-transform duration-500" />
+                className="w-full h-full object-contain p-6 group-hover:scale-[1.04] transition-transform duration-500"
+                onError={() => setImgFailed(true)} />
             : <NoImg brand={p.brand} />
           }
         </motion.div>
@@ -215,6 +219,9 @@ function HeroCard({ p, local, symbol }: { p: Product; local: number | null; symb
 
 // ── Small card ───────────────────────────────────────────────────────────────
 function SmallCard({ p, local, symbol }: { p: Product; local: number | null; symbol: string }) {
+  const [imgFailed, setImgFailed] = useState(false)
+  if (imgFailed) return null
+
   const tgUrl       = buildTelegramUrl({ start: productStart(p.id) })
   const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
 
@@ -236,7 +243,8 @@ function SmallCard({ p, local, symbol }: { p: Product; local: number | null; sym
         <motion.div className="w-full h-full" style={{ y: imgY }}>
           {p.image
             ? <img src={p.image} alt={p.name} loading="lazy"
-                className="w-full h-full object-contain p-3 group-hover:scale-[1.05] transition-transform duration-500" />
+                className="w-full h-full object-contain p-3 group-hover:scale-[1.05] transition-transform duration-500"
+                onError={() => setImgFailed(true)} />
             : <NoImg brand={p.brand} />
           }
         </motion.div>
