@@ -300,6 +300,10 @@ export default function Hero() {
               initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.52, duration: 0.6 }}
             >
+              <p className="text-base sm:text-lg leading-relaxed mb-5"
+                style={{ color: "rgba(255,255,255,.38)" }}>
+                Выкупаем на Poizon, привозим к тебе. Кроссовки, одежда, аксессуары.
+              </p>
               <div className="mt-5 flex flex-wrap gap-2">
                 {[
                   "Фото перед отправкой",
