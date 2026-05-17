@@ -3,6 +3,7 @@ import Script from "next/script"
 import "./globals.css"
 import SmoothScroll from "@/components/SmoothScroll"
 import NoiseOverlay from "@/components/NoiseOverlay"
+import PageTracker from "@/components/PageTracker"
 import { Analytics } from "@vercel/analytics/next"
 import { SITE_URL } from "@/lib/site"
 import { getProductIndex } from "@/lib/productIndex"
@@ -143,6 +144,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <NoiseOverlay />
+        <PageTracker />
         <SmoothScroll>{children}</SmoothScroll>
         <Analytics />
         {/* Google Analytics GA4 */}
