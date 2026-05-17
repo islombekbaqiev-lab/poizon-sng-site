@@ -8,7 +8,8 @@ import { SITE_URL } from "@/lib/site"
 import { getProductIndex } from "@/lib/productIndex"
 import { faqPage, wrapGraph } from "@/lib/seo/jsonld"
 
-const YM_ID = 109131869
+const YM_ID  = 109131869
+const GA4_ID = "G-LVZ45X3YTE"
 
 const OG_IMAGE = "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20241222%2Faa3efedd7ed0417caaf8c8693e7e673d.jpg&w=1200&q=85&fit=contain&fmt=auto"
 
@@ -144,6 +145,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <NoiseOverlay />
         <SmoothScroll>{children}</SmoothScroll>
         <Analytics />
+        {/* Google Analytics GA4 */}
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`} strategy="afterInteractive" />
+        <Script id="ga4-init" strategy="afterInteractive">{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${GA4_ID}', { page_path: window.location.pathname });
+        `}</Script>
         {/* Яндекс Метрика */}
         <Script id="ym-init" strategy="afterInteractive">{`
           (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
