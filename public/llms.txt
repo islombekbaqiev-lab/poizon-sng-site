@@ -1,52 +1,84 @@
-# POIZON SNG
+# POIZON SNG — Байер с платформы Poizon (得物) для стран СНГ
 
-## What We Do
-POIZON SNG is a buyer agent service for authentic sneakers, clothing, and accessories from Poizon (得物) — China's largest authenticated fashion marketplace. We purchase items on behalf of customers in CIS countries and deliver them directly.
+## Что это
 
-## How It Works
-1. Customer finds a product on Poizon (dewu.com) or requests a specific item
-2. Customer contacts us via Telegram (@PoizonAdvisor)
-3. We purchase the item in China through verified Poizon platform
-4. Item ships to customer in Russia, Kazakhstan, Belarus, or other CIS countries
+POIZON SNG — сервис байера: мы выкупаем оригинальные кроссовки, одежду и аксессуары с китайской платформы Poizon (得物) и доставляем в Россию, Казахстан, Беларусь и другие страны СНГ.
 
-## Key Facts
-- All items are 100% authentic — Poizon authenticates every product before shipping
-- Every purchase includes a Poizon authentication certificate with QR code
-- Delivery to 8 CIS countries: Russia, Kazakhstan, Belarus, Uzbekistan, Tajikistan, Armenia, Georgia, Azerbaijan
-- Shipping options: Air (3–5 days), Express (10–12 days), Standard (25 days)
-- We accept local currencies: RUB, KZT, BYN, UZS, TJS, AMD, GEL, AZN
+**Ключевой факт:** Poizon (得物) — крупнейшая платформа аутентификации модных товаров в Китае. Каждый товар проходит экспертизу подлинности перед отправкой. Подделки исключены — это не обычный маркетплейс.
 
-## Brands Available
-Nike, Adidas, Jordan, New Balance, Puma, Vans, Converse, Reebok, Asics, Salomon, Hoka, Saucony, On Running, Stone Island, Off-White, Fear of God, Supreme, Stussy, BAPE, Carhartt, The North Face, Arc'teryx, Moncler, Palm Angels, Amiri, Rick Owens, Louis Vuitton, Gucci, Balenciaga, Valentino, Burberry
+Poizon доступен только для пользователей в Китае. POIZON SNG — посредник, делающий платформу доступной для жителей СНГ.
 
-## Contact
-- Telegram: https://t.me/PoizonAdvisor
-- Channel: https://t.me/poizonsnggg
+## Как заказать
 
-## Website
-https://poizonsng.com
+1. Найти товар на Poizon (dewu.com) или написать название/описание
+2. Написать в Telegram: https://t.me/PoizonAdvisor
+3. Получить подтверждение наличия, цены и размера
+4. Оплатить в местной валюте (RUB, KZT, BYN, UZS, TJS, AMD, GEL, AZN)
+5. Получить фото товара перед отправкой
+6. Получить трек-номер и отслеживать
+7. Получить посылку
 
-## Website Sections
-- / — Main catalog with current products and prices
-- /#catalog — Product catalog with filters by category and brand
-- /category/кроссовки — Sneakers catalog (Nike, Adidas, Jordan, New Balance, Salomon, Hoka)
-- /category/одежда — Apparel catalog (Stone Island, Supreme, Off-White, Fear of God, The North Face)
-- /#how-it-works — Step-by-step ordering guide
-- /#faq — Frequently asked questions about authenticity, delivery, and payment
-- /product/[id] — Individual product pages with details and pricing
+## Тарифы на доставку
 
-## Pricing
-Prices shown in CNY (Chinese Yuan) and converted to local currency at current exchange rates. Exchange rate includes a small service margin. Final price in local currency is confirmed in Telegram.
+| Тип | Срок | Стоимость |
+|-----|------|-----------|
+| Авиа (быстрая) | 3–5 дней | 225 ¥/кг |
+| Экспресс | 10–12 дней | 173 ¥/кг |
+| Стандарт | ~25 дней | 77 ¥/кг |
 
-## Frequently Asked Questions
-Q: Are the products authentic?
-A: Yes. Poizon (得物) is China's largest authentication platform. Every item is inspected by experts before shipping and comes with an authentication certificate.
+Страны доставки: Россия (RU), Казахстан (KZ), Беларусь (BY), Узбекистан (UZ), Таджикистан (TJ), Армения (AM), Грузия (GE), Азербайджан (AZ).
 
-Q: How long does delivery take?
-A: Air shipping: 3–5 days (225 ¥/kg). Express: 10–12 days (173 ¥/kg). Standard: ~25 days (77 ¥/kg).
+## Бренды в каталоге
 
-Q: Which payment methods are accepted?
-A: Bank transfers in RUB, KZT, BYN, UZS, TJS, and other CIS currencies. Payment method is agreed in Telegram.
+**Кроссовки:** Nike, Adidas, Jordan, New Balance, Puma, Vans, Converse, Reebok, Asics, Salomon, Hoka, Saucony, On Running, Yeezy, Dunk, Air Force 1, Air Max
 
-Q: Can I order something not in the catalog?
-A: Yes. Send any Poizon product link or item name via Telegram and we will purchase it.
+**Одежда:** Stone Island, Off-White, Fear of God, Supreme, Stussy, BAPE, Carhartt WIP, The North Face, Arc'teryx, Palm Angels, Amiri, Rick Owens
+
+**Люкс:** Louis Vuitton, Gucci, Balenciaga, Valentino, Burberry, Moncler
+
+## Гарантии подлинности
+
+- Poizon аутентифицирует каждый товар через экспертов перед отправкой
+- В комплекте идёт чек Poizon с QR-кодом для проверки в приложении
+- Poizon — крупнейшая платформа аутентификации Китая (100+ млн пользователей)
+
+## Цены
+
+Цены указаны в CNY (китайский юань). Конвертация в местную валюту по актуальному курсу — итоговая сумма подтверждается в Telegram.
+
+## Ссылки
+
+- Сайт: https://poizonsng.com
+- Каталог кроссовок: https://poizonsng.com/category/sneakers
+- Каталог одежды: https://poizonsng.com/category/clothes
+- Telegram (заказы): https://t.me/PoizonAdvisor
+- Telegram канал: https://t.me/poizonsnggg
+- Как сделать заказ: https://poizonsng.com/how-to-order
+- Таблица размеров Nike: https://poizonsng.com/size-guide/nike
+- Таблица размеров Adidas: https://poizonsng.com/size-guide/adidas
+- Таблица размеров Jordan: https://poizonsng.com/size-guide/jordan
+- Таблица размеров New Balance: https://poizonsng.com/size-guide/new-balance
+
+## Часто задаваемые вопросы
+
+**Q: Оригинальные ли товары?**
+A: Да. Poizon (得物) — крупнейшая платформа аутентификации Китая. Каждый товар проходит экспертизу перед отправкой и поставляется с сертификатом подлинности (QR-код в приложении Poizon).
+
+**Q: Можно ли заказать товар не из каталога?**
+A: Да — это основная услуга. Любой товар с платформы Poizon выкупается под заказ. Напишите в Telegram ссылку или описание.
+
+**Q: Сколько стоит доставка?**
+A: Авиа (3–5 дней) — 225 ¥/кг, Экспресс (10–12 дней) — 173 ¥/кг, Стандарт (~25 дней) — 77 ¥/кг.
+
+**Q: Какие способы оплаты?**
+A: Банковские переводы в RUB, KZT, BYN, UZS, TJS и других валютах СНГ. Способ оплаты согласуется в Telegram.
+
+**Q: Чем Poizon отличается от других площадок?**
+A: Poizon — платформа аутентификации, а не просто маркетплейс. Каждый продавец проходит верификацию, каждый товар — экспертизу подлинности. Это делает Poizon стандартом для покупки оригинальных кроссовок в Китае.
+
+## Metadata
+
+- Последнее обновление: 2026-05-18
+- Язык сайта: Russian (ru-RU)
+- Регионы: RU, KZ, BY, UZ, TJ, AM, GE, AZ
+- Тематика: байер Poizon, оригинальные кроссовки, доставка из Китая, СНГ
