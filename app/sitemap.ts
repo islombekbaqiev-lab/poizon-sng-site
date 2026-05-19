@@ -3,6 +3,7 @@ import { MetadataRoute } from "next"
 import { SITE_URL } from "@/lib/site"
 import { getProductIndex } from "@/lib/productIndex"
 import { BLOG_POSTS } from "@/lib/blog"
+import { BRANDS } from "@/lib/brands"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const index = await getProductIndex().catch(() => null)
@@ -52,5 +53,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   ]
 
-  return [...staticRoutes, ...sizeGuideRoutes, ...blogRoutes, ...productRoutes]
+  const brandRoutes: MetadataRoute.Sitemap = BRANDS.map((b) => ({
+    url:             `${SITE_URL}/brand/${b.slug}`,
+    lastModified,
+    changeFrequency: "monthly" as const,
+    priority:        0.82,
+  }))
+
+  return [...staticRoutes, ...sizeGuideRoutes, ...brandRoutes, ...blogRoutes, ...productRoutes]
 }
