@@ -57,57 +57,65 @@ export default function Intro({ onDone }: { onDone: () => void }) {
 
           {/* Logo — perspective 3D rise */}
           <motion.div
-            className="relative text-center select-none overflow-hidden"
-            style={{ perspective: "800px" }}
-            initial={{ opacity: 0, rotateX: 28, y: 18, scale: 0.92 }}
+            className="relative text-center select-none"
+            style={{ perspective: "900px" }}
+            initial={{ opacity: 0, rotateX: 24, y: 20, scale: 0.93 }}
             animate={{ opacity: 1, rotateX: 0,  y: 0,  scale: 1   }}
-            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.15, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* POIZON — 3D text shadow depth */}
-            <p
-              className="font-black leading-none"
-              style={{
-                fontSize: "clamp(3.5rem, 13vw, 8rem)",
-                letterSpacing: "-0.025em",
-                color: "#fff",
-                textShadow: [
-                  "0 1px 0 rgba(255,255,255,0.55)",
-                  "0 2px 0 rgba(200,220,255,0.25)",
-                  "0 4px 0 rgba(77,150,255,0.18)",
-                  "0 8px 0 rgba(77,150,255,0.10)",
-                  "0 16px 32px rgba(0,0,0,0.55)",
-                  "0 2px 40px rgba(77,150,255,0.22)",
-                ].join(", "),
-              }}
-            >
-              POIZON
-            </p>
+            {/* POIZON base text */}
+            <div className="relative inline-block leading-none">
+              <p
+                className="font-black leading-none"
+                style={{
+                  fontSize: "clamp(3.5rem, 13vw, 8rem)",
+                  letterSpacing: "-0.025em",
+                  color: "#fff",
+                  textShadow: [
+                    "0 1px 0 rgba(255,255,255,0.5)",
+                    "0 3px 0 rgba(180,210,255,0.22)",
+                    "0 7px 0 rgba(77,150,255,0.14)",
+                    "0 14px 28px rgba(0,0,0,0.6)",
+                    "0 0 50px rgba(77,150,255,0.18)",
+                  ].join(", "),
+                }}
+              >
+                POIZON
+              </p>
+
+              {/* Shimmer — gradient clipped to letter shapes */}
+              <motion.p
+                aria-hidden="true"
+                className="font-black leading-none absolute top-0 left-0 pointer-events-none"
+                style={{
+                  fontSize: "clamp(3.5rem, 13vw, 8rem)",
+                  letterSpacing: "-0.025em",
+                  color: "transparent",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  backgroundImage: "linear-gradient(105deg, transparent 20%, rgba(180,215,255,0.25) 36%, rgba(255,255,255,0.96) 50%, rgba(180,215,255,0.25) 64%, transparent 80%)",
+                  backgroundSize: "280% 100%",
+                  backgroundRepeat: "no-repeat",
+                }}
+                initial={{ backgroundPosition: "-90% 50%" }}
+                animate={{ backgroundPosition: "190% 50%" }}
+                transition={{ delay: 1.05, duration: 1.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+              >
+                POIZON
+              </motion.p>
+            </div>
 
             <p
               className="font-semibold tracking-[0.5em] uppercase"
               style={{
                 fontSize: "clamp(0.65rem, 1.6vw, 0.95rem)",
-                marginTop: "0.45em",
-                color: "rgba(255,255,255,0.38)",
-                textShadow: "0 0 20px rgba(77,150,255,0.3)",
-                letterSpacing: "0.5em",
+                marginTop: "0.5em",
+                color: "rgba(255,255,255,0.36)",
+                textShadow: "0 0 18px rgba(77,150,255,0.28)",
               }}
             >
               SNG
             </p>
-
-            {/* Shimmer — slow, wide, blue-tinted luxury sweep */}
-            <motion.div
-              className="absolute pointer-events-none"
-              style={{
-                inset: "-20% -30%",
-                background: "linear-gradient(108deg, transparent 25%, rgba(180,210,255,0.08) 42%, rgba(255,255,255,0.52) 50%, rgba(180,210,255,0.08) 58%, transparent 75%)",
-                mixBlendMode: "screen",
-              }}
-              initial={{ x: "-140%" }}
-              animate={{ x: "170%" }}
-              transition={{ delay: 1.0, duration: 1.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-            />
           </motion.div>
         </motion.div>
       )}
