@@ -93,13 +93,13 @@ export default function Intro({ onDone }: { onDone: () => void }) {
                   color: "transparent",
                   WebkitBackgroundClip: "text",
                   backgroundClip: "text",
-                  backgroundImage: "linear-gradient(105deg, transparent 20%, rgba(180,215,255,0.25) 36%, rgba(255,255,255,0.96) 50%, rgba(180,215,255,0.25) 64%, transparent 80%)",
-                  backgroundSize: "280% 100%",
+                  backgroundImage: "linear-gradient(105deg, transparent 15%, rgba(180,215,255,0.5) 32%, rgba(255,255,255,1) 50%, rgba(180,215,255,0.5) 68%, transparent 85%)",
+                  backgroundSize: "220% 100%",
                   backgroundRepeat: "no-repeat",
                 }}
-                initial={{ backgroundPosition: "-90% 50%" }}
-                animate={{ backgroundPosition: "190% 50%" }}
-                transition={{ delay: 1.05, duration: 1.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+                initial={{ backgroundPosition: "-80% 50%" }}
+                animate={{ backgroundPosition: "180% 50%" }}
+                transition={{ delay: 0.95, duration: 0.85, ease: [0.4, 0, 0.2, 1] }}
               >
                 POIZON
               </motion.p>
