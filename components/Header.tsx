@@ -19,8 +19,9 @@ const NAV_LINKS = [
   { label: "Каталог",      href: "/#catalog"        },
   { label: "О нас",        href: "/about"           },
   { label: "Как заказать", href: "/how-to-order"    },
-  { label: "Размеры",     href: "/size-guide/nike"  },
-  { label: "FAQ",         href: "/#faq"            },
+  { label: "Размеры",      href: "/size-guide/nike" },
+  { label: "Блог",         href: "/blog"            },
+  { label: "FAQ",          href: "/#faq"            },
 ]
 
 export default function Header({ country, rates, onChangeCountry }: {

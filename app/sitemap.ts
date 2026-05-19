@@ -2,6 +2,7 @@ import { MetadataRoute } from "next"
 
 import { SITE_URL } from "@/lib/site"
 import { getProductIndex } from "@/lib/productIndex"
+import { BLOG_POSTS } from "@/lib/blog"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const index = await getProductIndex().catch(() => null)
@@ -41,5 +42,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority:        0.8,
   }))
 
-  return [...staticRoutes, ...sizeGuideRoutes, ...productRoutes]
+  const blogRoutes: MetadataRoute.Sitemap = [
+    { url: `${SITE_URL}/blog`, lastModified, changeFrequency: "weekly", priority: 0.85 },
+    ...BLOG_POSTS.map(p => ({
+      url:             `${SITE_URL}/blog/${p.slug}`,
+      lastModified:    new Date(p.date),
+      changeFrequency: "monthly" as const,
+      priority:        0.8,
+    })),
+  ]
+
+  return [...staticRoutes, ...sizeGuideRoutes, ...blogRoutes, ...productRoutes]
 }
