@@ -56,12 +56,10 @@ export default function Intro({ onDone }: { onDone: () => void }) {
                     style={{
                       fontSize: "clamp(3.5rem, 13vw, 8rem)",
                       letterSpacing: "-0.01em",
-                      color: "#fff",
+                      color: "rgba(255,255,255,0.62)",
                       textShadow: [
-                        "0 1px 0 rgba(255,255,255,0.45)",
-                        "0 4px 0 rgba(77,150,255,0.2)",
-                        "0 10px 20px rgba(0,0,0,0.65)",
-                        "0 0 40px rgba(77,150,255,0.15)",
+                        "0 4px 0 rgba(77,150,255,0.12)",
+                        "0 10px 22px rgba(0,0,0,0.7)",
                       ].join(", "),
                       display: "inline-block",
                     }}
@@ -86,8 +84,8 @@ export default function Intro({ onDone }: { onDone: () => void }) {
                       color: "transparent",
                       WebkitBackgroundClip: "text",
                       backgroundClip: "text",
-                      backgroundImage: "linear-gradient(105deg, transparent 10%, rgba(200,225,255,0.6) 35%, rgba(255,255,255,1) 50%, rgba(200,225,255,0.6) 65%, transparent 90%)",
-                      backgroundSize: "300% 100%",
+                      backgroundImage: "linear-gradient(105deg, transparent 15%, rgba(220,235,255,0.4) 38%, rgba(255,255,255,1) 48%, rgba(255,255,255,1) 52%, rgba(220,235,255,0.4) 62%, transparent 85%)",
+                      backgroundSize: "260% 100%",
                       backgroundRepeat: "no-repeat",
                       display: "inline-block",
                     }}
