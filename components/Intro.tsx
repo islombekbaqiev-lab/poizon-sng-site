@@ -12,7 +12,7 @@ export default function Intro({ onDone }: { onDone: () => void }) {
     const t = setTimeout(() => {
       setVisible(false)
       setTimeout(onDone, 700)
-    }, 2400)
+    }, 1800)
     return () => clearTimeout(t)
   }, [onDone])
 
@@ -25,9 +25,9 @@ export default function Intro({ onDone }: { onDone: () => void }) {
             background: "linear-gradient(160deg, #04060F 0%, #050C1A 55%, #060D1F 100%)",
             zIndex: 99999,
           }}
-          exit={{ opacity: 0, transition: { duration: 0.7, ease: [0.4, 0, 0.2, 1] } }}
+          exit={{ opacity: 0, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } }}
         >
-          {/* Blue aura — blooms with letters */}
+          {/* Blue aura */}
           <motion.div
             className="absolute pointer-events-none"
             style={{
@@ -39,18 +39,16 @@ export default function Intro({ onDone }: { onDone: () => void }) {
             }}
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           />
 
           <div className="relative text-center select-none">
-            {/* Letters — staggered drop from above with 3D flip */}
             <div
               className="flex items-end justify-center leading-none"
               style={{ perspective: "600px" }}
             >
               {LETTERS.map((letter, i) => (
                 <div key={i} className="relative inline-block">
-                  {/* Base letter */}
                   <motion.span
                     className="font-black leading-none block"
                     style={{
@@ -63,18 +61,17 @@ export default function Intro({ onDone }: { onDone: () => void }) {
                       ].join(", "),
                       display: "inline-block",
                     }}
-                    initial={{ opacity: 0, y: -50, rotateX: -70, scale: 0.8 }}
-                    animate={{ opacity: 1, y: 0,   rotateX: 0,   scale: 1   }}
+                    initial={{ opacity: 0, y: -40, rotateX: -65, scale: 0.82 }}
+                    animate={{ opacity: 1, y: 0,   rotateX: 0,   scale: 1    }}
                     transition={{
-                      delay: 0.1 + i * 0.07,
-                      duration: 0.55,
+                      delay: 0.05 + i * 0.05,
+                      duration: 0.4,
                       ease: [0.16, 1, 0.3, 1],
                     }}
                   >
                     {letter}
                   </motion.span>
 
-                  {/* Shimmer layer — clipped to this letter */}
                   <motion.span
                     aria-hidden="true"
                     className="font-black leading-none absolute top-0 left-0 pointer-events-none"
@@ -92,8 +89,8 @@ export default function Intro({ onDone }: { onDone: () => void }) {
                     initial={{ backgroundPosition: "-120% 50%" }}
                     animate={{ backgroundPosition: "220% 50%" }}
                     transition={{
-                      delay: 0.75 + i * 0.045,
-                      duration: 0.7,
+                      delay: 0.52 + i * 0.03,
+                      duration: 0.5,
                       ease: [0.4, 0, 0.2, 1],
                     }}
                   >
@@ -103,7 +100,6 @@ export default function Intro({ onDone }: { onDone: () => void }) {
               ))}
             </div>
 
-            {/* SNG — fades up after letters land */}
             <motion.p
               className="font-semibold tracking-[0.5em] uppercase"
               style={{
@@ -112,9 +108,9 @@ export default function Intro({ onDone }: { onDone: () => void }) {
                 color: "rgba(255,255,255,0.36)",
                 textShadow: "0 0 16px rgba(77,150,255,0.3)",
               }}
-              initial={{ opacity: 0, y: 6 }}
+              initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.62, duration: 0.5, ease: "easeOut" }}
+              transition={{ delay: 0.42, duration: 0.35, ease: "easeOut" }}
             >
               SNG
             </motion.p>
