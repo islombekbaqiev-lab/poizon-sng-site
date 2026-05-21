@@ -54,7 +54,7 @@ export default function Intro({ onDone }: { onDone: () => void }) {
                     style={{
                       fontSize: "clamp(3.5rem, 13vw, 8rem)",
                       letterSpacing: "-0.01em",
-                      color: "rgba(255,255,255,0.62)",
+                      color: "rgba(255,255,255,0.75)",
                       textShadow: [
                         "0 4px 0 rgba(77,150,255,0.12)",
                         "0 10px 22px rgba(0,0,0,0.7)",
@@ -81,7 +81,7 @@ export default function Intro({ onDone }: { onDone: () => void }) {
                       color: "transparent",
                       WebkitBackgroundClip: "text",
                       backgroundClip: "text",
-                      backgroundImage: "linear-gradient(105deg, transparent 15%, rgba(220,235,255,0.4) 38%, rgba(255,255,255,1) 48%, rgba(255,255,255,1) 52%, rgba(220,235,255,0.4) 62%, transparent 85%)",
+                      backgroundImage: "linear-gradient(105deg, rgba(0,0,0,0.3) 10%, transparent 30%, rgba(255,255,255,1) 48%, rgba(255,255,255,1) 52%, transparent 70%, rgba(0,0,0,0.3) 90%)",
                       backgroundSize: "260% 100%",
                       backgroundRepeat: "no-repeat",
                       display: "inline-block",
