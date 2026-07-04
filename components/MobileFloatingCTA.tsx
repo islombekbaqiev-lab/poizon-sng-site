@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
-const TG_LINK = "https://t.me/PoizonAdvisor"
+import { buildTelegramUrl, leadStart } from "@/lib/telegram"
 
 export default function MobileFloatingCTA() {
   const [visible, setVisible] = useState(false)
@@ -26,7 +26,7 @@ export default function MobileFloatingCTA() {
           transition={{ type: "spring", stiffness: 340, damping: 30 }}
         >
           <motion.a
-            href={TG_LINK}
+            href={buildTelegramUrl({ start: leadStart("float") })}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2.5 w-full py-4 rounded-2xl text-white font-bold text-sm pointer-events-auto"

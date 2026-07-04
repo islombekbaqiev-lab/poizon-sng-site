@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Country, Rates } from "@/lib/types"
+import { buildTelegramUrl, leadStart } from "@/lib/telegram"
 
 const META: Record<Country, { flag: string; name: string; currency: string; rateKey: keyof Rates }> = {
   RU: { flag: "🇷🇺", name: "Россия",       currency: "₽",   rateKey: "RUB" },
@@ -109,6 +110,19 @@ export default function Header({ country, rates, onChangeCountry }: {
               }
             </motion.button>
 
+            {/* Постоянная кнопка конверсии — desktop */}
+            <motion.a
+              href={buildTelegramUrl({ start: leadStart("header") })}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden md:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold text-white"
+              style={{ background: "#4D96FF", boxShadow: "0 4px 16px rgba(77,150,255,.35)" }}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Написать →
+            </motion.a>
+
             {/* Burger — mobile only */}
             <button
               className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5"
@@ -171,6 +185,16 @@ export default function Header({ country, rates, onChangeCountry }: {
                   <span className="ml-auto" style={{ color: "rgba(255,255,255,.25)" }}>{m.flag} {m.name}</span>
                 </div>
               )}
+              <a
+                href={buildTelegramUrl({ start: leadStart("menu") })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 px-3 py-3 mt-2 rounded-xl text-sm font-bold text-white"
+                style={{ background: "#4D96FF" }}
+                onClick={() => setMenuOpen(false)}
+              >
+                Написать в Telegram →
+              </a>
             </nav>
           </motion.div>
         )}

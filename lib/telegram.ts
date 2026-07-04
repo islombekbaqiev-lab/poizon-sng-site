@@ -23,3 +23,7 @@ export function categoryStart(slug: string) {
   return `site_c_${safeSlug(slug)}`
 }
 
+export function leadStart(source: string) {
+  return `site_lead_${safeSlug(source)}`
+}
+

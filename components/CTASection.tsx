@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion"
 
-const TG_LINK = "https://t.me/PoizonAdvisor"
+import { buildTelegramUrl, leadStart } from "@/lib/telegram"
 
-const BADGES = ["✈️ Авиа 3–5 дней", "📦 Трек-номер", "100% оригинал", "Бесплатный просчёт"]
+const BADGES = ["✅ Оплата после фото товара", "🔁 Не нашли — вернём деньги", "📦 Трек-номер", "✈️ Авиа 3–5 дней"]
 
 export default function CTASection() {
   return (
@@ -38,11 +38,11 @@ export default function CTASection() {
             className="text-base sm:text-lg mb-10 max-w-sm mx-auto leading-relaxed"
             style={{ color: "rgba(255,255,255,.38)" }}
           >
-            Скинь ссылку — рассчитаем цену с доставкой за 5 минут. Бесплатно.
+            Скинь ссылку — посчитаем финальную цену «под ключ», подберём доставку и будем вести заказ до получения.
           </p>
 
           <motion.a
-            href={TG_LINK}
+            href={buildTelegramUrl({ start: leadStart("cta") })}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2.5 px-10 py-4 rounded-2xl text-white font-bold text-base"
@@ -53,7 +53,7 @@ export default function CTASection() {
             whileHover={{ scale: 1.04, boxShadow: "0 16px 50px rgba(77,150,255,.55)" }}
             whileTap={{ scale: 0.96 }}
           >
-            Написать в Telegram →
+            Написать менеджеру →
           </motion.a>
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">

@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react"
 import { motion, useMotionValue, useSpring, useInView, animate } from "framer-motion"
 import AuroraBackground from "@/components/AuroraBackground"
 
-import { TG_LINK } from "@/lib/site"
+import { buildTelegramUrl, leadStart } from "@/lib/telegram"
 
 const CARDS = [
   {
@@ -331,20 +331,26 @@ export default function Hero() {
               transition={{ delay: 0.62, duration: 0.55 }}
             >
               <Magnetic
-                href="#catalog"
+                href={buildTelegramUrl({ start: leadStart("hero") })}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl text-white font-bold text-sm"
                 style={{
                   background: "#4D96FF",
                   boxShadow: "0 8px 32px rgba(77,150,255,.38), 0 0 0 1px rgba(77,150,255,.2)",
                 }}
               >
-                Смотреть каталог ↓
+                <span className="relative flex h-2 w-2 flex-shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                    style={{ background: online ? "#4ade80" : "#e2e8f0" }} />
+                  <span className="relative inline-flex rounded-full h-2 w-2"
+                    style={{ background: online ? "#4ade80" : "#e2e8f0" }} />
+                </span>
+                {online ? "Скинуть ссылку на товар →" : "Написать (ответим утром) →"}
               </Magnetic>
 
               <Magnetic
-                href={TG_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#catalog"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl text-sm font-semibold"
                 style={{
                   background: "rgba(255,255,255,.055)",
@@ -352,14 +358,24 @@ export default function Hero() {
                   color: "rgba(255,255,255,.6)",
                 }}
               >
-                <span className="relative flex h-2 w-2 flex-shrink-0">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
-                    style={{ background: online ? "#22c55e" : "#94a3b8" }} />
-                  <span className="relative inline-flex rounded-full h-2 w-2"
-                    style={{ background: online ? "#22c55e" : "#94a3b8" }} />
-                </span>
-                {online ? "Написать →" : "Написать (ответим утром) →"}
+                Смотреть каталог ↓
               </Magnetic>
+            </motion.div>
+
+            {/* Микро-гарантии — снимают страх у кнопки */}
+            <motion.div
+              className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-10 -mt-4"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              transition={{ delay: 0.7, duration: 0.5 }}
+            >
+              {["Оплата после фото товара", "Работаем с 2023", "Не нашли — вернём деньги"].map(t => (
+                <span key={t} className="inline-flex items-center gap-1.5 text-xs"
+                  style={{ color: "rgba(255,255,255,.4)" }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="3"
+                    strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  {t}
+                </span>
+              ))}
             </motion.div>
 
             {/* Stats */}

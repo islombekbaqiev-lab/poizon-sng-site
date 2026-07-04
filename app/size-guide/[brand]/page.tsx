@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 
 const SITE_URL = "https://poizonsng.com"
-const TG_LINK  = "https://t.me/PoizonAdvisor"
+const TG_LINK  = "https://t.me/pznsng_bot?start=site_lead_sizeguide"
 
 interface BrandGuide {
   name: string
