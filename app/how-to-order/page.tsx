@@ -1,8 +1,8 @@
 import { Metadata } from "next"
 import Link from "next/link"
 
-const SITE_URL = "https://poizonsng.com"
-const TG_LINK  = "https://t.me/PoizonAdvisor"
+import { SITE_URL, TG_LINK } from "@/lib/site"
+import { breadcrumbList, faqPage, howTo, wrapGraph } from "@/lib/seo/jsonld"
 
 export const metadata: Metadata = {
   title: "Как заказать с Poizon в Россию — пошаговая инструкция | POIZON SNG",
@@ -92,36 +92,18 @@ const SIZE_GUIDES = [
   { slug: "converse",    label: "Converse"    },
 ]
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "POIZON SNG", item: SITE_URL },
-        { "@type": "ListItem", position: 2, name: "Как заказать с Poizon", item: `${SITE_URL}/how-to-order` },
-      ],
-    },
-    {
-      "@type": "HowTo",
-      name: "Как заказать с Poizon в Россию и СНГ",
-      description: "Пошаговая инструкция как купить товар с Poizon (得物) с доставкой в Россию, Казахстан и другие страны СНГ через байера.",
-      step: STEPS.map(s => ({
-        "@type": "HowToStep",
-        name: s.title,
-        text: s.body,
-      })),
-    },
-    {
-      "@type": "FAQPage",
-      mainEntity: FAQS.map(f => ({
-        "@type": "Question",
-        name: f.q,
-        acceptedAnswer: { "@type": "Answer", text: f.a },
-      })),
-    },
-  ],
-}
+const jsonLd = wrapGraph([
+  breadcrumbList([
+    { name: "POIZON SNG", item: SITE_URL },
+    { name: "Как заказать с Poizon", item: `${SITE_URL}/how-to-order` },
+  ]),
+  howTo(
+    "Как заказать с Poizon в Россию и СНГ",
+    "Пошаговая инструкция как купить товар с Poizon (得物) с доставкой в Россию, Казахстан и другие страны СНГ через байера.",
+    STEPS.map((s) => ({ title: s.title, body: s.body })),
+  ),
+  faqPage(FAQS.map((f) => ({ q: f.q, a: f.a }))),
+])
 
 export default function HowToOrderPage() {
   return (
@@ -165,6 +147,17 @@ export default function HowToOrderPage() {
               <div>
                 <h2 className="font-black text-base mb-1.5">{s.title}</h2>
                 <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>{s.body}</p>
+                {(s.n === "02" || s.n === "04" || s.n === "06") && (
+                  <a
+                    href={TG_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 mt-3 text-xs font-bold"
+                    style={{ color: "#4D96FF" }}
+                  >
+                    Написать менеджеру → <span style={{ color: "rgba(255,255,255,0.25)", fontWeight: 700 }}>(ответим в рабочее время)</span>
+                  </a>
+                )}
               </div>
             </div>
           ))}

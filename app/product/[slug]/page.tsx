@@ -1,8 +1,10 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-const SITE_URL = "https://poizonsng.com"
-const TG_LINK  = "https://t.me/PoizonAdvisor"
+import { SITE_URL, TG_LINK } from "@/lib/site"
+import { breadcrumbList, productLd, wrapGraph } from "@/lib/seo/jsonld"
+import { buildTelegramUrl, productStart } from "@/lib/telegram"
+import CopyToTelegram from "@/components/CopyToTelegram"
 
 interface Product {
   id: string; name: string; brand: string
@@ -40,7 +42,7 @@ export async function generateMetadata(
 
   const price = `от ${p.priceRUB.toLocaleString("ru")} ₽`
   const title = `${p.name} — купить оригинал | POIZON SNG`
-  const desc  = `${p.name} — оригинал с Poizon (得物). Доставка в Россию, Казахстан, Беларусь и СНГ. ${price}. Проверка подлинности.`
+  const desc  = `${p.name} с Poizon (得物) под ключ: помощь с размером, выкуп, фото перед отправкой и доставка в страны СНГ. ${price}. Трек-номер на каждый заказ.`
 
   return {
     title,
@@ -66,25 +68,26 @@ export default async function ProductPage(
   const p = await getProduct(slug)
   if (!p) notFound()
 
-  const tgUrl  = `${TG_LINK}?start=${encodeURIComponent(p.name)}`
+  const tgUrl  = buildTelegramUrl({ start: productStart(slug) })
   const retail = Math.round(p.priceRUB * 1.45 / 100) * 100
   const save   = Math.round((1 - p.priceRUB / retail) * 100)
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: p.name,
-    brand: { "@type": "Brand", name: p.brand },
-    image: p.image || undefined,
-    description: `Оригинальный товар ${p.name} с платформы Poizon (得物). Доставка в СНГ.`,
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "RUB",
-      price: p.priceRUB,
-      availability: "https://schema.org/InStock",
-      seller: { "@type": "Organization", name: "POIZON SNG" },
-    },
-  }
+  const jsonLd = wrapGraph([
+    breadcrumbList([
+      { name: "POIZON SNG", item: SITE_URL },
+      { name: "Каталог", item: `${SITE_URL}/#catalog` },
+      { name: p.name, item: `${SITE_URL}/product/${slug}` },
+    ]),
+    productLd({
+      name: p.name,
+      brand: p.brand,
+      image: p.image,
+      description:
+        `Товар ${p.name} с платформы Poizon (得物) с премиум‑сопровождением: помощь с размером, выкуп, фото перед отправкой и доставка в СНГ.`,
+      priceRUB: p.priceRUB,
+      sellerName: "POIZON SNG",
+    }),
+  ])
 
   return (
     <main className="min-h-screen bg-[#050C1A]" style={{ color: "#fff" }}>
@@ -158,13 +161,26 @@ export default async function ProductPage(
             <a href={tgUrl} target="_blank" rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-white font-bold text-base transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
               style={{ background: "#4D96FF", boxShadow: "0 8px 28px rgba(77,150,255,0.35)" }}>
-              Заказать в Telegram →
+              Написать менеджеру →
             </a>
-            <a href={tgUrl} target="_blank" rel="noopener noreferrer"
+            <CopyToTelegram
+              href={tgUrl}
+              copyText={[
+                `Хочу заказать: ${p.name}`,
+                `Ссылка: ${SITE_URL}/product/${slug}`,
+                `Размер:`,
+                `Страна доставки:`,
+                `Доставка (авиа/экспресс/стандарт):`,
+              ].join("\n")}
               className="flex items-center justify-center mt-3 w-full py-3.5 rounded-2xl text-sm font-semibold transition-all duration-200 hover:scale-[1.01]"
-              style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}>
-              Узнать точную цену
-            </a>
+              style={{
+                background: "rgba(255,255,255,0.06)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                color: "rgba(255,255,255,0.7)",
+              }}
+            >
+              Отправить товар (с копированием) →
+            </CopyToTelegram>
 
             {/* Badges */}
             <div className="grid grid-cols-2 gap-3 mt-8">
@@ -172,7 +188,7 @@ export default async function ProductPage(
                 ["✅", "100% оригинал", "Поиzon проверяет каждый товар"],
                 ["✈️", "Авиа 3–5 дней", "Быстрая доставка в СНГ"],
                 ["📦", "Трек-номер", "Отслеживание на каждом этапе"],
-                ["💬", "Поддержка 24/7", "Ответим в течение часа"],
+                ["📸", "Фото перед отправкой", "Проверим и покажем состояние"],
               ].map(([icon, title, sub]) => (
                 <div key={title} className="rounded-2xl p-4"
                   style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
@@ -181,6 +197,17 @@ export default async function ProductPage(
                   <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.38)" }}>{sub}</p>
                 </div>
               ))}
+            </div>
+
+            {/* Service note */}
+            <div
+              className="mt-6 rounded-2xl p-4"
+              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+            >
+              <p className="text-xs font-bold mb-1.5">Премиум‑сопровождение включено</p>
+              <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }}>
+                Подскажем по размеру/посадке, проверим наличие и цену, выкупим на Poizon и отправим с треком.
+              </p>
             </div>
           </div>
         </div>
