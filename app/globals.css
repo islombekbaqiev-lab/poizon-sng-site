@@ -24,7 +24,7 @@
   --shadow-blue: 0 12px 40px rgba(77,150,255,0.32);
 }
 
-html { scroll-behavior: auto; }
+html { scroll-behavior: auto; overflow-x: clip; }
 
 /* Lenis */
 html.lenis, html.lenis body { height: auto; }
@@ -36,7 +36,7 @@ body {
   color: #fff;
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Surfaces */
