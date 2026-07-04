@@ -5,3 +5,12 @@ node_modules/
 out/
 dist/
 .vercel
+
+# ruflo / claude-flow артефакты — не для git
+.claude-flow/
+.swarm/
+.superpowers/
+ruvector.db
+agentdb.rvf.lock
+*.rvf.lock
+*.tsbuildinfo
