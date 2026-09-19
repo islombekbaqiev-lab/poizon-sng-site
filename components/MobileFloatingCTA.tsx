@@ -31,8 +31,8 @@ export default function MobileFloatingCTA() {
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2.5 w-full py-4 rounded-2xl text-white font-bold text-sm pointer-events-auto"
             style={{
-              background: "linear-gradient(135deg, #4D96FF 0%, #2563EB 100%)",
-              boxShadow: "0 8px 32px rgba(77,150,255,0.48), 0 0 0 1px rgba(77,150,255,0.22)",
+              background: "linear-gradient(135deg, var(--ink-block) 0%, #2563EB 100%)",
+              boxShadow: "0 8px 32px rgba(17,17,19,0.16), 0 0 0 1px rgba(17,17,19,0.16)",
             }}
             whileTap={{ scale: 0.97 }}
           >

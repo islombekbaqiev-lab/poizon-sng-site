@@ -14,3 +14,4 @@ ruvector.db
 agentdb.rvf.lock
 *.rvf.lock
 *.tsbuildinfo
+.DS_Store

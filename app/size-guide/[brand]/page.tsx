@@ -509,17 +509,17 @@ export default async function SizeGuidePage(
   }
 
   return (
-    <main className="min-h-screen bg-[#050C1A]" style={{ color: "#fff" }}>
+    <main className="min-h-screen bg-[var(--page)]" style={{ color: "var(--ink)" }}>
       <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* Nav */}
       <nav className="max-w-4xl mx-auto px-5 sm:px-8 py-5 flex items-center gap-3">
-        <Link href="/" className="text-sm font-semibold" style={{ color: "rgba(255,255,255,0.45)" }}>
+        <Link href="/" className="text-sm font-semibold" style={{ color: "var(--ink-3)" }}>
           ← Главная
         </Link>
-        <span style={{ color: "rgba(255,255,255,0.15)" }}>/</span>
-        <span className="text-sm" style={{ color: "rgba(255,255,255,0.8)" }}>
+        <span style={{ color: "var(--ink-5)" }}>/</span>
+        <span className="text-sm" style={{ color: "var(--ink)" }}>
           Размерная сетка {g.name}
         </span>
       </nav>
@@ -528,24 +528,24 @@ export default async function SizeGuidePage(
 
         {/* Header */}
         <div className="mb-10">
-          <p className="text-xs font-black uppercase tracking-[0.2em] mb-3" style={{ color: "#4D96FF" }}>
+          <p className="text-xs font-black uppercase tracking-[0.2em] mb-3" style={{ color: "var(--accent)" }}>
             Размерная сетка
           </p>
           <h1 className="font-black leading-tight mb-4"
             style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
             {g.name}
           </h1>
-          <p className="text-sm leading-relaxed mb-4 max-w-xl" style={{ color: "rgba(255,255,255,0.5)" }}>
+          <p className="text-sm leading-relaxed mb-4 max-w-xl" style={{ color: "var(--ink-3)" }}>
             Таблица конвертации EU → US → UK → CM для мужских и женских моделей.
           </p>
 
           {/* Tip */}
           <div className="rounded-2xl p-4 mb-4"
-            style={{ background: "rgba(77,150,255,0.08)", border: "1px solid rgba(77,150,255,0.2)" }}>
-            <p className="text-xs font-black uppercase tracking-[0.15em] mb-2" style={{ color: "#4D96FF" }}>
+            style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}>
+            <p className="text-xs font-black uppercase tracking-[0.15em] mb-2" style={{ color: "var(--accent)" }}>
               Совет по подбору размера
             </p>
-            <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.7)" }}>
+            <p className="text-sm leading-relaxed" style={{ color: "var(--ink-2)" }}>
               {g.tip}
             </p>
           </div>
@@ -554,7 +554,7 @@ export default async function SizeGuidePage(
           <div className="flex flex-wrap gap-2">
             {g.categories.map(c => (
               <span key={c} className="text-xs px-3 py-1 rounded-full"
-                style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                style={{ background: "var(--card-alt)", color: "var(--ink-3)", border: "1px solid var(--line)" }}>
                 {c}
               </span>
             ))}
@@ -566,13 +566,13 @@ export default async function SizeGuidePage(
           <div key={table.title} className="mb-10">
             <h2 className="text-base font-black mb-4">{table.title}</h2>
             <div className="overflow-x-auto rounded-2xl"
-              style={{ border: "1px solid rgba(255,255,255,0.07)" }}>
+              style={{ border: "1px solid var(--line)" }}>
               <table className="w-full text-sm" style={{ borderCollapse: "collapse" }}>
                 <thead>
-                  <tr style={{ background: "rgba(77,150,255,0.1)", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+                  <tr style={{ background: "var(--accent-sf)", borderBottom: "1px solid var(--line)" }}>
                     {table.headers.map(h => (
                       <th key={h} className="px-4 py-3 text-left font-black text-xs uppercase tracking-wider"
-                        style={{ color: "#4D96FF" }}>
+                        style={{ color: "var(--accent)" }}>
                         {h}
                       </th>
                     ))}
@@ -582,12 +582,12 @@ export default async function SizeGuidePage(
                   {table.rows.map((row, i) => (
                     <tr key={i}
                       style={{
-                        borderBottom: "1px solid rgba(255,255,255,0.04)",
-                        background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.02)",
+                        borderBottom: "1px solid var(--line)",
+                        background: i % 2 === 0 ? "transparent" : "var(--line)",
                       }}>
                       {row.map((cell, j) => (
                         <td key={j} className="px-4 py-2.5 font-semibold"
-                          style={{ color: j === 0 ? "#fff" : "rgba(255,255,255,0.55)" }}>
+                          style={{ color: j === 0 ? "#fff" : "var(--ink-3)" }}>
                           {cell}
                         </td>
                       ))}
@@ -601,30 +601,30 @@ export default async function SizeGuidePage(
 
         {/* CTA */}
         <div className="rounded-3xl p-7 flex flex-col sm:flex-row items-center justify-between gap-5 mb-12"
-          style={{ background: "rgba(77,150,255,0.08)", border: "1px solid rgba(77,150,255,0.18)" }}>
+          style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}>
           <div>
             <p className="font-black text-lg mb-1">Определились с размером?</p>
-            <p className="text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>
+            <p className="text-sm" style={{ color: "var(--ink-3)" }}>
               Напишите в Telegram — поможем выбрать и выкупим с Poizon.
             </p>
           </div>
           <a href={TG_LINK} target="_blank" rel="noopener noreferrer"
             className="flex-shrink-0 px-6 py-3 rounded-2xl text-white font-bold text-sm transition-all hover:scale-105"
-            style={{ background: "#4D96FF", boxShadow: "0 8px 24px rgba(77,150,255,0.3)" }}>
+            style={{ background: "var(--ink-block)", boxShadow: "0 8px 24px rgba(17,17,19,0.16)" }}>
             Написать в Telegram →
           </a>
         </div>
 
         {/* Other brands */}
         <div>
-          <h2 className="text-sm font-black uppercase tracking-[0.18em] mb-4" style={{ color: "rgba(255,255,255,0.35)" }}>
+          <h2 className="text-sm font-black uppercase tracking-[0.18em] mb-4" style={{ color: "var(--ink-4)" }}>
             Другие бренды
           </h2>
           <div className="flex flex-wrap gap-2">
             {OTHER_BRANDS.filter(b => b.slug !== brand).map(b => (
               <Link key={b.slug} href={`/size-guide/${b.slug}`}
                 className="px-4 py-2 rounded-xl text-sm font-semibold transition-all hover:scale-105"
-                style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.09)", color: "rgba(255,255,255,0.7)" }}>
+                style={{ background: "var(--card-alt)", border: "1px solid var(--line)", color: "var(--ink-2)" }}>
                 {b.label} →
               </Link>
             ))}

@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const CATEGORY_TEXT: Record<string, string> = {
-  "Сравнение": "#4D96FF",
+  "Сравнение": "var(--accent)",
   "Гайд":      "#A78BFA",
   "Подборка":  "#34D399",
 }
@@ -65,23 +65,23 @@ export default function BlogPostPage({ params }: Props) {
   if (post.faq?.length) nodes.push(faqPage(post.faq.map((f) => ({ q: f.q, a: f.a }))))
   const jsonLd = wrapGraph(nodes)
 
-  const catColor = CATEGORY_TEXT[post.category] ?? "rgba(255,255,255,0.5)"
+  const catColor = CATEGORY_TEXT[post.category] ?? "var(--ink-3)"
 
   return (
-    <main className="min-h-screen" style={{ background: "#050C1A", color: "#fff" }}>
+    <main className="min-h-screen" style={{ background: "var(--page)", color: "var(--ink)" }}>
       <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <nav className="max-w-3xl mx-auto px-5 sm:px-8 py-5 flex items-center gap-3">
-        <Link href="/" className="text-sm font-semibold" style={{ color: "rgba(255,255,255,0.4)" }}>
+        <Link href="/" className="text-sm font-semibold" style={{ color: "var(--ink-3)" }}>
           Главная
         </Link>
-        <span style={{ color: "rgba(255,255,255,0.15)" }}>/</span>
-        <Link href="/blog" className="text-sm font-semibold" style={{ color: "rgba(255,255,255,0.4)" }}>
+        <span style={{ color: "var(--ink-5)" }}>/</span>
+        <Link href="/blog" className="text-sm font-semibold" style={{ color: "var(--ink-3)" }}>
           Блог
         </Link>
-        <span style={{ color: "rgba(255,255,255,0.15)" }}>/</span>
-        <span className="text-sm truncate max-w-[160px]" style={{ color: "rgba(255,255,255,0.7)" }}>
+        <span style={{ color: "var(--ink-5)" }}>/</span>
+        <span className="text-sm truncate max-w-[160px]" style={{ color: "var(--ink-2)" }}>
           {post.title}
         </span>
       </nav>
@@ -92,20 +92,20 @@ export default function BlogPostPage({ params }: Props) {
         <header className="mb-10">
           <div className="flex items-center gap-3 mb-4">
             <span className="text-xs font-black px-2.5 py-1 rounded-lg"
-              style={{ background: "rgba(77,150,255,0.1)", color: catColor }}>
+              style={{ background: "var(--accent-sf)", color: catColor }}>
               {post.category}
             </span>
-            <span className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
+            <span className="text-xs" style={{ color: "var(--ink-4)" }}>
               {post.readMin} мин читать
             </span>
-            <span className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
+            <span className="text-xs" style={{ color: "var(--ink-4)" }}>
               {new Date(post.date).toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" })}
             </span>
           </div>
           <h1 className="font-black leading-tight mb-4" style={{ fontSize: "clamp(1.75rem, 4vw, 2.8rem)" }}>
             {post.title}
           </h1>
-          <p className="text-base leading-relaxed" style={{ color: "rgba(255,255,255,0.5)", maxWidth: "42rem" }}>
+          <p className="text-base leading-relaxed" style={{ color: "var(--ink-3)", maxWidth: "42rem" }}>
             {post.description}
           </p>
         </header>
@@ -117,7 +117,7 @@ export default function BlogPostPage({ params }: Props) {
               {sec.heading && (
                 <h2 className="font-black text-xl mb-3">{sec.heading}</h2>
               )}
-              <p className="text-base leading-relaxed" style={{ color: "rgba(255,255,255,0.65)" }}>
+              <p className="text-base leading-relaxed" style={{ color: "var(--ink-2)" }}>
                 {sec.body}
               </p>
             </div>
@@ -126,16 +126,16 @@ export default function BlogPostPage({ params }: Props) {
 
         {/* CTA */}
         <div className="rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 mb-14"
-          style={{ background: "rgba(77,150,255,0.08)", border: "1px solid rgba(77,150,255,0.18)" }}>
+          style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}>
           <div>
             <p className="font-black text-lg mb-1">Заказать с Poizon</p>
-            <p className="text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>
+            <p className="text-sm" style={{ color: "var(--ink-3)" }}>
               Напишите модель и размер — рассчитаем цену с доставкой за 5 минут.
             </p>
           </div>
           <a href={TG_LINK} target="_blank" rel="noopener noreferrer"
             className="flex-shrink-0 px-6 py-3 rounded-2xl text-white font-bold text-sm transition-all hover:scale-105"
-            style={{ background: "#4D96FF", boxShadow: "0 8px 24px rgba(77,150,255,0.3)" }}>
+            style={{ background: "var(--ink-block)", boxShadow: "0 8px 24px rgba(17,17,19,0.16)" }}>
             Написать в Telegram →
           </a>
         </div>
@@ -147,9 +147,9 @@ export default function BlogPostPage({ params }: Props) {
             <div className="space-y-3">
               {post.faq.map((f, i) => (
                 <div key={i} className="rounded-2xl p-5"
-                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                  style={{ background: "var(--card)", border: "1px solid var(--line)" }}>
                   <p className="font-bold text-sm mb-2">{f.q}</p>
-                  <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>{f.a}</p>
+                  <p className="text-sm leading-relaxed" style={{ color: "var(--ink-3)" }}>{f.a}</p>
                 </div>
               ))}
             </div>
@@ -159,18 +159,18 @@ export default function BlogPostPage({ params }: Props) {
         {/* Other posts */}
         <div>
           <h2 className="text-sm font-black uppercase tracking-[0.18em] mb-4"
-            style={{ color: "rgba(255,255,255,0.35)" }}>
+            style={{ color: "var(--ink-4)" }}>
             Другие статьи
           </h2>
           <div className="flex flex-col gap-3">
             {BLOG_POSTS.filter((p) => p.slug !== post.slug).slice(0, 3).map((p) => (
               <Link key={p.slug} href={`/blog/${p.slug}`}
                 className="flex items-center justify-between rounded-xl px-4 py-3 transition-all hover:scale-[1.01]"
-                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                <span className="text-sm font-semibold leading-snug" style={{ color: "rgba(255,255,255,0.7)" }}>
+                style={{ background: "var(--card)", border: "1px solid var(--line)" }}>
+                <span className="text-sm font-semibold leading-snug" style={{ color: "var(--ink-2)" }}>
                   {p.title}
                 </span>
-                <span className="text-xs ml-4 flex-shrink-0" style={{ color: "#4D96FF" }}>→</span>
+                <span className="text-xs ml-4 flex-shrink-0" style={{ color: "var(--accent)" }}>→</span>
               </Link>
             ))}
           </div>

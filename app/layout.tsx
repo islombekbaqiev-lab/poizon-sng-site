@@ -1,16 +1,35 @@
 import type { Metadata } from "next"
-import Script from "next/script"
+import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import SmoothScroll from "@/components/SmoothScroll"
-import NoiseOverlay from "@/components/NoiseOverlay"
 import PageTracker from "@/components/PageTracker"
+import CookieConsent from "@/components/CookieConsent"
+import AnalyticsScripts from "@/components/AnalyticsScripts"
 import { Analytics } from "@vercel/analytics/next"
 import { SITE_URL } from "@/lib/site"
 import { getProductIndex } from "@/lib/productIndex"
 import { faqPage, wrapGraph } from "@/lib/seo/jsonld"
 
-const YM_ID  = 109131869
-const GA4_ID = "G-LVZ45X3YTE"
+// Self-hosted через next/font: без запроса к fonts.googleapis.com
+// (лишний round-trip, а в Китае домен ещё и недоступен) и без сдвига вёрстки.
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+  variable: "--font-inter",
+  preload: true,
+})
+
+// Заголовки — высококонтрастная антиква, как в референсах.
+// Playfair Display взят потому, что у него есть полноценная кириллица:
+// у большинства «модных» антикв её нет и вместо букв получаются квадраты.
+const playfair = Playfair_Display({
+  subsets: ["latin", "cyrillic"],
+  weight: ["500", "600", "700"],
+  display: "swap",
+  variable: "--font-display",
+  preload: true,
+})
 
 const OG_IMAGE = "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20241222%2Faa3efedd7ed0417caaf8c8693e7e673d.jpg&w=1200&q=85&fit=contain&fmt=auto"
 
@@ -159,9 +178,13 @@ const jsonLd = wrapGraph([
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru">
+    <html lang="ru" className={`${inter.variable} ${playfair.variable}`}>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <meta name="theme-color" content="#F2F2F4" />
+        {/* Прогреваем соединение к CDN картинок — он на критическом пути LCP */}
+        <link rel="preconnect" href="https://proxy.b2baisolutions.io" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://proxy.b2baisolutions.io" />
         <meta name="yandex-verification" content="9363a32cf61007d4" />
         <meta name="google-site-verification" content="dvUw6mvHVsCIfUr1M-kVZGQp-cgXfWXVTy9x9BNjm58" />
         <script
@@ -170,30 +193,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <NoiseOverlay />
-        <PageTracker />
         <SmoothScroll>{children}</SmoothScroll>
+
+        {/* Аналитика — только после согласия (см. /cookies) */}
+        <CookieConsent />
+        <PageTracker />
+        <AnalyticsScripts />
+
+        {/* Vercel Analytics: без cookie и без персональных идентификаторов */}
         <Analytics />
-        {/* Google Analytics GA4 */}
-        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`} strategy="afterInteractive" />
-        <Script id="ga4-init" strategy="afterInteractive">{`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${GA4_ID}', { page_path: window.location.pathname });
-        `}</Script>
-        {/* Яндекс Метрика */}
-        <Script id="ym-init" strategy="afterInteractive">{`
-          (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-          m[i].l=1*new Date();
-          for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
-          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-          (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
-          ym(${YM_ID},"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
-        `}</Script>
-        <noscript>
-          <div><img src={`https://mc.yandex.ru/watch/${YM_ID}`} style={{position:"absolute",left:"-9999px"}} alt="" /></div>
-        </noscript>
       </body>
     </html>
   )

@@ -36,7 +36,7 @@ export default function CopyToTelegram({
     >
       {children}
       {copied && (
-        <span className="ml-2 text-xs font-semibold" style={{ color: "rgba(255,255,255,0.7)" }}>
+        <span className="ml-2 text-xs font-semibold" style={{ color: "var(--ink-2)" }}>
           Скопировано
         </span>
       )}

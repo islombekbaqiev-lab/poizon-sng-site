@@ -37,7 +37,7 @@ const CATEGORIES = ["Все", "Кроссовки", "Одежда", "Футбо�
 const PAGE_SIZE = 12
 
 const TAG_COLOR: Record<string, { bg: string; text: string }> = {
-  "Хит":    { bg: "#4D96FF", text: "#fff" },
+  "Хит":    { bg: "var(--accent)", text: "#fff" },
   "Новинка":{ bg: "#10b981", text: "#fff" },
   "Лимит":  { bg: "#ef4444", text: "#fff" },
 }
@@ -145,14 +145,10 @@ function NoImg({ brand }: { brand: string }) {
 
 // ── BIG hero card ────────────────────────────────────────────────────────────
 function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | null; symbol: string; priority?: boolean }) {
+  // ВАЖНО: все хуки вызываются до любого return. Ранний выход выше по коду
+  // менял количество хуков между рендерами (когда картинка падала в ошибку)
+  // и ронял всё дерево — React error #300.
   const [imgFailed, setImgFailed] = useState(false)
-  if (imgFailed || !p.image.includes("/pro-img/cut-img/")) return null
-
-  const tgUrl       = buildTelegramUrl({ start: productStart(p.id) })
-  const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
-  const retail      = local !== null ? Math.round(local * 1.45 / 100) * 100 : null
-  const savePct     = retail !== null && local !== null ? Math.round((1 - local / retail) * 100) : null
-
   const desktop = useIsDesktop()
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
@@ -160,12 +156,19 @@ function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | 
   const imgYStatic  = useMotionValue("0%")
   const imgY = desktop ? imgYDesktop : imgYStatic
 
+  const tgUrl       = buildTelegramUrl({ start: productStart(p.id) })
+  const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
+  const retail      = local !== null ? Math.round(local * 1.45 / 100) * 100 : null
+  const savePct     = retail !== null && local !== null ? Math.round((1 - local / retail) * 100) : null
+
+  if (imgFailed || !p.image) return null
+
   return (
     <div
       ref={ref}
       data-cursor="buy"
-      className="col-span-2 row-span-2 flex flex-col rounded-2xl overflow-hidden group transition-all duration-300 hover:scale-[1.015] hover:shadow-[0_20px_56px_rgba(0,0,0,0.5)]"
-      style={{ border: "1px solid rgba(255,255,255,0.07)" }}
+      className="col-span-2 row-span-2 flex flex-col rounded-[24px] overflow-hidden group transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+      style={{ background: "var(--card)", boxShadow: "var(--shadow-sm)" }}
     >
       <div className="flex-1 relative overflow-hidden flex items-center justify-center"
         style={{ background: "#FFFFFF", minHeight: 0 }}>
@@ -191,25 +194,25 @@ function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | 
           </span>
         )}
       </div>
-      <div className="flex-shrink-0 p-4" style={{ background: "rgba(5,10,24,0.98)" }}>
-        <p className="text-[9px] font-black uppercase tracking-[0.18em] mb-0.5" style={{ color: "#4D96FF" }}>{p.brand}</p>
+      <div className="flex-shrink-0 p-4" style={{ background: "var(--card)", borderTop: "1px solid var(--line)" }}>
+        <p className="text-[9px] font-black uppercase tracking-[0.18em] mb-0.5" style={{ color: "var(--accent)" }}>{p.brand}</p>
         <p className="font-bold text-sm leading-tight mb-3 line-clamp-2">{displayName}</p>
         <div className="flex items-center justify-between gap-3">
           {local !== null ? (
             <div className="flex flex-col">
               {retail && (
-                <span className="text-[10px] line-through" style={{ color: "rgba(255,255,255,0.28)" }}>
+                <span className="text-[10px] line-through" style={{ color: "var(--ink-4)" }}>
                   {fmtPrice(retail, symbol)}
                 </span>
               )}
               <p className="text-xl font-black tracking-tight">{fmtPrice(local, symbol)}</p>
             </div>
           ) : (
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>Укажите страну</p>
+            <p className="text-xs" style={{ color: "var(--ink-4)" }}>Укажите страну</p>
           )}
           <a href={tgUrl} target="_blank" rel="noopener noreferrer"
             className="flex-shrink-0 px-5 py-2 text-white text-xs font-bold rounded-xl transition-all duration-150 hover:scale-105 active:scale-95"
-            style={{ background: "#4D96FF" }}
+            style={{ background: "var(--ink-block)" }}
             onClick={e => e.stopPropagation()}>
             Купить →
           </a>
@@ -221,12 +224,8 @@ function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | 
 
 // ── Small card ───────────────────────────────────────────────────────────────
 function SmallCard({ p, local, symbol, priority }: { p: Product; local: number | null; symbol: string; priority?: boolean }) {
+  // Хуки — строго до раннего return (см. комментарий в HeroCard).
   const [imgFailed, setImgFailed] = useState(false)
-  if (imgFailed || !p.image.includes("/pro-img/cut-img/")) return null
-
-  const tgUrl       = buildTelegramUrl({ start: productStart(p.id) })
-  const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
-
   const desktop = useIsDesktop()
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] })
@@ -234,12 +233,17 @@ function SmallCard({ p, local, symbol, priority }: { p: Product; local: number |
   const imgYStatic  = useMotionValue("0%")
   const imgY = desktop ? imgYDesktop : imgYStatic
 
+  const tgUrl       = buildTelegramUrl({ start: productStart(p.id) })
+  const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
+
+  if (imgFailed || !p.image) return null
+
   return (
     <div
       ref={ref}
       data-cursor="buy"
-      className="col-span-1 row-span-1 flex flex-col rounded-2xl overflow-hidden group transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(0,0,0,0.45)]"
-      style={{ border: "1px solid rgba(255,255,255,0.07)" }}>
+      className="col-span-1 row-span-1 flex flex-col rounded-[20px] overflow-hidden group transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
+      style={{ background: "var(--card)", boxShadow: "var(--shadow-sm)" }}>
       <div className="flex-1 relative overflow-hidden flex items-center justify-center"
         style={{ background: "#FFFFFF", minHeight: 0 }}>
         <motion.div className="relative w-full h-full" style={{ y: imgY }}>
@@ -258,17 +262,17 @@ function SmallCard({ p, local, symbol, priority }: { p: Product; local: number |
           </span>
         )}
       </div>
-      <div className="flex-shrink-0 p-2.5" style={{ background: "rgba(5,10,24,0.98)" }}>
-        <p className="text-[8px] font-black uppercase tracking-[0.16em] mb-0.5" style={{ color: "#4D96FF" }}>{p.brand}</p>
+      <div className="flex-shrink-0 p-2.5" style={{ background: "var(--card)", borderTop: "1px solid var(--line)" }}>
+        <p className="text-[8px] font-black uppercase tracking-[0.16em] mb-0.5" style={{ color: "var(--accent)" }}>{p.brand}</p>
         <p className="text-[10px] font-semibold leading-tight line-clamp-1 mb-2">{displayName}</p>
         <div className="flex items-center justify-between gap-1">
           {local !== null
             ? <p className="text-xs font-black tracking-tight">{fmtPrice(local, symbol)}</p>
-            : <p className="text-[9px]" style={{ color: "rgba(255,255,255,0.28)" }}>—</p>
+            : <p className="text-[9px]" style={{ color: "var(--ink-4)" }}>—</p>
           }
           <a href={tgUrl} target="_blank" rel="noopener noreferrer"
             className="flex-shrink-0 px-2.5 py-1 text-white text-[9px] font-bold rounded-lg transition-all duration-150 hover:scale-105 active:scale-90"
-            style={{ background: "#4D96FF" }}
+            style={{ background: "var(--ink-block)" }}
             onClick={e => e.stopPropagation()}>
             Купить
           </a>
@@ -283,11 +287,11 @@ function SkeletonGrid() {
   return (
     <>
       <motion.div className="col-span-2 row-span-2 rounded-2xl"
-        style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
+        style={{ background: "var(--card)", border: "1px solid var(--line)" }}
         animate={{ opacity: [0.4, 0.7, 0.4] }} transition={{ duration: 1.8, repeat: Infinity }} />
       {Array.from({ length: 4 }, (_, i) => (
         <motion.div key={i} className="col-span-1 row-span-1 rounded-2xl"
-          style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
+          style={{ background: "var(--card)", border: "1px solid var(--line)" }}
           animate={{ opacity: [0.4, 0.7, 0.4] }}
           transition={{ duration: 1.8, repeat: Infinity, delay: i * 0.1 }} />
       ))}
@@ -339,7 +343,7 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
   const source = cat === "Все" ? interleave(raw) : raw
 
   const filtered = source
-    .filter(p => !!p.image && p.image.includes("/pro-img/cut-img/"))
+    .filter(p => !!p.image)
     .filter(p => cat === "Все" || p.category === cat)
     .filter(p => !query ||
       p.name.toLowerCase().includes(query.toLowerCase()) ||
@@ -359,7 +363,7 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
 
   return (
     <section id="catalog" className="max-w-7xl mx-auto px-5 sm:px-8 pb-20 pt-20"
-      style={{ borderTop: "1px solid rgba(255,255,255,.05)" }}>
+      style={{ borderTop: "1px solid var(--line)" }}>
 
       {/* Header */}
       <motion.div className="flex items-start justify-between mb-10 flex-wrap gap-4"
@@ -367,26 +371,27 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
         viewport={{ once: true }} transition={{ duration: 0.55 }}>
         <div>
           <p className="eyebrow mb-4">Каталог</p>
-          <h2 className="font-black leading-[.88] tracking-tighter"
-            style={{ fontSize: "clamp(2.8rem, 6.5vw, 6.5rem)" }}>
-            ТОВАРЫ
-            <span style={{ WebkitTextStroke: "1.5px rgba(255,255,255,.2)", color: "transparent", display: "block" }}>
-              С POIZON
+          <h2 className="leading-[0.95]">
+            <span className="font-display block" style={{ fontSize: "clamp(2.4rem, 5.2vw, 4.4rem)", color: "var(--ink)" }}>
+              Товары
+            </span>
+            <span className="block font-bold" style={{ fontSize: "clamp(1.9rem, 4vw, 3.2rem)", color: "var(--ink-4)", letterSpacing: "-0.03em" }}>
+              с Poizon
             </span>
           </h2>
-          <p className="text-xs mt-3" style={{ color: "rgba(255,255,255,.25)" }}>
-            {loading ? "Загружаем товары…" : `${source.length} позиций · 100% оригиналы`}
+          <p className="text-xs mt-3" style={{ color: "var(--ink-4)" }}>
+            {loading ? "Загружаем товары…" : `${filtered.length} позиций · 100% оригиналы`}
           </p>
         </div>
-        <div className="flex gap-1 glass rounded-xl p-1">
+        <div className="flex gap-1 rounded-full p-1" style={{ background: "var(--card)", boxShadow: "var(--shadow-xs)" }}>
           {CATEGORIES.map(c => (
             <motion.button key={c} onClick={() => { setCat(c); setPage(1) }}
-              className="relative px-3.5 py-1.5 rounded-lg text-sm font-semibold z-10"
-              style={{ color: cat === c ? "#fff" : "rgba(255,255,255,0.38)" }}
+              className="relative px-4 py-2 rounded-full text-sm font-semibold z-10 transition-colors"
+              style={{ color: cat === c ? "#fff" : "var(--ink-3)" }}
               whileTap={{ scale: 0.95 }}>
               {cat === c && (
                 <motion.div layoutId="cat-pill"
-                  className="absolute inset-0 rounded-lg bg-[#4D96FF]" style={{ zIndex: -1 }}
+                  className="absolute inset-0 rounded-full bg-[var(--ink-block)]" style={{ zIndex: -1 }}
                   transition={{ type: "spring", stiffness: 380, damping: 34 }} />
               )}
               {c}
@@ -399,18 +404,18 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
       <motion.div className="relative mb-5"
         initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
         viewport={{ once: true }} transition={{ duration: 0.4 }}>
-        <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
-          width="15" height="15" viewBox="0 0 24 24" fill="none"
-          stroke="rgba(255,255,255,0.25)" strokeWidth="2">
+        <svg className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"
+          width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="var(--ink-4)" strokeWidth="2">
           <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
         <input type="text" value={query} onChange={e => setQuery(e.target.value)}
           placeholder="Поиск по бренду или названию…"
-          className="w-full glass rounded-2xl pl-10 pr-4 py-3 text-sm outline-none"
-          style={{ color: "rgba(255,255,255,0.8)", caretColor: "#4D96FF", border: "1px solid rgba(255,255,255,0.08)" }} />
+          className="w-full rounded-full pl-11 pr-4 py-3.5 text-sm outline-none"
+          style={{ color: "var(--ink)", caretColor: "var(--accent)", background: "var(--card)", boxShadow: "var(--shadow-xs)", border: "1px solid var(--line)" }} />
         {query && (
           <button onClick={() => setQuery("")}
-            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60">×</button>
+            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[var(--ink-4)] hover:text-[var(--ink-2)]">×</button>
         )}
       </motion.div>
 
@@ -425,9 +430,9 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
           <motion.div className="col-span-2 md:col-span-4 flex flex-col items-center justify-center py-20 gap-3"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <p className="text-4xl">🔍</p>
-            <p className="text-white/40 text-sm">Ничего не найдено</p>
+            <p className="text-[var(--ink-3)] text-sm">Ничего не найдено</p>
             <button onClick={() => { setCat("Все"); setQuery("") }}
-              className="text-[#4D96FF] text-xs underline underline-offset-2 mt-1">
+              className="text-[var(--accent)] text-xs underline underline-offset-2 mt-1">
               Сбросить фильтры
             </button>
           </motion.div>
@@ -450,7 +455,7 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
           <button
             onClick={() => setPage(p => p + 1)}
             className="px-8 py-3 rounded-2xl text-sm font-bold transition-all duration-200 hover:scale-105 active:scale-95"
-            style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}>
+            style={{ background: "var(--card-alt)", border: "1px solid var(--line)", color: "var(--ink-2)" }}>
             Показать ещё ({filtered.length - items.length})
           </button>
         </div>
@@ -464,10 +469,10 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
           viewport={{ once: true }} transition={{ duration: 0.45 }}>
           <div>
             <p className="text-lg font-black mb-0.5">Нет нужного товара?</p>
-            <p className="text-white/32 text-sm">Скинь ссылку с Poizon — выкупим и привезём.</p>
+            <p className="text-[var(--ink-4)] text-sm">Скинь ссылку с Poizon — выкупим и привезём.</p>
           </div>
           <motion.a href={buildTelegramUrl()} target="_blank" rel="noopener noreferrer"
-            className="flex-shrink-0 px-6 py-3 bg-[#4D96FF] text-white text-sm font-bold rounded-2xl shadow-xl shadow-[#4D96FF]/25"
+            className="btn btn-primary flex-shrink-0"
             whileHover={{ scale: 1.04, backgroundColor: "#3a86ef" }} whileTap={{ scale: 0.97 }}>
             Написать в Telegram →
           </motion.a>

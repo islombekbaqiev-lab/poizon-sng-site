@@ -18,7 +18,7 @@ export default function CountryModal({ onSelect }: { onSelect: (c: Country) => v
   return (
     <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center"
-      style={{ background: "rgba(5,12,26,0.75)", backdropFilter: "blur(32px)" }}
+      style={{ background: "rgba(242,242,244,0.82)", backdropFilter: "blur(28px)" }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
@@ -31,14 +31,14 @@ export default function CountryModal({ onSelect }: { onSelect: (c: Country) => v
       >
         {/* Logo */}
         <div className="text-center mb-8">
-          <p className="text-4xl font-black tracking-tighter mb-2">
-            POIZON <span className="text-[#4D96FF]">SNG</span>
+          <p className="font-display text-4xl mb-2">
+            POIZON <span className="text-[var(--accent)]">SNG</span>
           </p>
-          <p className="text-white/35 text-sm">Оригиналы из Китая · доставка по СНГ</p>
+          <p className="text-[var(--ink-4)] text-sm">Оригиналы из Китая · доставка по СНГ</p>
         </div>
 
-        <div className="glass-card rounded-3xl p-5">
-          <p className="text-center text-white/35 text-xs mb-4 uppercase tracking-wider">
+        <div className="rounded-3xl p-5" style={{ background: "var(--card)", boxShadow: "var(--shadow-lg)" }}>
+          <p className="text-center text-[var(--ink-4)] text-xs mb-4 uppercase tracking-wider">
             Выбери страну доставки
           </p>
           <div className="grid grid-cols-2 gap-2">
@@ -46,7 +46,7 @@ export default function CountryModal({ onSelect }: { onSelect: (c: Country) => v
               <motion.button
                 key={c.code}
                 onClick={() => onSelect(c.code)}
-                className={`flex flex-col items-center gap-1.5 p-3.5 rounded-2xl border border-white/[0.07] hover:border-[#4D96FF]/40 hover:bg-[#4D96FF]/10${i === COUNTRIES.length - 1 && COUNTRIES.length % 2 !== 0 ? " col-span-2" : ""}`}
+                className={`flex flex-col items-center gap-1.5 p-3.5 rounded-2xl border border-[var(--line)] transition-colors hover:border-[var(--accent-ln)] hover:bg-[var(--accent-sf)]${i === COUNTRIES.length - 1 && COUNTRIES.length % 2 !== 0 ? " col-span-2" : ""}`}
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 + i * 0.04, duration: 0.35, ease: "easeOut" }}
@@ -55,13 +55,13 @@ export default function CountryModal({ onSelect }: { onSelect: (c: Country) => v
               >
                 <span className="text-2xl">{c.flag}</span>
                 <p className="text-sm font-semibold">{c.name}</p>
-                <p className="text-[10px] text-white/35">{c.city}</p>
+                <p className="text-[10px] text-[var(--ink-4)]">{c.city}</p>
               </motion.button>
             ))}
           </div>
         </div>
 
-        <p className="text-center text-white/20 text-xs mt-4">Поменять можно в любой момент</p>
+        <p className="text-center text-[var(--ink-5)] text-xs mt-4">Поменять можно в любой момент</p>
       </motion.div>
     </motion.div>
   )

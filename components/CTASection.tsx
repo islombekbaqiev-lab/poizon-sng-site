@@ -8,7 +8,7 @@ const BADGES = ["✅ Оплата после фото товара", "🔁 Не 
 
 export default function CTASection() {
   return (
-    <section className="py-28" style={{ borderTop: "1px solid rgba(255,255,255,.05)" }}>
+    <section className="py-28" style={{ borderTop: "1px solid var(--line)" }}>
       <div className="max-w-3xl mx-auto px-5 sm:px-8 text-center">
         <motion.div
           initial={{ opacity: 0, y: 28 }}
@@ -25,8 +25,7 @@ export default function CTASection() {
             НАШЁЛ ЧТО-ТО
             <span
               style={{
-                WebkitTextStroke: "1.5px rgba(255,255,255,.2)",
-                color: "transparent",
+                color: "var(--ink-4)",
                 display: "block",
               }}
             >
@@ -36,7 +35,7 @@ export default function CTASection() {
 
           <p
             className="text-base sm:text-lg mb-10 max-w-sm mx-auto leading-relaxed"
-            style={{ color: "rgba(255,255,255,.38)" }}
+            style={{ color: "var(--ink-4)" }}
           >
             Скинь ссылку — посчитаем финальную цену «под ключ», подберём доставку и будем вести заказ до получения.
           </p>
@@ -47,10 +46,10 @@ export default function CTASection() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2.5 px-10 py-4 rounded-2xl text-white font-bold text-base"
             style={{
-              background: "#4D96FF",
-              boxShadow: "0 12px 40px rgba(77,150,255,.4), 0 0 0 1px rgba(77,150,255,.25)",
+              background: "var(--ink-block)",
+              boxShadow: "0 12px 40px rgba(17,17,19,0.16), 0 0 0 1px rgba(17,17,19,0.16)",
             }}
-            whileHover={{ scale: 1.04, boxShadow: "0 16px 50px rgba(77,150,255,.55)" }}
+            whileHover={{ scale: 1.04, boxShadow: "0 16px 50px rgba(17,17,19,0.16)" }}
             whileTap={{ scale: 0.96 }}
           >
             Написать менеджеру →
@@ -62,9 +61,9 @@ export default function CTASection() {
                 key={b}
                 className="text-xs px-3.5 py-1.5 rounded-full"
                 style={{
-                  background: "rgba(255,255,255,.04)",
-                  border: "1px solid rgba(255,255,255,.08)",
-                  color: "rgba(255,255,255,.4)",
+                  background: "var(--card)",
+                  border: "1px solid var(--line)",
+                  color: "var(--ink-3)",
                 }}
               >
                 {b}

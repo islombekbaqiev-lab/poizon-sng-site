@@ -90,7 +90,7 @@ export default async function ProductPage(
   ])
 
   return (
-    <main className="min-h-screen bg-[#050C1A]" style={{ color: "#fff" }}>
+    <main className="min-h-screen bg-[var(--page)]" style={{ color: "var(--ink)" }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -98,11 +98,11 @@ export default async function ProductPage(
 
       {/* Nav */}
       <nav className="max-w-7xl mx-auto px-5 sm:px-8 py-5 flex items-center gap-3">
-        <a href="/" className="text-sm font-semibold" style={{ color: "rgba(255,255,255,0.45)" }}>
+        <a href="/" className="text-sm font-semibold" style={{ color: "var(--ink-3)" }}>
           ← Каталог
         </a>
-        <span style={{ color: "rgba(255,255,255,0.15)" }}>/</span>
-        <span className="text-sm truncate" style={{ color: "rgba(255,255,255,0.6)", maxWidth: "200px" }}>
+        <span style={{ color: "var(--ink-5)" }}>/</span>
+        <span className="text-sm truncate" style={{ color: "var(--ink-2)", maxWidth: "200px" }}>
           {p.name}
         </span>
       </nav>
@@ -128,7 +128,7 @@ export default async function ProductPage(
             {p.tag && (
               <span className="inline-block text-[11px] font-black px-3 py-1 rounded-full mb-4 uppercase tracking-wider"
                 style={{
-                  background: p.tag === "Лимит" ? "#ef4444" : p.tag === "Хит" ? "#4D96FF" : "#10b981",
+                  background: p.tag === "Лимит" ? "#ef4444" : p.tag === "Хит" ? "var(--accent)" : "#10b981",
                   color: "#fff",
                 }}>
                 {p.tag}
@@ -136,7 +136,7 @@ export default async function ProductPage(
             )}
 
             <p className="text-sm font-black uppercase tracking-[0.18em] mb-2"
-              style={{ color: "#4D96FF" }}>{p.brand}</p>
+              style={{ color: "var(--accent)" }}>{p.brand}</p>
 
             <h1 className="font-black leading-tight mb-6"
               style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}>
@@ -148,19 +148,19 @@ export default async function ProductPage(
               <span className="text-3xl font-black">
                 {p.priceRUB.toLocaleString("ru")} ₽
               </span>
-              <span className="text-sm line-through" style={{ color: "rgba(255,255,255,0.28)" }}>
+              <span className="text-sm line-through" style={{ color: "var(--ink-4)" }}>
                 {retail.toLocaleString("ru")} ₽
               </span>
               <span className="text-sm font-bold" style={{ color: "#22c55e" }}>−{save}%</span>
             </div>
-            <p className="text-xs mb-8" style={{ color: "rgba(255,255,255,0.35)" }}>
+            <p className="text-xs mb-8" style={{ color: "var(--ink-4)" }}>
               Цена в юанях — уточняется в Telegram по актуальному курсу
             </p>
 
             {/* CTA */}
             <a href={tgUrl} target="_blank" rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-white font-bold text-base transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-              style={{ background: "#4D96FF", boxShadow: "0 8px 28px rgba(77,150,255,0.35)" }}>
+              style={{ background: "var(--ink-block)", boxShadow: "0 8px 28px rgba(17,17,19,0.16)" }}>
               Написать менеджеру →
             </a>
             <CopyToTelegram
@@ -174,9 +174,9 @@ export default async function ProductPage(
               ].join("\n")}
               className="flex items-center justify-center mt-3 w-full py-3.5 rounded-2xl text-sm font-semibold transition-all duration-200 hover:scale-[1.01]"
               style={{
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                color: "rgba(255,255,255,0.7)",
+                background: "var(--card-alt)",
+                border: "1px solid var(--line)",
+                color: "var(--ink-2)",
               }}
             >
               Отправить товар (с копированием) →
@@ -191,10 +191,10 @@ export default async function ProductPage(
                 ["📸", "Фото перед отправкой", "Проверим и покажем состояние"],
               ].map(([icon, title, sub]) => (
                 <div key={title} className="rounded-2xl p-4"
-                  style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
+                  style={{ background: "var(--card)", border: "1px solid var(--line)" }}>
                   <p className="text-lg mb-1">{icon}</p>
                   <p className="text-xs font-bold mb-0.5">{title}</p>
-                  <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.38)" }}>{sub}</p>
+                  <p className="text-[10px]" style={{ color: "var(--ink-4)" }}>{sub}</p>
                 </div>
               ))}
             </div>
@@ -202,10 +202,10 @@ export default async function ProductPage(
             {/* Service note */}
             <div
               className="mt-6 rounded-2xl p-4"
-              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+              style={{ background: "var(--card)", border: "1px solid var(--line)" }}
             >
               <p className="text-xs font-bold mb-1.5">Премиум‑сопровождение включено</p>
-              <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }}>
+              <p className="text-xs leading-relaxed" style={{ color: "var(--ink-3)" }}>
                 Подскажем по размеру/посадке, проверим наличие и цену, выкупим на Poizon и отправим с треком.
               </p>
             </div>
@@ -214,21 +214,21 @@ export default async function ProductPage(
 
         {/* More products CTA */}
         <div className="mt-16 rounded-3xl p-8 flex flex-col sm:flex-row items-center justify-between gap-4"
-          style={{ background: "rgba(77,150,255,0.08)", border: "1px solid rgba(77,150,255,0.18)" }}>
+          style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}>
           <div>
             <p className="font-black text-lg mb-1">Нужен другой товар с Poizon?</p>
-            <p className="text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>
+            <p className="text-sm" style={{ color: "var(--ink-3)" }}>
               Скинь ссылку с Poizon — выкупим любой товар с платформы.
             </p>
           </div>
           <div className="flex gap-3 flex-shrink-0">
             <a href="/" className="px-5 py-2.5 rounded-xl text-sm font-bold transition-all hover:scale-105"
-              style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.8)" }}>
+              style={{ background: "var(--card-alt)", color: "var(--ink)" }}>
               Каталог
             </a>
             <a href={TG_LINK} target="_blank" rel="noopener noreferrer"
               className="px-5 py-2.5 rounded-xl text-white text-sm font-bold transition-all hover:scale-105"
-              style={{ background: "#4D96FF" }}>
+              style={{ background: "var(--ink-block)" }}>
               Telegram →
             </a>
           </div>

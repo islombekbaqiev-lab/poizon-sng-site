@@ -53,21 +53,25 @@ export default function Header({ country, rates, onChangeCountry }: {
         animate={{ y: hidden ? -80 : 0 }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
         style={{
-          background: scrolled ? "rgba(4,6,15,0.88)" : "transparent",
-          backdropFilter: scrolled ? "blur(20px)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
-          borderBottom: scrolled ? "1px solid rgba(255,255,255,0.055)" : "1px solid transparent",
-          transition: "background .4s, backdrop-filter .4s, border-color .4s",
+          // Пока не прокрутили — шапка стоит под полосой объявлений (30px).
+          // После скролла полоса уезжает и шапка прилипает к самому верху.
+          paddingTop: scrolled ? 0 : 30,
+          background: scrolled ? "rgba(255,255,255,0.88)" : "transparent",
+          backdropFilter: scrolled ? "blur(20px) saturate(1.6)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(20px) saturate(1.6)" : "none",
+          borderBottom: `1px solid ${scrolled ? "var(--line)" : "transparent"}`,
+          boxShadow: scrolled ? "var(--shadow-sm)" : "none",
+          transition: "background .4s, backdrop-filter .4s, border-color .4s, box-shadow .4s, padding-top .35s",
         }}
       >
         <div className="max-w-7xl mx-auto px-5 sm:px-8 h-[60px] flex items-center justify-between gap-4">
 
           {/* Logo */}
           <a href="/" className="flex items-center gap-2 flex-shrink-0">
-            <span className="text-lg font-black tracking-tighter leading-none">POIZON</span>
+            <span className="font-display text-xl leading-none" style={{ color: "var(--ink)" }}>POIZON</span>
             <span
               className="text-[10px] font-black px-1.5 py-[3px] rounded-md text-white leading-none"
-              style={{ background: "#4D96FF" }}
+              style={{ background: "var(--ink-block)" }}
             >SNG</span>
           </a>
 
@@ -77,8 +81,8 @@ export default function Header({ country, rates, onChangeCountry }: {
               <a
                 key={n.label}
                 href={n.href}
-                className="px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors hover:text-white"
-                style={{ color: "rgba(255,255,255,.42)" }}
+                className="px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors hover:text-[var(--ink)]"
+                style={{ color: "var(--ink-3)" }}
               >
                 {n.label}
               </a>
@@ -90,23 +94,22 @@ export default function Header({ country, rates, onChangeCountry }: {
             {m && (
               <div
                 className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs"
-                style={{ background: "rgba(77,150,255,.08)", border: "1px solid rgba(77,150,255,.16)" }}
+                style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}
               >
-                <span style={{ color: "rgba(255,255,255,.38)" }}>1 ¥ =</span>
-                <span className="font-bold" style={{ color: "#4D96FF" }}>{rates[m.rateKey]} {m.currency}</span>
+                <span style={{ color: "var(--ink-4)" }}>1 ¥ =</span>
+                <span className="font-bold" style={{ color: "var(--accent)" }}>{rates[m.rateKey]} {m.currency}</span>
               </div>
             )}
 
             <motion.button
               onClick={onChangeCountry}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium"
-              style={{ background: "rgba(255,255,255,.055)", border: "1px solid rgba(255,255,255,.08)" }}
-              whileHover={{ background: "rgba(255,255,255,.09)" }}
+              style={{ background: "var(--card)", border: "1px solid var(--line)", boxShadow: "var(--shadow-xs)" }}
               whileTap={{ scale: 0.95 }}
             >
               {m
-                ? <><span>{m.flag}</span><span className="hidden sm:inline" style={{ color: "rgba(255,255,255,.5)" }}>{m.name}</span></>
-                : <span style={{ color: "rgba(255,255,255,.35)" }}>Страна</span>
+                ? <><span>{m.flag}</span><span className="hidden sm:inline" style={{ color: "var(--ink-3)" }}>{m.name}</span></>
+                : <span style={{ color: "var(--ink-4)" }}>Страна</span>
               }
             </motion.button>
 
@@ -116,7 +119,7 @@ export default function Header({ country, rates, onChangeCountry }: {
               target="_blank"
               rel="noopener noreferrer"
               className="hidden md:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold text-white"
-              style={{ background: "#4D96FF", boxShadow: "0 4px 16px rgba(77,150,255,.35)" }}
+              style={{ background: "var(--ink-block)", boxShadow: "0 4px 16px rgba(17,17,19,0.16)" }}
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -130,17 +133,20 @@ export default function Header({ country, rates, onChangeCountry }: {
               aria-label="Меню"
             >
               <motion.span
-                className="block h-[1.5px] w-5 rounded-full bg-white"
+                className="block h-[1.5px] w-5 rounded-full"
+                style={{ background: "var(--ink)" }}
                 animate={{ rotate: menuOpen ? 45 : 0, y: menuOpen ? 5 : 0 }}
                 transition={{ duration: 0.22 }}
               />
               <motion.span
-                className="block h-[1.5px] w-5 rounded-full bg-white"
+                className="block h-[1.5px] w-5 rounded-full"
+                style={{ background: "var(--ink)" }}
                 animate={{ opacity: menuOpen ? 0 : 1, scaleX: menuOpen ? 0 : 1 }}
                 transition={{ duration: 0.18 }}
               />
               <motion.span
-                className="block h-[1.5px] w-5 rounded-full bg-white"
+                className="block h-[1.5px] w-5 rounded-full"
+                style={{ background: "var(--ink)" }}
                 animate={{ rotate: menuOpen ? -45 : 0, y: menuOpen ? -5 : 0 }}
                 transition={{ duration: 0.22 }}
               />
@@ -159,8 +165,8 @@ export default function Header({ country, rates, onChangeCountry }: {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
             style={{
-              background: "#04060f",
-              borderBottom: "1px solid rgba(255,255,255,0.07)",
+              background: "var(--page)",
+              borderBottom: "1px solid var(--line)",
             }}
           >
             <nav className="max-w-7xl mx-auto px-5 py-4 flex flex-col gap-1">
@@ -168,8 +174,8 @@ export default function Header({ country, rates, onChangeCountry }: {
                 <a
                   key={n.label}
                   href={n.href}
-                  className="px-3 py-3 rounded-xl text-sm font-medium transition-colors hover:text-white hover:bg-white/5"
-                  style={{ color: "rgba(255,255,255,.55)" }}
+                  className="px-3 py-3 rounded-xl text-sm font-medium transition-colors hover:text-[var(--ink)] hover:bg-[rgba(17,17,19,0.04)]"
+                  style={{ color: "var(--ink-3)" }}
                   onClick={() => setMenuOpen(false)}
                 >
                   {n.label}
@@ -178,11 +184,11 @@ export default function Header({ country, rates, onChangeCountry }: {
               {m && (
                 <div
                   className="flex items-center gap-1.5 px-3 py-2 mt-1 rounded-xl text-xs"
-                  style={{ background: "rgba(77,150,255,.06)", border: "1px solid rgba(77,150,255,.12)" }}
+                  style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}
                 >
-                  <span style={{ color: "rgba(255,255,255,.38)" }}>1 ¥ =</span>
-                  <span className="font-bold" style={{ color: "#4D96FF" }}>{rates[m.rateKey]} {m.currency}</span>
-                  <span className="ml-auto" style={{ color: "rgba(255,255,255,.25)" }}>{m.flag} {m.name}</span>
+                  <span style={{ color: "var(--ink-4)" }}>1 ¥ =</span>
+                  <span className="font-bold" style={{ color: "var(--accent)" }}>{rates[m.rateKey]} {m.currency}</span>
+                  <span className="ml-auto" style={{ color: "var(--ink-4)" }}>{m.flag} {m.name}</span>
                 </div>
               )}
               <a
@@ -190,7 +196,7 @@ export default function Header({ country, rates, onChangeCountry }: {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 px-3 py-3 mt-2 rounded-xl text-sm font-bold text-white"
-                style={{ background: "#4D96FF" }}
+                style={{ background: "var(--ink-block)" }}
                 onClick={() => setMenuOpen(false)}
               >
                 Написать в Telegram →

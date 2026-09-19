@@ -17,7 +17,7 @@ const REVIEWS = [
     name: "Алишер Т.",
     handle: "@alisher_tashkent",
     avatar: "А",
-    color: "#4D96FF",
+    color: "var(--accent)",
     text: "Взял Travis Scott AJ1. Доставка 4 дня авиа. Всё пришло в оригинальной коробке, с чеком Poizon. Сервис топ 🔥",
     shoe: "Travis Scott AJ1",
     stars: 5,
@@ -109,7 +109,7 @@ function Stars({ n }: { n: number }) {
   return (
     <div className="flex gap-0.5">
       {Array.from({ length: 5 }, (_, i) => (
-        <span key={i} style={{ color: i < n ? "#FBBF24" : "rgba(255,255,255,0.15)", fontSize: 11 }}>★</span>
+        <span key={i} style={{ color: i < n ? "#FBBF24" : "var(--ink-5)", fontSize: 11 }}>★</span>
       ))}
     </div>
   )
@@ -121,14 +121,14 @@ function ReviewCard({ r, i }: { r: typeof REVIEWS[0]; i: number }) {
       className="flex-shrink-0 flex flex-col rounded-2xl p-5"
       style={{
         width: 278,
-        background: "rgba(8,16,36,0.88)",
-        border: "1px solid rgba(255,255,255,0.08)",
+        background: "var(--card)",
+        border: "1px solid var(--line)",
       }}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-20px" }}
       transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -4, borderColor: "rgba(77,150,255,0.22)", transition: { duration: 0.2 } }}
+      whileHover={{ y: -4, borderColor: "var(--accent-ln)", transition: { duration: 0.2 } }}
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2.5">
@@ -140,21 +140,21 @@ function ReviewCard({ r, i }: { r: typeof REVIEWS[0]; i: number }) {
           </div>
           <div>
             <p className="text-xs font-bold leading-tight">{r.name}</p>
-            <p className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.3)" }}>{r.handle}</p>
+            <p className="text-[10px] mt-0.5" style={{ color: "var(--ink-4)" }}>{r.handle}</p>
           </div>
         </div>
         <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full flex-shrink-0"
-          style={{ background: "rgba(77,150,255,0.1)", border: "1px solid rgba(77,150,255,0.18)" }}>
-          <svg width="7" height="7" viewBox="0 0 24 24" fill="#4D96FF">
+          style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}>
+          <svg width="7" height="7" viewBox="0 0 24 24" fill="var(--accent)">
             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
-          <span className="text-[8px] font-semibold" style={{ color: "#4D96FF" }}>подтверждён</span>
+          <span className="text-[8px] font-semibold" style={{ color: "var(--accent)" }}>подтверждён</span>
         </div>
       </div>
 
       <Stars n={r.stars} />
 
-      <p className="text-xs leading-relaxed mt-2.5 mb-4 flex-1" style={{ color: "rgba(255,255,255,0.72)" }}>
+      <p className="text-xs leading-relaxed mt-2.5 mb-4 flex-1" style={{ color: "var(--ink-2)" }}>
         &ldquo;{r.text}&rdquo;
       </p>
 
@@ -163,7 +163,7 @@ function ReviewCard({ r, i }: { r: typeof REVIEWS[0]; i: number }) {
           style={{ background: `${r.color}18`, color: r.color }}>
           {r.shoe}
         </span>
-        <span className="text-[9px]" style={{ color: "rgba(255,255,255,0.25)" }}>{r.date}</span>
+        <span className="text-[9px]" style={{ color: "var(--ink-4)" }}>{r.date}</span>
       </div>
     </motion.div>
   )
@@ -171,7 +171,7 @@ function ReviewCard({ r, i }: { r: typeof REVIEWS[0]; i: number }) {
 
 export default function Testimonials() {
   return (
-    <section id="reviews" className="py-16" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+    <section id="reviews" className="py-16" style={{ borderTop: "1px solid var(--line)" }}>
       <div className="max-w-6xl mx-auto px-4">
 
         <motion.div
@@ -182,14 +182,14 @@ export default function Testimonials() {
           transition={{ duration: 0.6 }}
         >
           <p className="eyebrow mb-4">Отзывы</p>
-          <h2 className="font-black leading-[.88] tracking-tighter mb-2"
-            style={{ fontSize: "clamp(2.8rem, 6.5vw, 6.5rem)" }}>
+          <h2 className="font-display leading-[1.0] mb-2"
+            style={{ fontSize: "clamp(2.2rem, 5vw, 4.2rem)" }}>
             КЛИЕНТЫ
-            <span style={{ WebkitTextStroke: "1.5px rgba(255,255,255,.2)", color: "transparent", display: "block" }}>
+            <span style={{ color: "var(--ink-4)", display: "block" }}>
               ГОВОРЯТ
             </span>
           </h2>
-          <p className="text-sm" style={{ color: "rgba(255,255,255,.28)" }}>245+ успешных заказов · реальные покупатели</p>
+          <p className="text-sm" style={{ color: "var(--ink-4)" }}>245+ успешных заказов · реальные покупатели</p>
         </motion.div>
 
         <div
@@ -205,31 +205,31 @@ export default function Testimonials() {
 
         <motion.div
           className="mt-8 rounded-2xl p-5 flex flex-wrap items-center justify-center gap-8"
-          style={{ background: "rgba(8,16,36,0.6)", border: "1px solid rgba(255,255,255,0.07)" }}
+          style={{ background: "var(--card)", border: "1px solid var(--line)" }}
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.45, delay: 0.15 }}
         >
           <div className="text-center">
-            <p className="text-3xl font-black" style={{ color: "#4D96FF" }}>4.7</p>
+            <p className="text-3xl font-black" style={{ color: "var(--accent)" }}>4.7</p>
             <Stars n={5} />
-            <p className="text-[10px] text-white/30 mt-1">Средняя оценка</p>
+            <p className="text-[10px] text-[var(--ink-4)] mt-1">Средняя оценка</p>
           </div>
-          <div className="w-px h-10 hidden sm:block" style={{ background: "rgba(255,255,255,0.06)" }} />
+          <div className="w-px h-10 hidden sm:block" style={{ background: "var(--card-alt)" }} />
           <div className="text-center">
             <p className="text-3xl font-black">245+</p>
-            <p className="text-[10px] text-white/30 mt-1">Выполнено заказов</p>
+            <p className="text-[10px] text-[var(--ink-4)] mt-1">Выполнено заказов</p>
           </div>
-          <div className="w-px h-10 hidden sm:block" style={{ background: "rgba(255,255,255,0.06)" }} />
+          <div className="w-px h-10 hidden sm:block" style={{ background: "var(--card-alt)" }} />
           <div className="text-center">
             <p className="text-3xl font-black" style={{ color: "#10b981" }}>100%</p>
-            <p className="text-[10px] text-white/30 mt-1">Оригиналов</p>
+            <p className="text-[10px] text-[var(--ink-4)] mt-1">Оригиналов</p>
           </div>
-          <div className="w-px h-10 hidden sm:block" style={{ background: "rgba(255,255,255,0.06)" }} />
+          <div className="w-px h-10 hidden sm:block" style={{ background: "var(--card-alt)" }} />
           <div className="text-center">
             <p className="text-3xl font-black">8</p>
-            <p className="text-[10px] text-white/30 mt-1">Стран СНГ</p>
+            <p className="text-[10px] text-[var(--ink-4)] mt-1">Стран СНГ</p>
           </div>
         </motion.div>
 

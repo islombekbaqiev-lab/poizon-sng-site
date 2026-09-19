@@ -21,92 +21,49 @@ export default function Intro({ onDone }: { onDone: () => void }) {
       {visible && (
         <motion.div
           className="fixed inset-0 flex items-center justify-center overflow-hidden"
-          style={{
-            background: "linear-gradient(160deg, #04060F 0%, #050C1A 55%, #060D1F 100%)",
-            zIndex: 99999,
-          }}
+          style={{ background: "var(--page)", zIndex: 99999 }}
           exit={{ opacity: 0, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } }}
         >
-          {/* Blue aura */}
+          {/* Мягкое мятное свечение вместо тёмной ауры */}
           <motion.div
             className="absolute pointer-events-none"
             style={{
-              width: 680, height: 320,
-              top: "50%", left: "50%",
-              translate: "-50% -50%",
-              background: "radial-gradient(ellipse, rgba(77,150,255,0.16) 0%, rgba(77,150,255,0.05) 50%, transparent 72%)",
-              filter: "blur(50px)",
+              width: 720, height: 340,
+              top: "50%", left: "50%", translate: "-50% -50%",
+              background: "radial-gradient(ellipse, var(--accent-sf) 0%, transparent 70%)",
+              filter: "blur(60px)",
             }}
-            initial={{ opacity: 0, scale: 0.5 }}
+            initial={{ opacity: 0, scale: 0.6 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           />
 
           <div className="relative text-center select-none">
-            <div
-              className="flex items-end justify-center leading-none"
-              style={{ perspective: "600px" }}
-            >
+            <div className="flex items-end justify-center leading-none">
               {LETTERS.map((letter, i) => (
-                <div key={i} className="relative inline-block">
-                  <motion.span
-                    className="font-black leading-none block"
-                    style={{
-                      fontSize: "clamp(3.5rem, 13vw, 8rem)",
-                      letterSpacing: "-0.01em",
-                      color: "rgba(255,255,255,0.75)",
-                      textShadow: [
-                        "0 4px 0 rgba(77,150,255,0.12)",
-                        "0 10px 22px rgba(0,0,0,0.7)",
-                      ].join(", "),
-                      display: "inline-block",
-                    }}
-                    initial={{ opacity: 0, y: -40, rotateX: -65, scale: 0.82 }}
-                    animate={{ opacity: 1, y: 0,   rotateX: 0,   scale: 1    }}
-                    transition={{
-                      delay: 0.05 + i * 0.05,
-                      duration: 0.4,
-                      ease: [0.16, 1, 0.3, 1],
-                    }}
-                  >
-                    {letter}
-                  </motion.span>
-
-                  <motion.span
-                    aria-hidden="true"
-                    className="font-black leading-none absolute top-0 left-0 pointer-events-none"
-                    style={{
-                      fontSize: "clamp(3.5rem, 13vw, 8rem)",
-                      letterSpacing: "-0.01em",
-                      color: "transparent",
-                      WebkitBackgroundClip: "text",
-                      backgroundClip: "text",
-                      backgroundImage: "linear-gradient(105deg, rgba(0,0,0,0.3) 10%, transparent 30%, rgba(255,255,255,1) 48%, rgba(255,255,255,1) 52%, transparent 70%, rgba(0,0,0,0.3) 90%)",
-                      backgroundSize: "260% 100%",
-                      backgroundRepeat: "no-repeat",
-                      display: "inline-block",
-                    }}
-                    initial={{ backgroundPosition: "-120% 50%" }}
-                    animate={{ backgroundPosition: "220% 50%" }}
-                    transition={{
-                      delay: 0.52 + i * 0.03,
-                      duration: 0.5,
-                      ease: [0.4, 0, 0.2, 1],
-                    }}
-                  >
-                    {letter}
-                  </motion.span>
-                </div>
+                <motion.span
+                  key={i}
+                  className="font-display block"
+                  style={{
+                    fontSize: "clamp(3.2rem, 12vw, 7.5rem)",
+                    color: "var(--ink)",
+                    display: "inline-block",
+                  }}
+                  initial={{ opacity: 0, y: -28, scale: 0.88 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ delay: 0.05 + i * 0.05, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  {letter}
+                </motion.span>
               ))}
             </div>
 
             <motion.p
               className="font-semibold tracking-[0.5em] uppercase"
               style={{
-                fontSize: "clamp(0.65rem, 1.6vw, 0.95rem)",
-                marginTop: "0.5em",
-                color: "rgba(255,255,255,0.36)",
-                textShadow: "0 0 16px rgba(77,150,255,0.3)",
+                fontSize: "clamp(0.65rem, 1.6vw, 0.9rem)",
+                marginTop: "0.6em",
+                color: "var(--accent)",
               }}
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}

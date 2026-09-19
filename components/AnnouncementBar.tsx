@@ -18,18 +18,18 @@ export default function AnnouncementBar() {
       className="relative overflow-hidden flex items-center"
       style={{
         height: "30px",
-        background: "rgba(77,150,255,0.07)",
-        borderBottom: "1px solid rgba(77,150,255,0.11)",
+        background: "var(--accent-sf)",
+        borderBottom: "1px solid var(--accent-ln)",
       }}
     >
       <div className="marquee-fast flex items-center whitespace-nowrap">
         {doubled.map((msg, i) => (
           <span key={i} className="inline-flex items-center shrink-0">
             <span className="text-[11px] font-medium tracking-wide px-5"
-              style={{ color: "rgba(255,255,255,0.75)" }}>
+              style={{ color: "var(--ink-2)" }}>
               {msg}
             </span>
-            <span style={{ color: "rgba(77,150,255,0.22)", fontSize: "8px" }}>◆</span>
+            <span style={{ color: "var(--accent)", fontSize: "8px" }}>◆</span>
           </span>
         ))}
       </div>

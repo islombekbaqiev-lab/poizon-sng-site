@@ -49,16 +49,16 @@ export default function HowItWorks({ country }: { country?: Country | null }) {
   const options = (country ? DELIVERY[country] : null) ?? DELIVERY.default
 
   return (
-    <section id="how" className="py-28" style={{ borderTop: "1px solid rgba(255,255,255,.05)" }}>
+    <section id="how" className="py-28" style={{ borderTop: "1px solid var(--line)" }}>
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
 
         {/* Header */}
         <motion.div className="mb-16" {...fadeUp(0)}>
           <p className="eyebrow mb-4">Процесс</p>
-          <h2 className="font-black leading-[.88] tracking-tighter"
-            style={{ fontSize: "clamp(2.8rem, 6.5vw, 6.5rem)" }}>
+          <h2 className="font-display leading-[1.0]"
+            style={{ fontSize: "clamp(2.2rem, 5vw, 4.2rem)" }}>
             КАК ЭТО
-            <span style={{ WebkitTextStroke: "1.5px rgba(255,255,255,.2)", color: "transparent", display: "block" }}>
+            <span style={{ color: "var(--ink-4)", display: "block" }}>
               РАБОТАЕТ
             </span>
           </h2>
@@ -66,25 +66,25 @@ export default function HowItWorks({ country }: { country?: Country | null }) {
 
         {/* Steps */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px"
-          style={{ background: "rgba(255,255,255,.05)" }}>
+          style={{ background: "var(--card)" }}>
           {STEPS.map((s, i) => (
             <motion.div
               key={i}
               className="flex flex-col p-8 group"
-              style={{ background: "#04060F" }}
+              style={{ background: "var(--page)" }}
               {...fadeUp(i * 0.08)}
-              whileHover={{ background: "rgba(77,150,255,.04)" } as any}
+              whileHover={{ background: "var(--accent-sf)" } as any}
             >
               <span className="font-black mb-6 select-none"
-                style={{ fontSize: "clamp(3rem, 5vw, 4.5rem)", color: "rgba(77,150,255,.15)", lineHeight: 1 }}>
+                style={{ fontSize: "clamp(3rem, 5vw, 4.5rem)", color: "var(--accent)", lineHeight: 1 }}>
                 {s.num}
               </span>
               <p className="font-bold text-lg mb-3">{s.title}</p>
-              <p className="text-sm leading-relaxed flex-1" style={{ color: "rgba(255,255,255,.38)" }}>
+              <p className="text-sm leading-relaxed flex-1" style={{ color: "var(--ink-4)" }}>
                 {s.desc}
               </p>
               <div className="mt-6 h-px w-10 rounded-full"
-                style={{ background: "rgba(77,150,255,.35)" }} />
+                style={{ background: "var(--accent)" }} />
             </motion.div>
           ))}
         </div>
@@ -92,7 +92,7 @@ export default function HowItWorks({ country }: { country?: Country | null }) {
         {/* Delivery — country-aware */}
         <motion.div className="mt-8" {...fadeUp(0.24)}>
           {country && (
-            <p className="text-xs mb-3" style={{ color: "rgba(255,255,255,.28)" }}>
+            <p className="text-xs mb-3" style={{ color: "var(--ink-4)" }}>
               Доставка в {
                 { RU: "Россию", BY: "Беларусь", KZ: "Казахстан", TJ: "Таджикистан",
                   AM: "Армению", GE: "Грузию", AZ: "Азербайджан", UZ: "Узбекистан" }[country]
@@ -109,8 +109,8 @@ export default function HowItWorks({ country }: { country?: Country | null }) {
                 <span style={{ fontSize: "1.75rem", flexShrink: 0 }}>{d.icon}</span>
                 <div>
                   <p className="font-bold text-sm">{d.label}</p>
-                  <p className="font-black text-sm" style={{ color: "#4D96FF" }}>{d.days}</p>
-                  <p className="text-[11px] mt-0.5" style={{ color: "rgba(255,255,255,.25)" }}>{d.price}</p>
+                  <p className="font-black text-sm" style={{ color: "var(--accent)" }}>{d.days}</p>
+                  <p className="text-[11px] mt-0.5" style={{ color: "var(--ink-4)" }}>{d.price}</p>
                 </div>
               </div>
             ))}
@@ -121,7 +121,7 @@ export default function HowItWorks({ country }: { country?: Country | null }) {
         <motion.div className="mt-8 flex flex-wrap gap-2.5" {...fadeUp(0.3)}>
           {["✅ Оригиналы", "🛡️ Гарантия", "📦 Трек-номер", "💬 Поддержка 24/7"].map(b => (
             <span key={b} className="px-3.5 py-1.5 rounded-full text-xs"
-              style={{ background: "rgba(255,255,255,.03)", border: "1px solid rgba(255,255,255,.07)", color: "rgba(255,255,255,.38)" }}>
+              style={{ background: "var(--card)", border: "1px solid var(--line)", color: "var(--ink-4)" }}>
               {b}
             </span>
           ))}

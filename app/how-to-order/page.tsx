@@ -107,29 +107,29 @@ const jsonLd = wrapGraph([
 
 export default function HowToOrderPage() {
   return (
-    <main className="min-h-screen bg-[#050C1A]" style={{ color: "#fff" }}>
+    <main className="min-h-screen bg-[var(--page)]" style={{ color: "var(--ink)" }}>
       <script type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <nav className="max-w-4xl mx-auto px-5 sm:px-8 py-5 flex items-center gap-3">
-        <Link href="/" className="text-sm font-semibold" style={{ color: "rgba(255,255,255,0.45)" }}>
+        <Link href="/" className="text-sm font-semibold" style={{ color: "var(--ink-3)" }}>
           ← Главная
         </Link>
-        <span style={{ color: "rgba(255,255,255,0.15)" }}>/</span>
-        <span className="text-sm" style={{ color: "rgba(255,255,255,0.8)" }}>Как заказать</span>
+        <span style={{ color: "var(--ink-5)" }}>/</span>
+        <span className="text-sm" style={{ color: "var(--ink)" }}>Как заказать</span>
       </nav>
 
       <div className="max-w-4xl mx-auto px-5 sm:px-8 pb-24">
 
         {/* Header */}
         <div className="mb-14">
-          <p className="text-xs font-black uppercase tracking-[0.2em] mb-3" style={{ color: "#4D96FF" }}>
+          <p className="text-xs font-black uppercase tracking-[0.2em] mb-3" style={{ color: "var(--accent)" }}>
             Инструкция
           </p>
           <h1 className="font-black leading-tight mb-4" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
             Как заказать<br />с Poizon в СНГ
           </h1>
-          <p className="text-base max-w-xl leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>
+          <p className="text-base max-w-xl leading-relaxed" style={{ color: "var(--ink-3)" }}>
             Poizon (得物) — китайская платформа оригинальных товаров. Мы выкупаем и доставляем в Россию,
             Казахстан, Беларусь и ещё 5 стран СНГ.
           </p>
@@ -139,23 +139,23 @@ export default function HowToOrderPage() {
         <div className="mb-16 space-y-4">
           {STEPS.map((s, i) => (
             <div key={i} className="flex gap-5 rounded-2xl p-5 transition-all"
-              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+              style={{ background: "var(--card)", border: "1px solid var(--line)" }}>
               <span className="text-3xl font-black flex-shrink-0 leading-none mt-0.5"
-                style={{ color: "rgba(77,150,255,0.35)", fontVariantNumeric: "tabular-nums" }}>
+                style={{ color: "var(--accent)", fontVariantNumeric: "tabular-nums" }}>
                 {s.n}
               </span>
               <div>
                 <h2 className="font-black text-base mb-1.5">{s.title}</h2>
-                <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>{s.body}</p>
+                <p className="text-sm leading-relaxed" style={{ color: "var(--ink-3)" }}>{s.body}</p>
                 {(s.n === "02" || s.n === "04" || s.n === "06") && (
                   <a
                     href={TG_LINK}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 mt-3 text-xs font-bold"
-                    style={{ color: "#4D96FF" }}
+                    style={{ color: "var(--accent)" }}
                   >
-                    Написать менеджеру → <span style={{ color: "rgba(255,255,255,0.25)", fontWeight: 700 }}>(ответим в рабочее время)</span>
+                    Написать менеджеру → <span style={{ color: "var(--ink-4)", fontWeight: 700 }}>(ответим в рабочее время)</span>
                   </a>
                 )}
               </div>
@@ -165,16 +165,16 @@ export default function HowToOrderPage() {
 
         {/* CTA */}
         <div className="rounded-3xl p-7 flex flex-col sm:flex-row items-center justify-between gap-5 mb-16"
-          style={{ background: "rgba(77,150,255,0.08)", border: "1px solid rgba(77,150,255,0.18)" }}>
+          style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}>
           <div>
             <p className="font-black text-lg mb-1">Готовы сделать заказ?</p>
-            <p className="text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>
+            <p className="text-sm" style={{ color: "var(--ink-3)" }}>
               Напишите в Telegram — ответим за 15 минут в рабочее время.
             </p>
           </div>
           <a href={TG_LINK} target="_blank" rel="noopener noreferrer"
             className="flex-shrink-0 px-6 py-3 rounded-2xl text-white font-bold text-sm transition-all hover:scale-105"
-            style={{ background: "#4D96FF", boxShadow: "0 8px 24px rgba(77,150,255,0.3)" }}>
+            style={{ background: "var(--ink-block)", boxShadow: "0 8px 24px rgba(17,17,19,0.16)" }}>
             Написать в Telegram →
           </a>
         </div>
@@ -185,9 +185,9 @@ export default function HowToOrderPage() {
           <div className="space-y-3">
             {FAQS.map((f, i) => (
               <div key={i} className="rounded-2xl p-5"
-                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                style={{ background: "var(--card)", border: "1px solid var(--line)" }}>
                 <p className="font-bold text-sm mb-2">{f.q}</p>
-                <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>{f.a}</p>
+                <p className="text-sm leading-relaxed" style={{ color: "var(--ink-3)" }}>{f.a}</p>
               </div>
             ))}
           </div>
@@ -195,14 +195,14 @@ export default function HowToOrderPage() {
 
         {/* Size guides */}
         <div>
-          <h2 className="text-sm font-black uppercase tracking-[0.18em] mb-4" style={{ color: "rgba(255,255,255,0.35)" }}>
+          <h2 className="text-sm font-black uppercase tracking-[0.18em] mb-4" style={{ color: "var(--ink-4)" }}>
             Размерные сетки брендов
           </h2>
           <div className="flex flex-wrap gap-2">
             {SIZE_GUIDES.map(b => (
               <Link key={b.slug} href={`/size-guide/${b.slug}`}
                 className="px-4 py-2 rounded-xl text-sm font-semibold transition-all hover:scale-105"
-                style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.09)", color: "rgba(255,255,255,0.7)" }}>
+                style={{ background: "var(--card-alt)", border: "1px solid var(--line)", color: "var(--ink-2)" }}>
                 {b.label} →
               </Link>
             ))}

@@ -1,6 +1,9 @@
 "use client"
 
+import Link from "next/link"
 import { motion } from "framer-motion"
+
+import CookieSettingsButton from "@/components/CookieSettingsButton"
 
 const TG_ADVISOR = "https://t.me/PoizonAdvisor"
 const TG_CHANNEL = "https://t.me/poizonsnggg"
@@ -12,15 +15,21 @@ const NAV = [
   { label: "Отзывы",       href: "#reviews" },
 ]
 
+const LEGAL_LINKS = [
+  { label: "Конфиденциальность", href: "/privacy" },
+  { label: "Файлы cookie",       href: "/cookies" },
+  { label: "Публичная оферта",   href: "/terms"   },
+]
+
 const SOCIAL = [
   { label: "Instagram",     href: INSTAGRAM,  color: "rgba(225,48,108,.7)"  },
-  { label: "@poizonsnggg",  href: TG_CHANNEL, color: "rgba(77,150,255,.7)"  },
-  { label: "@PoizonAdvisor",href: TG_ADVISOR, color: "#4D96FF"              },
+  { label: "@poizonsnggg",  href: TG_CHANNEL, color: "var(--accent)"  },
+  { label: "@PoizonAdvisor",href: TG_ADVISOR, color: "var(--accent)"              },
 ]
 
 export default function Footer() {
   return (
-    <footer style={{ borderTop: "1px solid rgba(255,255,255,.05)" }}>
+    <footer style={{ borderTop: "1px solid var(--line)" }}>
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
 
         {/* Giant wordmark */}
@@ -29,7 +38,7 @@ export default function Footer() {
             className="font-black tracking-tighter leading-none select-none text-center"
             style={{
               fontSize: "clamp(3.5rem, 12vw, 10rem)",
-              WebkitTextStroke: "1px rgba(255,255,255,.08)",
+              WebkitTextStroke: "1px rgba(17,17,19,0.16)",
               color: "transparent",
               letterSpacing: "-.04em",
             }}
@@ -50,30 +59,42 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-lg font-black tracking-tighter">POIZON</span>
-              <span className="text-[10px] font-black px-1.5 py-[3px] rounded-md"
-                style={{ background: "#4D96FF" }}>SNG</span>
+              <span className="font-display text-xl" style={{ color: "var(--ink)" }}>POIZON</span>
+              <span className="text-[10px] font-bold px-2 py-[3px] rounded-md"
+                style={{ background: "var(--ink-block)", color: "#fff" }}>SNG</span>
             </div>
-            <p className="text-xs leading-relaxed max-w-[200px]" style={{ color: "rgba(255,255,255,.28)" }}>
+            <p className="text-xs leading-relaxed max-w-[200px]" style={{ color: "var(--ink-4)" }}>
               Байер с Poizon. Оригиналы из Китая в страны СНГ.
             </p>
           </div>
 
           {/* Nav */}
           <div className="flex flex-col gap-2.5">
-            <p className="eyebrow mb-1" style={{ color: "rgba(255,255,255,.22)", fontSize: ".6rem" }}>Навигация</p>
+            <p className="eyebrow mb-1" style={{ color: "var(--ink-4)", fontSize: ".6rem" }}>Навигация</p>
             {NAV.map(n => (
               <a key={n.label} href={n.href}
-                className="text-sm transition-colors hover:text-white"
-                style={{ color: "rgba(255,255,255,.42)" }}>
+                className="text-sm transition-colors hover:text-[var(--ink)]"
+                style={{ color: "var(--ink-3)" }}>
                 {n.label}
               </a>
             ))}
           </div>
 
+          {/* Legal */}
+          <div className="flex flex-col gap-2.5">
+            <p className="eyebrow mb-1" style={{ color: "var(--ink-4)", fontSize: ".6rem" }}>Документы</p>
+            {LEGAL_LINKS.map(l => (
+              <Link key={l.href} href={l.href}
+                className="text-sm transition-colors hover:text-[var(--ink)]"
+                style={{ color: "var(--ink-3)" }}>
+                {l.label}
+              </Link>
+            ))}
+          </div>
+
           {/* Social */}
           <div className="flex flex-col gap-2.5">
-            <p className="eyebrow mb-1" style={{ color: "rgba(255,255,255,.22)", fontSize: ".6rem" }}>Соцсети</p>
+            <p className="eyebrow mb-1" style={{ color: "var(--ink-4)", fontSize: ".6rem" }}>Соцсети</p>
             {SOCIAL.map(s => (
               <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                 className="text-sm transition-colors font-medium"
@@ -85,13 +106,13 @@ export default function Footer() {
 
           {/* CTA */}
           <div>
-            <p className="eyebrow mb-4" style={{ color: "rgba(255,255,255,.22)", fontSize: ".6rem" }}>Заказать</p>
+            <p className="eyebrow mb-4" style={{ color: "var(--ink-4)", fontSize: ".6rem" }}>Заказать</p>
             <motion.a
               href={TG_ADVISOR}
               target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-white text-sm font-bold"
-              style={{ background: "#4D96FF", boxShadow: "0 6px 24px rgba(77,150,255,.3)" }}
-              whileHover={{ scale: 1.04, boxShadow: "0 10px 32px rgba(77,150,255,.48)" }}
+              style={{ background: "var(--ink-block)", boxShadow: "0 6px 24px rgba(17,17,19,0.16)" }}
+              whileHover={{ scale: 1.04, boxShadow: "0 10px 32px rgba(17,17,19,0.16)" }}
               whileTap={{ scale: 0.96 }}
             >
               Написать →
@@ -101,9 +122,22 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="line-h mb-6" />
-        <p className="pb-8 text-[11px] text-center" style={{ color: "rgba(255,255,255,.14)" }}>
-          © 2025 POIZON SNG — посредник, не аффилирован с Poizon / 得物 официально
-        </p>
+        <div className="pb-8 flex flex-col items-center gap-4">
+          <p className="text-[11px] text-center max-w-xl leading-relaxed" style={{ color: "var(--ink-3)" }}>
+            © {new Date().getFullYear()} POIZON SNG. Мы — посредник (байер): выкупаем товар по вашему
+            поручению и организуем доставку. Не являемся продавцом и не аффилированы с Poizon (得物),
+            Nike, Adidas и другими правообладателями; товарные знаки используются для идентификации
+            товара. Цены на сайте носят информационный характер и не являются публичной офертой.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <CookieSettingsButton />
+            <Link href="/privacy"
+              className="px-4 py-2 rounded-xl text-xs font-semibold transition-colors"
+              style={{ background: "var(--card)", border: "1px solid var(--line)", color: "var(--ink-2)" }}>
+              Политика конфиденциальности
+            </Link>
+          </div>
+        </div>
 
       </div>
     </footer>

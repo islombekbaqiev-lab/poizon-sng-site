@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server"
 import { kv } from "@vercel/kv"
+import { isAuthorizedCron } from "@/lib/cronAuth"
 
-const SECRET = process.env.CRON_SECRET
 
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url)
-  if (searchParams.get("secret") !== SECRET) {
+  if (!isAuthorizedCron(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
