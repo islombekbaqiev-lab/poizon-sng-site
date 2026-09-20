@@ -1,0 +1,17 @@
+# Vercel собирает проект у себя — локальная сборка ему не нужна,
+# а весит она больше лимита загрузки в 100 МБ и роняет деплой.
+.next
+node_modules
+out
+dist
+
+# Локальные базы ruflo/agentdb — к сайту отношения не имеют.
+ruvector.db
+ruvector.db-*
+agentdb.rvf
+agentdb.rvf.lock
+.claude-flow
+
+tsconfig.tsbuildinfo
+.DS_Store
+seo-reports
