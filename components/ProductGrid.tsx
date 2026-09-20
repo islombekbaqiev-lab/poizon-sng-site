@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { motion, useScroll, useTransform, useMotionValue } from "framer-motion"
 import { Country, Rates } from "@/lib/types"
@@ -385,10 +385,11 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
             {loading ? "Загружаем товары…" : `${filtered.length} позиций · 100% оригиналы`}
           </p>
         </div>
-        <div className="flex gap-1 rounded-full p-1" style={{ background: "var(--card)", boxShadow: "var(--shadow-xs)" }}>
+        <div className="flex gap-1 rounded-full p-1 max-w-full overflow-x-auto"
+          style={{ background: "var(--card)", boxShadow: "var(--shadow-xs)", scrollbarWidth: "none" } as React.CSSProperties}>
           {CATEGORIES.map(c => (
             <motion.button key={c} onClick={() => { setCat(c); setPage(1) }}
-              className="relative px-4 py-2 rounded-full text-sm font-semibold z-10 transition-colors"
+              className="relative shrink-0 px-4 py-2 rounded-full text-sm font-semibold z-10 transition-colors"
               style={{ color: cat === c ? "#fff" : "var(--ink-3)" }}
               whileTap={{ scale: 0.95 }}>
               {cat === c && (
