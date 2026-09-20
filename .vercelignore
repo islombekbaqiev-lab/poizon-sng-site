@@ -11,6 +11,8 @@ ruvector.db-*
 agentdb.rvf
 agentdb.rvf.lock
 .claude-flow
+.swarm
+.ruflo
 
 tsconfig.tsbuildinfo
 .DS_Store
