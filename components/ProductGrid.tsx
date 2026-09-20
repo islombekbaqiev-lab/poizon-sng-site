@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { motion, useScroll, useTransform, useMotionValue } from "framer-motion"
 import { Country, Rates } from "@/lib/types"
 import { buildTelegramUrl, productStart } from "@/lib/telegram"
@@ -44,85 +45,7 @@ const TAG_COLOR: Record<string, { bg: string; text: string }> = {
   "Лимит":  { bg: "var(--danger)",    text: "#fff" },
 }
 
-const FALLBACK: Product[] = [
-  {
-    id: "ts-aj1-velvet-brown",
-    name: "Travis Scott x Air Jordan 1 Low OG \"Velvet Brown\"",
-    brand: "Nike",
-    category: "Кроссовки",
-    priceRUB: 38900,
-    tag: "Лимит",
-    url: "https://poizonshop.ru/product/travis-scott-x-air-jordan-1-low-og-velvet-brown-11569302",
-    image: "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20241222%2Faa3efedd7ed0417caaf8c8693e7e673d.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
-  },
-  {
-    id: "af1-triple-white",
-    name: "Nike Air Force 1 '07 Triple White",
-    brand: "Nike",
-    category: "Кроссовки",
-    priceRUB: 12500,
-    tag: "Хит",
-    url: "https://poizonshop.ru/product/nike-air-force-1-07-triple-white-1190436",
-    image: "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20230721%2F61c2ccd326aa4232b257115e05333732.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
-  },
-  {
-    id: "af1-07",
-    name: "Nike Air Force 1 '07",
-    brand: "Nike",
-    category: "Кроссовки",
-    priceRUB: 11900,
-    url: "https://poizonshop.ru/product/nike-air-force-1-07-1237506",
-    image: "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20230721%2Ff1213edb65e24a37b39eeeb1b3f7420f.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
-  },
-  {
-    id: "af1-triple-black",
-    name: "Nike Air Force 1 Low Triple Black",
-    brand: "Nike",
-    category: "Кроссовки",
-    priceRUB: 12200,
-    url: "https://poizonshop.ru/product/nike-air-force-1-low-triple-black-1190417",
-    image: "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20230721%2Fc5f5986aac904703b9ce9b30107c9d00.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
-  },
-  {
-    id: "yeezy-350-zebra",
-    name: "Adidas Yeezy Boost 350 V2 Zebra",
-    brand: "Adidas",
-    category: "Кроссовки",
-    priceRUB: 24500,
-    tag: "Хит",
-    url: "#",
-    image: "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20230615%2F4b0f6a7e8c2d4f1a9b3e5c7d8f2a4b6c.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
-  },
-  {
-    id: "nb-550-white",
-    name: "New Balance 550 White Grey",
-    brand: "New Balance",
-    category: "Кроссовки",
-    priceRUB: 16800,
-    tag: "Новинка",
-    url: "#",
-    image: "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20230828%2F9d2f1e3a7c5b8d4f0e6a2c4b1d7f9a3c.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
-  },
-  {
-    id: "jordan-4-bred",
-    name: "Air Jordan 4 Retro Bred Reimagined",
-    brand: "Jordan",
-    category: "Кроссовки",
-    priceRUB: 32000,
-    tag: "Лимит",
-    url: "#",
-    image: "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20240115%2Fb8e4f2a6c1d3e7f9a0b2c4d6e8f0a2b4.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
-  },
-  {
-    id: "essentials-hoodie-black",
-    name: "Fear of God Essentials Hoodie Black",
-    brand: "Fear of God",
-    category: "Одежда",
-    priceRUB: 18500,
-    url: "#",
-    image: "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20231005%2Fc3a7b1d5e9f2a6b0c4d8e2f6a0b4c8d2.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
-  },
-]
+const FALLBACK: Product[] = []
 
 function fmtPrice(n: number, sym: string) {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M ${sym}`
@@ -172,7 +95,7 @@ function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | 
       className="col-span-2 row-span-2 flex flex-col rounded-[24px] overflow-hidden group transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
       style={{ background: "var(--card)", boxShadow: "var(--shadow-sm)" }}
     >
-      <div className="flex-1 relative overflow-hidden flex items-center justify-center"
+      <Link href={`/product/${p.id}`} className="flex-1 relative overflow-hidden flex items-center justify-center"
         style={{ background: "#FFFFFF", minHeight: 0 }}>
         <motion.div className="relative w-full h-full" style={{ y: imgY }}>
           <Image
@@ -195,10 +118,12 @@ function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | 
             -{savePct}%
           </span>
         )}
-      </div>
+      </Link>
       <div className="flex-shrink-0 p-4" style={{ background: "var(--card)", borderTop: "1px solid var(--line)" }}>
         <p className="text-[9px] font-bold uppercase tracking-[0.18em] mb-0.5" style={{ color: "var(--ink-4)" }}>{p.brand}</p>
-        <p className="font-bold text-sm leading-tight mb-3 line-clamp-2">{displayName}</p>
+        <Link href={`/product/${p.id}`} className="block font-bold text-sm leading-tight mb-3 line-clamp-2 hover:underline underline-offset-2">
+          {displayName}
+        </Link>
         <div className="flex items-center justify-between gap-3">
           {local !== null ? (
             <div className="flex flex-col">
@@ -246,7 +171,7 @@ function SmallCard({ p, local, symbol, priority }: { p: Product; local: number |
       data-cursor="buy"
       className="col-span-1 row-span-1 flex flex-col rounded-[20px] overflow-hidden group transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
       style={{ background: "var(--card)", boxShadow: "var(--shadow-sm)" }}>
-      <div className="flex-1 relative overflow-hidden flex items-center justify-center"
+      <Link href={`/product/${p.id}`} className="flex-1 relative overflow-hidden flex items-center justify-center"
         style={{ background: "#FFFFFF", minHeight: 0 }}>
         <motion.div className="relative w-full h-full" style={{ y: imgY }}>
           <Image
@@ -263,10 +188,12 @@ function SmallCard({ p, local, symbol, priority }: { p: Product; local: number |
             {p.tag}
           </span>
         )}
-      </div>
+      </Link>
       <div className="flex-shrink-0 p-2.5" style={{ background: "var(--card)", borderTop: "1px solid var(--line)" }}>
         <p className="text-[8px] font-bold uppercase tracking-[0.16em] mb-0.5" style={{ color: "var(--ink-4)" }}>{p.brand}</p>
-        <p className="text-[10px] font-semibold leading-tight line-clamp-1 mb-2">{displayName}</p>
+        <Link href={`/product/${p.id}`} className="block text-[10px] font-semibold leading-tight line-clamp-1 mb-2 hover:underline underline-offset-2">
+          {displayName}
+        </Link>
         <div className="flex items-center justify-between gap-1">
           {local !== null
             ? <p className="text-xs font-bold tracking-tight">{fmtPrice(local, symbol)}</p>

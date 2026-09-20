@@ -7,11 +7,17 @@ import { buildTelegramUrl, leadStart } from "@/lib/telegram"
 
 const CARDS = [
   {
-    img: "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20241222%2Faa3efedd7ed0417caaf8c8693e7e673d.jpg&w=600&q=75&fit=contain&fmt=auto&trim=0&v=1",
-    name: "Travis Scott × AJ1 Low", brand: "Nike", tag: "Лимит",
+    img: "https://cdn-img.thepoizon.ru/pro-img/origin-img/20260703/dc5a5e9bac6c49afa2c6a34f25747312.jpg",
+    name: "Air Force 1 Low '07", brand: "Nike", tag: "Хит",
   },
-  { img: "/card-nike-tee.jpg",  name: "Round-Neck Comfort Fit", brand: "Nike",  tag: "Хит"     },
-  { img: "/card-coach-bag.jpg", name: "Charter 19",             brand: "Coach", tag: "Новинка" },
+  {
+    img: "https://cdn-img.thepoizon.ru/pro-img/origin-img/20250306/f3748d6e974f4d17a2c565a305559494.jpg",
+    name: "Sportswear T-Shirt", brand: "Nike", tag: "Новинка",
+  },
+  {
+    img: "https://cdn-img.thepoizon.ru/pro-img/origin-img/20250620/948572a18f99441fad84a85e4dabce67.jpg",
+    name: "Le Pliage Large", brand: "Longchamp", tag: "Лимит",
+  },
 ]
 
 const STATS = [

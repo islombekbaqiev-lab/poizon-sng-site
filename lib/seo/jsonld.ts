@@ -63,11 +63,14 @@ export function productLd(args: {
   description: string
   priceRUB: number
   sellerName: string
+  article?: string
 }) {
   return {
     "@type": "Product",
     name: args.name,
     brand: { "@type": "Brand", name: args.brand },
+    sku: args.article || undefined,
+    mpn: args.article || undefined,
     image: args.image || undefined,
     description: args.description,
     offers: {

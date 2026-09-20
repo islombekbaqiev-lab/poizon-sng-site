@@ -2,15 +2,10 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 
+import { getProducts, type Product } from "@/lib/catalog"
 import { SITE_URL, TG_LINK } from "@/lib/site"
 import { breadcrumbList, itemList, wrapGraph } from "@/lib/seo/jsonld"
 import { buildTelegramUrl, categoryStart, productStart } from "@/lib/telegram"
-
-interface Product {
-  id: string; name: string; brand: string
-  category: string; priceRUB: number
-  image: string; url: string; tag?: string
-}
 
 const CATEGORY_MAP: Record<string, { label: string; desc: string; keywords: string[] }> = {
   "sneakers": {
@@ -45,12 +40,7 @@ const CATEGORY_MAP: Record<string, { label: string; desc: string; keywords: stri
   },
 }
 
-async function getProducts(): Promise<Product[]> {
-  try {
-    const res = await fetch(`${SITE_URL}/api/products`, { next: { revalidate: 3600 } })
-    return res.ok ? res.json() : []
-  } catch { return [] }
-}
+
 
 export async function generateStaticParams() {
   return Object.keys(CATEGORY_MAP).map(slug => ({ slug }))
@@ -95,7 +85,7 @@ export default async function CategoryPage(
   const cat = CATEGORY_MAP[slug]
   if (!cat) notFound()
 
-  const all      = await getProducts()
+  const all      = getProducts()
   const products = all.filter(p => p.category === cat.label).slice(0, 60)
 
   const jsonLd = wrapGraph([

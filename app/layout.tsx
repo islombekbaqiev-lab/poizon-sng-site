@@ -31,7 +31,7 @@ const playfair = Playfair_Display({
   preload: true,
 })
 
-const OG_IMAGE = "https://proxy.b2baisolutions.io/v1/image?url=https%3A%2F%2Fcdn.poizon.com%2Fpro-img%2Forigin-img%2F20241222%2Faa3efedd7ed0417caaf8c8693e7e673d.jpg&w=1200&q=85&fit=contain&fmt=auto"
+const OG_IMAGE = "https://cdn-img.thepoizon.ru/pro-img/origin-img/20260703/dc5a5e9bac6c49afa2c6a34f25747312.jpg"
 
 const FALLBACK_KEYWORDS = [
   "Poizon", "байер Poizon", "кроссовки из Китая",
@@ -183,8 +183,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <meta name="theme-color" content="#F2F2F4" />
         {/* Прогреваем соединение к CDN картинок — он на критическом пути LCP */}
-        <link rel="preconnect" href="https://proxy.b2baisolutions.io" crossOrigin="" />
-        <link rel="dns-prefetch" href="https://proxy.b2baisolutions.io" />
+        <link rel="preconnect" href="https://cdn-img.thepoizon.ru" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://cdn-img.thepoizon.ru" />
         <meta name="yandex-verification" content="9363a32cf61007d4" />
         <meta name="google-site-verification" content="dvUw6mvHVsCIfUr1M-kVZGQp-cgXfWXVTy9x9BNjm58" />
         <script

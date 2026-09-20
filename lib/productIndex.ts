@@ -1,22 +1,19 @@
-import { kv } from "@vercel/kv"
-import type { ScrapedProduct } from "@/lib/scrapeProducts"
+import { getCatalog, type Product } from "@/lib/catalog"
+
+export type ScrapedProduct = Product
 
 export type ProductIndex = {
   updatedAt: string
-  products: ScrapedProduct[]
+  products: Product[]
 }
 
-const KEY = "pzn:productIndex:v1"
-
+/**
+ * Совместимая обёртка над файловым каталогом: вызывающий код остался прежним,
+ * но данные больше не ходят в Vercel KV (его закрыли, и витрина из-за этого
+ * молча отдавала пустой список).
+ */
 export async function getProductIndex(): Promise<ProductIndex | null> {
-  const data = await kv.get<ProductIndex>(KEY)
-  if (!data || !Array.isArray((data as any).products)) return null
-  return data
+  const c = getCatalog()
+  if (!c.products?.length) return null
+  return { updatedAt: c.updatedAt, products: c.products }
 }
-
-export async function setProductIndex(products: ScrapedProduct[]): Promise<ProductIndex> {
-  const index: ProductIndex = { updatedAt: new Date().toISOString(), products }
-  await kv.set(KEY, index)
-  return index
-}
-

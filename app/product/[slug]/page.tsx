@@ -1,34 +1,18 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
+import { getProducts, getProductById, type Product } from "@/lib/catalog"
 import { SITE_URL, TG_LINK } from "@/lib/site"
 import { breadcrumbList, productLd, wrapGraph } from "@/lib/seo/jsonld"
 import { buildTelegramUrl, productStart } from "@/lib/telegram"
 import CopyToTelegram from "@/components/CopyToTelegram"
 
-interface Product {
-  id: string; name: string; brand: string
-  category: string; priceRUB: number
-  image: string; url: string; tag?: string
-}
-
-async function getProducts(): Promise<Product[]> {
-  try {
-    const res = await fetch(`${SITE_URL}/api/products`, {
-      next: { revalidate: 3600 },
-    })
-    return res.ok ? res.json() : []
-  } catch { return [] }
-}
-
 async function getProduct(slug: string): Promise<Product | null> {
-  const all = await getProducts()
-  return all.find(p => p.id === slug) ?? null
+  return getProductById(slug) as Product | null
 }
 
 export async function generateStaticParams() {
-  const products = await getProducts()
-  return products.map(p => ({ slug: p.id }))
+  return getProducts().map(p => ({ slug: p.id }))
 }
 
 export const dynamicParams = true
@@ -86,6 +70,7 @@ export default async function ProductPage(
         `Товар ${p.name} с платформы Poizon (得物) с премиум‑сопровождением: помощь с размером, выкуп, фото перед отправкой и доставка в СНГ.`,
       priceRUB: p.priceRUB,
       sellerName: "POIZON SNG",
+      article: p.article,
     }),
   ])
 
@@ -153,9 +138,14 @@ export default async function ProductPage(
               </span>
               <span className="text-sm font-bold" style={{ color: "var(--ink)" }}>−{save}%</span>
             </div>
-            <p className="text-xs mb-8" style={{ color: "var(--ink-4)" }}>
+            <p className="text-xs mb-3" style={{ color: "var(--ink-4)" }}>
               Цена в юанях — уточняется в Telegram по актуальному курсу
             </p>
+            {p.article && (
+              <p className="text-xs mb-8" style={{ color: "var(--ink-3)" }}>
+                Артикул: <span className="font-semibold" style={{ color: "var(--ink)" }}>{p.article}</span>
+              </p>
+            )}
 
             {/* CTA */}
             <a href={tgUrl} target="_blank" rel="noopener noreferrer"
