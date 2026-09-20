@@ -528,10 +528,10 @@ export default async function SizeGuidePage(
 
         {/* Header */}
         <div className="mb-10">
-          <p className="text-xs font-black uppercase tracking-[0.2em] mb-3" style={{ color: "var(--accent)" }}>
+          <p className="eyebrow mb-3">
             Размерная сетка
           </p>
-          <h1 className="font-black leading-tight mb-4"
+          <h1 className="font-display leading-[1.0] mb-4"
             style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
             {g.name}
           </h1>
@@ -542,7 +542,7 @@ export default async function SizeGuidePage(
           {/* Tip */}
           <div className="rounded-2xl p-4 mb-4"
             style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}>
-            <p className="text-xs font-black uppercase tracking-[0.15em] mb-2" style={{ color: "var(--accent)" }}>
+            <p className="eyebrow mb-2">
               Совет по подбору размера
             </p>
             <p className="text-sm leading-relaxed" style={{ color: "var(--ink-2)" }}>
@@ -564,14 +564,14 @@ export default async function SizeGuidePage(
         {/* Size tables */}
         {g.tables.map(table => (
           <div key={table.title} className="mb-10">
-            <h2 className="text-base font-black mb-4">{table.title}</h2>
+            <h2 className="text-base font-bold mb-4">{table.title}</h2>
             <div className="overflow-x-auto rounded-2xl"
               style={{ border: "1px solid var(--line)" }}>
               <table className="w-full text-sm" style={{ borderCollapse: "collapse" }}>
                 <thead>
                   <tr style={{ background: "var(--accent-sf)", borderBottom: "1px solid var(--line)" }}>
                     {table.headers.map(h => (
-                      <th key={h} className="px-4 py-3 text-left font-black text-xs uppercase tracking-wider"
+                      <th key={h} className="px-4 py-3 text-left font-bold text-xs uppercase tracking-wider"
                         style={{ color: "var(--accent)" }}>
                         {h}
                       </th>
@@ -603,7 +603,7 @@ export default async function SizeGuidePage(
         <div className="rounded-3xl p-7 flex flex-col sm:flex-row items-center justify-between gap-5 mb-12"
           style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}>
           <div>
-            <p className="font-black text-lg mb-1">Определились с размером?</p>
+            <p className="font-bold text-lg mb-1">Определились с размером?</p>
             <p className="text-sm" style={{ color: "var(--ink-3)" }}>
               Напишите в Telegram — поможем выбрать и выкупим с Poizon.
             </p>
@@ -617,7 +617,7 @@ export default async function SizeGuidePage(
 
         {/* Other brands */}
         <div>
-          <h2 className="text-sm font-black uppercase tracking-[0.18em] mb-4" style={{ color: "var(--ink-4)" }}>
+          <h2 className="eyebrow mb-4" style={{ color: "var(--ink-4)" }}>
             Другие бренды
           </h2>
           <div className="flex flex-wrap gap-2">

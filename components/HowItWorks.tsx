@@ -57,9 +57,10 @@ export default function HowItWorks({ country }: { country?: Country | null }) {
           <p className="eyebrow mb-4">Процесс</p>
           <h2 className="font-display leading-[1.0]"
             style={{ fontSize: "clamp(2.2rem, 5vw, 4.2rem)" }}>
-            КАК ЭТО
-            <span style={{ color: "var(--ink-4)", display: "block" }}>
-              РАБОТАЕТ
+            Как это
+            <span className="block font-sans font-bold"
+              style={{ color: "var(--ink-3)", letterSpacing: "-0.03em", fontSize: "0.8em" }}>
+              работает
             </span>
           </h2>
         </motion.div>
@@ -73,10 +74,10 @@ export default function HowItWorks({ country }: { country?: Country | null }) {
               className="flex flex-col p-8 group"
               style={{ background: "var(--page)" }}
               {...fadeUp(i * 0.08)}
-              whileHover={{ background: "var(--accent-sf)" } as any}
+              whileHover={{ background: "var(--card-alt)" } as any}
             >
-              <span className="font-black mb-6 select-none"
-                style={{ fontSize: "clamp(3rem, 5vw, 4.5rem)", color: "var(--accent)", lineHeight: 1 }}>
+              <span className="font-display mb-6 select-none"
+                style={{ fontSize: "clamp(3rem, 5vw, 4.5rem)", color: "var(--ink-4)", lineHeight: 1 }}>
                 {s.num}
               </span>
               <p className="font-bold text-lg mb-3">{s.title}</p>
@@ -84,7 +85,7 @@ export default function HowItWorks({ country }: { country?: Country | null }) {
                 {s.desc}
               </p>
               <div className="mt-6 h-px w-10 rounded-full"
-                style={{ background: "var(--accent)" }} />
+                style={{ background: "var(--ink-5)" }} />
             </motion.div>
           ))}
         </div>
@@ -109,7 +110,7 @@ export default function HowItWorks({ country }: { country?: Country | null }) {
                 <span style={{ fontSize: "1.75rem", flexShrink: 0 }}>{d.icon}</span>
                 <div>
                   <p className="font-bold text-sm">{d.label}</p>
-                  <p className="font-black text-sm" style={{ color: "var(--accent)" }}>{d.days}</p>
+                  <p className="font-bold text-sm" style={{ color: "var(--ink)" }}>{d.days}</p>
                   <p className="text-[11px] mt-0.5" style={{ color: "var(--ink-4)" }}>{d.price}</p>
                 </div>
               </div>
@@ -119,9 +120,9 @@ export default function HowItWorks({ country }: { country?: Country | null }) {
 
         {/* Trust badges */}
         <motion.div className="mt-8 flex flex-wrap gap-2.5" {...fadeUp(0.3)}>
-          {["✅ Оригиналы", "🛡️ Гарантия", "📦 Трек-номер", "💬 Поддержка 24/7"].map(b => (
-            <span key={b} className="px-3.5 py-1.5 rounded-full text-xs"
-              style={{ background: "var(--card)", border: "1px solid var(--line)", color: "var(--ink-4)" }}>
+          {["Оригиналы", "Гарантия подлинности", "Трек-номер", "Поддержка 24/7"].map(b => (
+            <span key={b} className="px-4 py-2 rounded-full text-xs font-medium"
+              style={{ background: "var(--card)", boxShadow: "var(--shadow-xs)", color: "var(--ink-2)" }}>
               {b}
             </span>
           ))}

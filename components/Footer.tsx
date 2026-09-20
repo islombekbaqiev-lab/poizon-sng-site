@@ -22,9 +22,9 @@ const LEGAL_LINKS = [
 ]
 
 const SOCIAL = [
-  { label: "Instagram",     href: INSTAGRAM,  color: "rgba(225,48,108,.7)"  },
-  { label: "@poizonsnggg",  href: TG_CHANNEL, color: "var(--accent)"  },
-  { label: "@PoizonAdvisor",href: TG_ADVISOR, color: "var(--accent)"              },
+  { label: "Instagram",      href: INSTAGRAM,  color: "var(--ink-2)" },
+  { label: "@poizonsnggg",   href: TG_CHANNEL, color: "var(--ink-2)" },
+  { label: "@PoizonAdvisor", href: TG_ADVISOR, color: "var(--ink)"   },
 ]
 
 export default function Footer() {
@@ -35,10 +35,10 @@ export default function Footer() {
         {/* Giant wordmark */}
         <div className="overflow-hidden py-10 sm:py-14">
           <motion.p
-            className="font-black tracking-tighter leading-none select-none text-center"
+            className="font-bold tracking-tighter leading-none select-none text-center"
             style={{
               fontSize: "clamp(3.5rem, 12vw, 10rem)",
-              WebkitTextStroke: "1px rgba(17,17,19,0.16)",
+              WebkitTextStroke: "1px rgba(11,11,12,0.14)",
               color: "transparent",
               letterSpacing: "-.04em",
             }}
@@ -110,8 +110,7 @@ export default function Footer() {
             <motion.a
               href={TG_ADVISOR}
               target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-white text-sm font-bold"
-              style={{ background: "var(--ink-block)", boxShadow: "0 6px 24px rgba(17,17,19,0.16)" }}
+              className="btn btn-primary"
               whileHover={{ scale: 1.04, boxShadow: "0 10px 32px rgba(17,17,19,0.16)" }}
               whileTap={{ scale: 0.96 }}
             >

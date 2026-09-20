@@ -66,10 +66,10 @@ export default function BrandPage({ params }: Props) {
 
         {/* Header */}
         <div className="mb-12">
-          <p className="text-xs font-black uppercase tracking-[0.2em] mb-3" style={{ color: "var(--accent)" }}>
+          <p className="eyebrow mb-3">
             Бренд
           </p>
-          <h1 className="font-black leading-tight mb-4" style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)" }}>
+          <h1 className="font-display leading-[1.0] mb-4" style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)" }}>
             {brand.tagline}
           </h1>
           <p className="text-base max-w-2xl leading-relaxed" style={{ color: "var(--ink-3)" }}>
@@ -79,9 +79,9 @@ export default function BrandPage({ params }: Props) {
 
         {/* Prices table */}
         <div className="mb-14">
-          <h2 className="font-black text-xl mb-5">Популярные модели и цены</h2>
+          <h2 className="font-bold text-xl mb-5">Популярные модели и цены</h2>
           <div className="rounded-2xl overflow-hidden" style={{ border: "1px solid var(--line)" }}>
-            <div className="grid grid-cols-3 px-5 py-3 text-xs font-black uppercase tracking-wider"
+            <div className="grid grid-cols-3 px-5 py-3 text-xs font-bold uppercase tracking-wider"
               style={{ background: "var(--card)", color: "var(--ink-4)" }}>
               <span>Модель</span>
               <span>Цена на Poizon</span>
@@ -119,7 +119,7 @@ export default function BrandPage({ params }: Props) {
         <div className="rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 mb-14"
           style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}>
           <div>
-            <p className="font-black text-lg mb-1">Заказать {brand.name} с Poizon</p>
+            <p className="font-bold text-lg mb-1">Заказать {brand.name} с Poizon</p>
             <p className="text-sm" style={{ color: "var(--ink-3)" }}>
               Напишите модель и размер — рассчитаем точную цену с доставкой за 5 минут.
             </p>
@@ -133,7 +133,7 @@ export default function BrandPage({ params }: Props) {
 
         {/* FAQ */}
         <div className="mb-14">
-          <h2 className="font-black text-xl mb-5">Частые вопросы</h2>
+          <h2 className="font-bold text-xl mb-5">Частые вопросы</h2>
           <div className="space-y-3">
             {brand.faq.map((f, i) => (
               <div key={i} className="rounded-2xl p-5"
@@ -165,7 +165,7 @@ export default function BrandPage({ params }: Props) {
         {/* Related brands */}
         {brand.relatedBrands.length > 0 && (
           <div>
-            <h2 className="text-sm font-black uppercase tracking-[0.18em] mb-4"
+            <h2 className="eyebrow mb-4"
               style={{ color: "var(--ink-4)" }}>
               Другие бренды
             </h2>

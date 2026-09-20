@@ -98,18 +98,18 @@ export default function Hero() {
   return (
     <section className="relative pt-[84px] pb-14 sm:pb-20">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-10 lg:gap-14 items-center">
+        <div className="hero-grid">
 
           {/* ── Текстовая колонка ── */}
           <div>
             <motion.div
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-7"
-              style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-7"
+              style={{ background: "var(--card)", boxShadow: "var(--shadow-xs)" }}
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45 }}
             >
-              <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--accent)" }} />
-              <span className="text-[11px] font-semibold tracking-[.12em] uppercase" style={{ color: "var(--accent)" }}>
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--ink)" }} />
+              <span className="text-[11px] font-semibold tracking-[.12em] uppercase" style={{ color: "var(--ink-2)" }}>
                 Доставка по СНГ
               </span>
             </motion.div>
@@ -172,7 +172,7 @@ export default function Hero() {
             >
               {TRUST.map(t => (
                 <li key={t} className="inline-flex items-center gap-1.5 text-[13px]" style={{ color: "var(--ink-3)" }}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="3"
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" strokeWidth="3"
                     strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M20 6 9 17l-5-5" /></svg>
                   {t}
                 </li>
@@ -205,23 +205,23 @@ export default function Hero() {
 
             {/* Четвёртая ячейка — не товар, а причина довериться */}
             <motion.div
-              className="rounded-[24px] p-5 flex flex-col justify-between"
-              style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)", minHeight: 260 }}
+              className="rounded-[28px] p-6 flex flex-col justify-between"
+              style={{ background: "var(--ink-block)", minHeight: 260, boxShadow: "var(--shadow-ink)" }}
               initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.52, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
               <div>
-                <p className="font-display text-3xl leading-none mb-2" style={{ color: "var(--ink)" }}>
+                <p className="font-display text-[2.1rem] leading-none mb-2.5" style={{ color: "#fff" }}>
                   Любой товар
                 </p>
-                <p className="text-[13px] leading-relaxed" style={{ color: "var(--ink-3)" }}>
+                <p className="text-[13px] leading-relaxed" style={{ color: "rgba(255,255,255,0.62)" }}>
                   Каталог — только витрина. Скинь ссылку с Poizon на что угодно — выкупим и привезём.
                 </p>
               </div>
               <a
                 href="#catalog"
-                className="inline-flex items-center gap-1.5 text-[13px] font-semibold mt-4"
-                style={{ color: "var(--accent)" }}
+                className="inline-flex items-center justify-center gap-1.5 text-[13px] font-semibold mt-5 px-5 py-2.5 rounded-full self-start"
+                style={{ background: "#fff", color: "var(--ink)" }}
               >
                 Открыть каталог <span aria-hidden>→</span>
               </a>

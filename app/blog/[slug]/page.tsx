@@ -91,7 +91,7 @@ export default function BlogPostPage({ params }: Props) {
         {/* Header */}
         <header className="mb-10">
           <div className="flex items-center gap-3 mb-4">
-            <span className="text-xs font-black px-2.5 py-1 rounded-lg"
+            <span className="text-xs font-bold px-2.5 py-1 rounded-lg"
               style={{ background: "var(--accent-sf)", color: catColor }}>
               {post.category}
             </span>
@@ -102,7 +102,7 @@ export default function BlogPostPage({ params }: Props) {
               {new Date(post.date).toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" })}
             </span>
           </div>
-          <h1 className="font-black leading-tight mb-4" style={{ fontSize: "clamp(1.75rem, 4vw, 2.8rem)" }}>
+          <h1 className="font-display leading-[1.0] mb-4" style={{ fontSize: "clamp(1.75rem, 4vw, 2.8rem)" }}>
             {post.title}
           </h1>
           <p className="text-base leading-relaxed" style={{ color: "var(--ink-3)", maxWidth: "42rem" }}>
@@ -115,7 +115,7 @@ export default function BlogPostPage({ params }: Props) {
           {post.sections.map((sec, i) => (
             <div key={i}>
               {sec.heading && (
-                <h2 className="font-black text-xl mb-3">{sec.heading}</h2>
+                <h2 className="font-bold text-xl mb-3">{sec.heading}</h2>
               )}
               <p className="text-base leading-relaxed" style={{ color: "var(--ink-2)" }}>
                 {sec.body}
@@ -128,7 +128,7 @@ export default function BlogPostPage({ params }: Props) {
         <div className="rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 mb-14"
           style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}>
           <div>
-            <p className="font-black text-lg mb-1">Заказать с Poizon</p>
+            <p className="font-bold text-lg mb-1">Заказать с Poizon</p>
             <p className="text-sm" style={{ color: "var(--ink-3)" }}>
               Напишите модель и размер — рассчитаем цену с доставкой за 5 минут.
             </p>
@@ -143,7 +143,7 @@ export default function BlogPostPage({ params }: Props) {
         {/* FAQ */}
         {post.faq && post.faq.length > 0 && (
           <div className="mb-14">
-            <h2 className="font-black text-xl mb-5">Частые вопросы</h2>
+            <h2 className="font-bold text-xl mb-5">Частые вопросы</h2>
             <div className="space-y-3">
               {post.faq.map((f, i) => (
                 <div key={i} className="rounded-2xl p-5"
@@ -158,7 +158,7 @@ export default function BlogPostPage({ params }: Props) {
 
         {/* Other posts */}
         <div>
-          <h2 className="text-sm font-black uppercase tracking-[0.18em] mb-4"
+          <h2 className="eyebrow mb-4"
             style={{ color: "var(--ink-4)" }}>
             Другие статьи
           </h2>

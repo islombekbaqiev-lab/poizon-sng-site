@@ -46,11 +46,11 @@ function Item({ item, isOpen, onToggle }: {
   return (
     <div
       className="rounded-2xl overflow-hidden"
-      style={{ border: `1px solid ${isOpen ? "var(--accent-ln)" : "var(--line)"}`, background: "var(--card)", boxShadow: "var(--shadow-xs)", transition: "border-color .25s" }}
+      style={{ border: `1px solid ${isOpen ? "var(--line-2)" : "var(--line)"}`, background: "var(--card)", boxShadow: "var(--shadow-xs)", transition: "border-color .25s" }}
     >
       <button
         className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left"
-        style={{ background: isOpen ? "var(--accent-sf)" : "var(--card)", transition: "background .25s" }}
+        style={{ background: isOpen ? "var(--card-alt)" : "var(--card)", transition: "background .25s" }}
         onClick={onToggle}
       >
         <span className="text-sm font-semibold leading-snug" style={{ color: "var(--ink)" }}>
@@ -104,11 +104,10 @@ export default function FAQ() {
               className="font-display leading-[1.0] mb-6"
               style={{ fontSize: "clamp(2.2rem, 5vw, 4.2rem)" }}
             >
-              ЧАСТЫЕ
-              <span
-                style={{ color: "var(--ink-4)", display: "block" }}
-              >
-                ВОПРОСЫ
+              Частые
+              <span className="block font-sans font-bold"
+                style={{ color: "var(--ink-3)", letterSpacing: "-0.03em", fontSize: "0.8em" }}>
+                вопросы
               </span>
             </h2>
             <p className="text-sm mb-8 leading-relaxed" style={{ color: "var(--ink-4)" }}>
@@ -118,8 +117,7 @@ export default function FAQ() {
               href={TG_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-white text-sm font-bold"
-              style={{ background: "var(--ink-block)", boxShadow: "0 6px 24px rgba(17,17,19,0.16)" }}
+              className="btn btn-primary"
               whileHover={{ scale: 1.04, boxShadow: "0 10px 32px rgba(17,17,19,0.16)" }}
               whileTap={{ scale: 0.96 }}
             >

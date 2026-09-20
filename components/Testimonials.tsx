@@ -27,7 +27,7 @@ const REVIEWS = [
     name: "Максим К.",
     handle: "@maxim_kzn",
     avatar: "М",
-    color: "#10b981",
+    color: "var(--ink)",
     text: "Уже третий заказ. В этот раз Stone Island. Ребята профессионалы — всё чётко, трек-номер сразу, доставка точно в срок.",
     shoe: "Stone Island",
     stars: 5,
@@ -128,13 +128,13 @@ function ReviewCard({ r, i }: { r: typeof REVIEWS[0]; i: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-20px" }}
       transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -4, borderColor: "var(--accent-ln)", transition: { duration: 0.2 } }}
+      whileHover={{ y: -4, transition: { duration: 0.2 } }}
     >
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2.5">
           <div
-            className="w-9 h-9 rounded-full flex items-center justify-center font-black text-sm flex-shrink-0"
-            style={{ background: `${r.color}22`, color: r.color, border: `1.5px solid ${r.color}44` }}
+            className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0"
+            style={{ background: "var(--sunken)", color: "var(--ink)" }}
           >
             {r.avatar}
           </div>
@@ -144,7 +144,7 @@ function ReviewCard({ r, i }: { r: typeof REVIEWS[0]; i: number }) {
           </div>
         </div>
         <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full flex-shrink-0"
-          style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}>
+          style={{ background: "var(--sunken)" }}>
           <svg width="7" height="7" viewBox="0 0 24 24" fill="var(--accent)">
             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
@@ -159,8 +159,8 @@ function ReviewCard({ r, i }: { r: typeof REVIEWS[0]; i: number }) {
       </p>
 
       <div className="flex items-center justify-between">
-        <span className="text-[9px] font-semibold px-2 py-0.5 rounded-full"
-          style={{ background: `${r.color}18`, color: r.color }}>
+        <span className="text-[9px] font-semibold px-2.5 py-1 rounded-full"
+          style={{ background: "var(--card-alt)", color: "var(--ink-2)" }}>
           {r.shoe}
         </span>
         <span className="text-[9px]" style={{ color: "var(--ink-4)" }}>{r.date}</span>
@@ -184,9 +184,10 @@ export default function Testimonials() {
           <p className="eyebrow mb-4">Отзывы</p>
           <h2 className="font-display leading-[1.0] mb-2"
             style={{ fontSize: "clamp(2.2rem, 5vw, 4.2rem)" }}>
-            КЛИЕНТЫ
-            <span style={{ color: "var(--ink-4)", display: "block" }}>
-              ГОВОРЯТ
+            Клиенты
+            <span className="block font-sans font-bold"
+              style={{ color: "var(--ink-3)", letterSpacing: "-0.03em", fontSize: "0.8em" }}>
+              говорят
             </span>
           </h2>
           <p className="text-sm" style={{ color: "var(--ink-4)" }}>245+ успешных заказов · реальные покупатели</p>
@@ -205,30 +206,30 @@ export default function Testimonials() {
 
         <motion.div
           className="mt-8 rounded-2xl p-5 flex flex-wrap items-center justify-center gap-8"
-          style={{ background: "var(--card)", border: "1px solid var(--line)" }}
+          style={{ background: "var(--card)", boxShadow: "var(--shadow-sm)" }}
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.45, delay: 0.15 }}
         >
           <div className="text-center">
-            <p className="text-3xl font-black" style={{ color: "var(--accent)" }}>4.7</p>
+            <p className="font-display text-4xl" style={{ color: "var(--ink)" }}>4.7</p>
             <Stars n={5} />
             <p className="text-[10px] text-[var(--ink-4)] mt-1">Средняя оценка</p>
           </div>
-          <div className="w-px h-10 hidden sm:block" style={{ background: "var(--card-alt)" }} />
+          <div className="w-px h-10 hidden sm:block" style={{ background: "var(--line)" }} />
           <div className="text-center">
-            <p className="text-3xl font-black">245+</p>
+            <p className="font-display text-4xl">245+</p>
             <p className="text-[10px] text-[var(--ink-4)] mt-1">Выполнено заказов</p>
           </div>
-          <div className="w-px h-10 hidden sm:block" style={{ background: "var(--card-alt)" }} />
+          <div className="w-px h-10 hidden sm:block" style={{ background: "var(--line)" }} />
           <div className="text-center">
-            <p className="text-3xl font-black" style={{ color: "#10b981" }}>100%</p>
+            <p className="font-display text-4xl">100%</p>
             <p className="text-[10px] text-[var(--ink-4)] mt-1">Оригиналов</p>
           </div>
-          <div className="w-px h-10 hidden sm:block" style={{ background: "var(--card-alt)" }} />
+          <div className="w-px h-10 hidden sm:block" style={{ background: "var(--line)" }} />
           <div className="text-center">
-            <p className="text-3xl font-black">8</p>
+            <p className="font-display text-4xl">8</p>
             <p className="text-[10px] text-[var(--ink-4)] mt-1">Стран СНГ</p>
           </div>
         </motion.div>

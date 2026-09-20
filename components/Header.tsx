@@ -81,8 +81,8 @@ export default function Header({ country, rates, onChangeCountry }: {
               <a
                 key={n.label}
                 href={n.href}
-                className="px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors hover:text-[var(--ink)]"
-                style={{ color: "var(--ink-3)" }}
+                className="px-3.5 py-2 rounded-full text-sm font-medium transition-colors hover:text-[var(--ink)] hover:bg-[rgba(11,11,12,0.05)]"
+                style={{ color: "var(--ink-2)" }}
               >
                 {n.label}
               </a>
@@ -93,18 +93,18 @@ export default function Header({ country, rates, onChangeCountry }: {
           <div className="flex items-center gap-2 flex-shrink-0">
             {m && (
               <div
-                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs"
-                style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs"
+                style={{ background: "var(--sunken)" }}
               >
                 <span style={{ color: "var(--ink-4)" }}>1 ¥ =</span>
-                <span className="font-bold" style={{ color: "var(--accent)" }}>{rates[m.rateKey]} {m.currency}</span>
+                <span className="font-semibold" style={{ color: "var(--ink)" }}>{rates[m.rateKey]} {m.currency}</span>
               </div>
             )}
 
             <motion.button
               onClick={onChangeCountry}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium"
-              style={{ background: "var(--card)", border: "1px solid var(--line)", boxShadow: "var(--shadow-xs)" }}
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-medium"
+              style={{ background: "var(--card)", boxShadow: "var(--shadow-xs)" }}
               whileTap={{ scale: 0.95 }}
             >
               {m
@@ -118,8 +118,8 @@ export default function Header({ country, rates, onChangeCountry }: {
               href={buildTelegramUrl({ start: leadStart("header") })}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden md:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold text-white"
-              style={{ background: "var(--ink-block)", boxShadow: "0 4px 16px rgba(17,17,19,0.16)" }}
+              className="hidden md:inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-xs font-semibold text-white"
+              style={{ background: "var(--ink-block)", boxShadow: "var(--shadow-ink)" }}
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -183,11 +183,11 @@ export default function Header({ country, rates, onChangeCountry }: {
               ))}
               {m && (
                 <div
-                  className="flex items-center gap-1.5 px-3 py-2 mt-1 rounded-xl text-xs"
-                  style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}
+                  className="flex items-center gap-1.5 px-3.5 py-2.5 mt-1 rounded-full text-xs"
+                  style={{ background: "var(--sunken)" }}
                 >
                   <span style={{ color: "var(--ink-4)" }}>1 ¥ =</span>
-                  <span className="font-bold" style={{ color: "var(--accent)" }}>{rates[m.rateKey]} {m.currency}</span>
+                  <span className="font-semibold" style={{ color: "var(--ink)" }}>{rates[m.rateKey]} {m.currency}</span>
                   <span className="ml-auto" style={{ color: "var(--ink-4)" }}>{m.flag} {m.name}</span>
                 </div>
               )}
@@ -195,7 +195,7 @@ export default function Header({ country, rates, onChangeCountry }: {
                 href={buildTelegramUrl({ start: leadStart("menu") })}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 px-3 py-3 mt-2 rounded-xl text-sm font-bold text-white"
+                className="flex items-center justify-center gap-2 px-3 py-3.5 mt-2 rounded-full text-sm font-semibold text-white"
                 style={{ background: "var(--ink-block)" }}
                 onClick={() => setMenuOpen(false)}
               >

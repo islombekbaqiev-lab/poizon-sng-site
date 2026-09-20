@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 
 import { buildTelegramUrl, leadStart } from "@/lib/telegram"
 
-const BADGES = ["✅ Оплата после фото товара", "🔁 Не нашли — вернём деньги", "📦 Трек-номер", "✈️ Авиа 3–5 дней"]
+const BADGES = ["Оплата после фото товара", "Не нашли — вернём деньги", "Трек-номер", "Авиа 3–5 дней"]
 
 export default function CTASection() {
   return (
@@ -19,17 +19,12 @@ export default function CTASection() {
           <p className="eyebrow mb-6">Поехали</p>
 
           <h2
-            className="font-black tracking-tighter leading-[.88] mb-7 select-none"
-            style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}
+            className="font-display leading-[0.95] mb-7 select-none"
+            style={{ fontSize: "clamp(2.6rem, 7vw, 5.6rem)" }}
           >
-            НАШЁЛ ЧТО-ТО
-            <span
-              style={{
-                color: "var(--ink-4)",
-                display: "block",
-              }}
-            >
-              НА POIZON?
+            Нашёл что-то
+            <span className="block font-sans font-bold" style={{ color: "var(--ink-3)", letterSpacing: "-0.03em", fontSize: "0.82em" }}>
+              на Poizon?
             </span>
           </h2>
 
@@ -44,12 +39,9 @@ export default function CTASection() {
             href={buildTelegramUrl({ start: leadStart("cta") })}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 px-10 py-4 rounded-2xl text-white font-bold text-base"
-            style={{
-              background: "var(--ink-block)",
-              boxShadow: "0 12px 40px rgba(17,17,19,0.16), 0 0 0 1px rgba(17,17,19,0.16)",
-            }}
-            whileHover={{ scale: 1.04, boxShadow: "0 16px 50px rgba(17,17,19,0.16)" }}
+            className="inline-flex items-center gap-2.5 px-10 py-4 rounded-full text-white font-semibold text-base"
+            style={{ background: "var(--ink-block)", boxShadow: "var(--shadow-ink)" }}
+            whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
           >
             Написать менеджеру →
@@ -60,11 +52,7 @@ export default function CTASection() {
               <span
                 key={b}
                 className="text-xs px-3.5 py-1.5 rounded-full"
-                style={{
-                  background: "var(--card)",
-                  border: "1px solid var(--line)",
-                  color: "var(--ink-3)",
-                }}
+                style={{ background: "var(--card)", boxShadow: "var(--shadow-xs)", color: "var(--ink-2)" }}
               >
                 {b}
               </span>

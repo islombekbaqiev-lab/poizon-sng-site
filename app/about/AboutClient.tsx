@@ -69,7 +69,7 @@ export default function AboutClient() {
         {/* Hero */}
         <div className="mb-16">
           <p className="eyebrow mb-4">О нас</p>
-          <h1 className="font-black tracking-tighter leading-[.9] mb-6"
+          <h1 className="font-bold tracking-tighter leading-[.9] mb-6"
             style={{ fontSize: "clamp(2.8rem, 7vw, 5.5rem)" }}>
             БАЙЕР-СЕРВИС
             <span style={{ color: "var(--ink-4)", display: "block" }}>
@@ -86,7 +86,7 @@ export default function AboutClient() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-16">
           {STATS.map(s => (
             <div key={s.value} className="surface rounded-2xl p-5 text-center">
-              <p className="text-3xl font-black tracking-tight mb-1" style={{ color: "var(--accent)" }}>{s.value}</p>
+              <p className="text-3xl font-bold tracking-tight mb-1" style={{ color: "var(--accent)" }}>{s.value}</p>
               <p className="text-xs" style={{ color: "var(--ink-3)" }}>{s.label}</p>
             </div>
           ))}
@@ -94,7 +94,7 @@ export default function AboutClient() {
 
         {/* What is Poizon */}
         <div className="surface rounded-3xl p-7 sm:p-10 mb-10">
-          <h2 className="text-2xl font-black mb-4">Что такое Poizon (得物)?</h2>
+          <h2 className="text-2xl font-bold mb-4">Что такое Poizon (得物)?</h2>
           <p className="leading-relaxed mb-3" style={{ color: "var(--ink-2)" }}>
             Poizon — крупнейшая китайская платформа для покупки и продажи брендовых товаров
             с обязательной экспертизой подлинности. Каждый товар перед отправкой покупателю
@@ -108,11 +108,11 @@ export default function AboutClient() {
 
         {/* How it works */}
         <div className="mb-10">
-          <h2 className="text-2xl font-black mb-6">Как это работает</h2>
+          <h2 className="text-2xl font-bold mb-6">Как это работает</h2>
           <div className="grid sm:grid-cols-2 gap-3">
             {STEPS.map(s => (
               <div key={s.n} className="surface rounded-2xl p-6">
-                <p className="text-4xl font-black mb-3" style={{ color: "var(--accent)" }}>{s.n}</p>
+                <p className="text-4xl font-bold mb-3" style={{ color: "var(--accent)" }}>{s.n}</p>
                 <p className="font-bold mb-1.5">{s.title}</p>
                 <p className="text-sm leading-relaxed" style={{ color: "var(--ink-3)" }}>{s.body}</p>
               </div>
@@ -122,11 +122,11 @@ export default function AboutClient() {
 
         {/* Guarantees */}
         <div className="mb-14">
-          <h2 className="text-2xl font-black mb-6">Наши гарантии</h2>
+          <h2 className="text-2xl font-bold mb-6">Наши гарантии</h2>
           <div className="grid sm:grid-cols-2 gap-3">
             {GUARANTEES.map(g => (
               <div key={g.title} className="surface rounded-2xl p-6 flex gap-4">
-                <span className="text-xl font-black flex-shrink-0" style={{ color: "var(--accent)" }}>✓</span>
+                <span className="text-xl font-bold flex-shrink-0" style={{ color: "var(--accent)" }}>✓</span>
                 <div>
                   <p className="font-bold mb-1">{g.title}</p>
                   <p className="text-sm leading-relaxed" style={{ color: "var(--ink-3)" }}>{g.body}</p>
@@ -138,7 +138,7 @@ export default function AboutClient() {
 
         {/* CTA */}
         <div className="surface-2 rounded-3xl p-8 sm:p-10 text-center">
-          <h2 className="text-2xl font-black mb-3">Готов сделать заказ?</h2>
+          <h2 className="text-2xl font-bold mb-3">Готов сделать заказ?</h2>
           <p className="mb-6 text-sm" style={{ color: "var(--ink-3)" }}>
             Напиши нам в Telegram — ответим в течение часа и поможем с выбором.
           </p>

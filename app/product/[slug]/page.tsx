@@ -126,32 +126,32 @@ export default async function ProductPage(
           {/* Info */}
           <div className="py-4">
             {p.tag && (
-              <span className="inline-block text-[11px] font-black px-3 py-1 rounded-full mb-4 uppercase tracking-wider"
+              <span className="inline-block text-[11px] font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider"
                 style={{
-                  background: p.tag === "Лимит" ? "#ef4444" : p.tag === "Хит" ? "var(--accent)" : "#10b981",
+                  background: p.tag === "Лимит" ? "var(--danger)" : "var(--ink-block)",
                   color: "#fff",
                 }}>
                 {p.tag}
               </span>
             )}
 
-            <p className="text-sm font-black uppercase tracking-[0.18em] mb-2"
+            <p className="eyebrow mb-2"
               style={{ color: "var(--accent)" }}>{p.brand}</p>
 
-            <h1 className="font-black leading-tight mb-6"
+            <h1 className="font-display leading-[1.02] mb-6"
               style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}>
               {p.name}
             </h1>
 
             {/* Price */}
             <div className="flex items-baseline gap-3 mb-2">
-              <span className="text-3xl font-black">
+              <span className="text-3xl font-bold">
                 {p.priceRUB.toLocaleString("ru")} ₽
               </span>
               <span className="text-sm line-through" style={{ color: "var(--ink-4)" }}>
                 {retail.toLocaleString("ru")} ₽
               </span>
-              <span className="text-sm font-bold" style={{ color: "#22c55e" }}>−{save}%</span>
+              <span className="text-sm font-bold" style={{ color: "var(--ink)" }}>−{save}%</span>
             </div>
             <p className="text-xs mb-8" style={{ color: "var(--ink-4)" }}>
               Цена в юанях — уточняется в Telegram по актуальному курсу
@@ -216,7 +216,7 @@ export default async function ProductPage(
         <div className="mt-16 rounded-3xl p-8 flex flex-col sm:flex-row items-center justify-between gap-4"
           style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}>
           <div>
-            <p className="font-black text-lg mb-1">Нужен другой товар с Poizon?</p>
+            <p className="font-bold text-lg mb-1">Нужен другой товар с Poizon?</p>
             <p className="text-sm" style={{ color: "var(--ink-3)" }}>
               Скинь ссылку с Poizon — выкупим любой товар с платформы.
             </p>

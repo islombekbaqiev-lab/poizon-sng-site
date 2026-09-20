@@ -18,8 +18,8 @@ export default function AnnouncementBar() {
       className="relative overflow-hidden flex items-center"
       style={{
         height: "30px",
-        background: "var(--accent-sf)",
-        borderBottom: "1px solid var(--accent-ln)",
+        background: "var(--sunken)",
+        borderBottom: "1px solid var(--line)",
       }}
     >
       <div className="marquee-fast flex items-center whitespace-nowrap">
@@ -29,7 +29,7 @@ export default function AnnouncementBar() {
               style={{ color: "var(--ink-2)" }}>
               {msg}
             </span>
-            <span style={{ color: "var(--accent)", fontSize: "8px" }}>◆</span>
+            <span style={{ color: "var(--ink-4)", fontSize: "8px" }}>◆</span>
           </span>
         ))}
       </div>

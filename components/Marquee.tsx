@@ -23,11 +23,11 @@ export default function Marquee() {
       <div className="marquee-inner flex items-center whitespace-nowrap">
         {items.map((b, i) => (
           <span key={i} className="inline-flex items-center shrink-0">
-            <span className="text-xs font-black uppercase tracking-[.22em]"
+            <span className="text-xs font-bold uppercase tracking-[.22em]"
               style={{ color: "var(--ink-3)" }}>
               {b}
             </span>
-            <span className="mx-6 text-[6px]" style={{ color: "var(--accent)" }}>◆</span>
+            <span className="mx-6 text-[6px]" style={{ color: "var(--ink-5)" }}>◆</span>
           </span>
         ))}
       </div>

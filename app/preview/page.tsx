@@ -18,9 +18,9 @@ const STEPS = [
 ]
 
 const TAGS: Record<string, { bg: string }> = {
-  "Лимит":   { bg: "#ef4444" },
+  "Лимит":   { bg: "var(--danger)" },
   "Хит":     { bg: "var(--accent)" },
-  "Новинка": { bg: "#10b981" },
+  "Новинка": { bg: "var(--ink-block)" },
 }
 
 export default function Preview() {

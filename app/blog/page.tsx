@@ -61,10 +61,10 @@ export default function BlogIndexPage() {
       <div className="max-w-4xl mx-auto px-5 sm:px-8 pb-24">
 
         <div className="mb-12">
-          <p className="text-xs font-black uppercase tracking-[0.2em] mb-3" style={{ color: "var(--accent)" }}>
+          <p className="eyebrow mb-3">
             Блог
           </p>
-          <h1 className="font-black leading-tight mb-4" style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}>
+          <h1 className="font-display leading-[1.0] mb-4" style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}>
             Гайды и сравнения
           </h1>
           <p className="text-base max-w-xl leading-relaxed" style={{ color: "var(--ink-3)" }}>
@@ -81,7 +81,7 @@ export default function BlogIndexPage() {
                 className="block rounded-2xl p-6 transition-all hover:scale-[1.02] hover:border-[var(--line-2)]"
                 style={{ background: "var(--card)", border: "1px solid var(--line)" }}>
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-xs font-black px-2.5 py-1 rounded-lg"
+                  <span className="text-xs font-bold px-2.5 py-1 rounded-lg"
                     style={{ background: catBg, color: catText }}>
                     {post.category}
                   </span>
@@ -89,7 +89,7 @@ export default function BlogIndexPage() {
                     {post.readMin} мин
                   </span>
                 </div>
-                <h2 className="font-black text-base leading-snug mb-2">{post.title}</h2>
+                <h2 className="font-bold text-base leading-snug mb-2">{post.title}</h2>
                 <p className="text-sm leading-relaxed line-clamp-2"
                   style={{ color: "var(--ink-3)" }}>
                   {post.description}
@@ -105,7 +105,7 @@ export default function BlogIndexPage() {
         <div className="mt-16 rounded-3xl p-7 flex flex-col sm:flex-row items-center justify-between gap-5"
           style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}>
           <div>
-            <p className="font-black text-lg mb-1">Нашли нужную модель?</p>
+            <p className="font-bold text-lg mb-1">Нашли нужную модель?</p>
             <p className="text-sm" style={{ color: "var(--ink-3)" }}>
               Напишите в Telegram — рассчитаем цену с доставкой за 5 минут.
             </p>

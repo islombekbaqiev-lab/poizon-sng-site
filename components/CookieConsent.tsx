@@ -48,7 +48,7 @@ export default function CookieConsent() {
 
   if (mode === "hidden") return null
 
-  const link = { color: "var(--accent)", textDecoration: "underline", textUnderlineOffset: "2px" }
+  const link = { color: "var(--ink)", textDecoration: "underline", textUnderlineOffset: "2px" }
 
   return (
     <div
@@ -122,8 +122,8 @@ export default function CookieConsent() {
             <label
               className="block rounded-xl p-4 mb-5 cursor-pointer transition-colors"
               style={{
-                background: analytics ? "var(--accent-sf)" : "var(--line)",
-                border: `1px solid ${analytics ? "var(--accent-sf)" : "var(--line)"}`,
+                background: "var(--card-alt)",
+                boxShadow: analytics ? "inset 0 0 0 1.5px var(--ink)" : "inset 0 0 0 1px var(--line)",
               }}
             >
               <div className="flex items-start justify-between gap-4">
@@ -138,7 +138,7 @@ export default function CookieConsent() {
                   type="checkbox"
                   checked={analytics}
                   onChange={e => setAnalytics(e.target.checked)}
-                  className="shrink-0 mt-0.5 w-5 h-5 cursor-pointer accent-[#4D96FF]"
+                  className="shrink-0 mt-0.5 w-5 h-5 cursor-pointer accent-[#0B0B0C]"
                 />
               </div>
             </label>

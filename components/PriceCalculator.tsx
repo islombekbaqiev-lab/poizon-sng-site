@@ -50,7 +50,7 @@ export default function PriceCalculator({ rates }: { rates: Rates }) {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <p className="text-2xl font-black mb-1">Калькулятор цены</p>
+          <p className="text-2xl font-bold mb-1">Калькулятор цены</p>
           <p className="text-[var(--ink-4)] text-sm">Введи цену с Poizon — покажем итог с доставкой в твоей валюте</p>
         </motion.div>
 
@@ -66,7 +66,7 @@ export default function PriceCalculator({ rates }: { rates: Rates }) {
 
             {/* Price input */}
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.18em] mb-2.5"
+              <label className="block text-[10px] font-bold uppercase tracking-[0.18em] mb-2.5"
                 style={{ color: "var(--ink-4)" }}>
                 Цена товара на Poizon
               </label>
@@ -77,10 +77,10 @@ export default function PriceCalculator({ rates }: { rates: Rates }) {
                   onChange={e => setPriceCNY(e.target.value)}
                   placeholder="0"
                   min="0"
-                  className="w-full glass rounded-2xl px-4 py-3.5 text-2xl font-black outline-none pr-12"
+                  className="w-full glass rounded-2xl px-4 py-3.5 text-2xl font-bold outline-none pr-12"
                   style={{
                     color:       "var(--ink)",
-                    caretColor:  "var(--accent)",
+                    caretColor:  "var(--ink)",
                     border:      "1px solid var(--line)",
                   }}
                 />
@@ -91,7 +91,7 @@ export default function PriceCalculator({ rates }: { rates: Rates }) {
 
             {/* Weight quick-select */}
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.18em] mb-2.5"
+              <label className="block text-[10px] font-bold uppercase tracking-[0.18em] mb-2.5"
                 style={{ color: "var(--ink-4)" }}>
                 Вес&nbsp;
                 <span className="font-normal normal-case tracking-normal"
@@ -104,11 +104,10 @@ export default function PriceCalculator({ rates }: { rates: Rates }) {
                   <motion.button
                     key={w}
                     onClick={() => setWeightKg(w)}
-                    className="flex-1 py-2.5 rounded-xl text-sm font-bold transition-colors"
+                    className="flex-1 py-2.5 rounded-full text-sm font-semibold transition-colors"
                     style={{
-                      background:  weightKg === w ? "var(--accent)"                 : "var(--line)",
-                      color:       weightKg === w ? "#fff"                    : "var(--ink-4)",
-                      border:      `1px solid ${weightKg === w ? "var(--accent)" : "var(--line)"}`,
+                      background:  weightKg === w ? "var(--ink-block)" : "var(--sunken)",
+                      color:       weightKg === w ? "#fff"            : "var(--ink-2)",
                     }}
                     whileHover={{ scale: 1.04 }}
                     whileTap={{ scale: 0.96 }}
@@ -121,7 +120,7 @@ export default function PriceCalculator({ rates }: { rates: Rates }) {
 
             {/* Delivery type */}
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.18em] mb-2.5"
+              <label className="block text-[10px] font-bold uppercase tracking-[0.18em] mb-2.5"
                 style={{ color: "var(--ink-4)" }}>
                 Тип доставки
               </label>
@@ -130,10 +129,9 @@ export default function PriceCalculator({ rates }: { rates: Rates }) {
                   <motion.button
                     key={d.id}
                     onClick={() => setDelivery(d.id)}
-                    className="flex items-center justify-between px-4 py-3 rounded-xl text-sm text-left"
+                    className="flex items-center justify-between px-4 py-3.5 rounded-2xl text-sm text-left transition-colors"
                     style={{
-                      background: delivery === d.id ? "var(--accent-sf)" : "var(--line)",
-                      border:     `1px solid ${delivery === d.id ? "var(--accent-sf)" : "var(--line)"}`,
+                      background: delivery === d.id ? "var(--ink-block)" : "var(--sunken)",
                     }}
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
@@ -141,13 +139,13 @@ export default function PriceCalculator({ rates }: { rates: Rates }) {
                     <div className="flex items-center gap-2.5">
                       <span>{d.icon}</span>
                       <span className="font-semibold"
-                        style={{ color: delivery === d.id ? "#fff" : "var(--ink-3)" }}>
+                        style={{ color: delivery === d.id ? "#fff" : "var(--ink-2)" }}>
                         {d.label}
                       </span>
-                      <span className="text-xs" style={{ color: "var(--ink-4)" }}>{d.days}</span>
+                      <span className="text-xs" style={{ color: delivery === d.id ? "rgba(255,255,255,0.6)" : "var(--ink-4)" }}>{d.days}</span>
                     </div>
                     <span className="text-xs font-bold"
-                      style={{ color: delivery === d.id ? "var(--accent)" : "var(--ink-4)" }}>
+                      style={{ color: delivery === d.id ? "#fff" : "var(--ink-4)" }}>
                       {d.rate} ¥/кг
                     </span>
                   </motion.button>
@@ -159,7 +157,7 @@ export default function PriceCalculator({ rates }: { rates: Rates }) {
 
           {/* ── Right: result ── */}
           <div className="glass-card rounded-2xl p-6 flex flex-col min-h-[360px]">
-            <p className="text-[10px] font-black uppercase tracking-[0.18em] mb-5"
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] mb-5"
               style={{ color: "var(--ink-4)" }}>
               Итоговая стоимость
             </p>
@@ -188,8 +186,7 @@ export default function PriceCalculator({ rates }: { rates: Rates }) {
                   transition={{ duration: 0.3 }}
                 >
                   {/* CNY breakdown */}
-                  <div className="rounded-xl p-4"
-                    style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}>
+                  <div className="rounded-2xl p-4" style={{ background: "var(--card-alt)" }}>
                     <div className="flex justify-between text-xs mb-1.5"
                       style={{ color: "var(--ink-4)" }}>
                       <span>Товар + наценка 15%</span>
@@ -200,10 +197,10 @@ export default function PriceCalculator({ rates }: { rates: Rates }) {
                       <span>Доставка ({weight} кг × {opt.rate} ¥)</span>
                       <span>{deliveryCostCNY.toFixed(0)} ¥</span>
                     </div>
-                    <div className="flex justify-between text-sm font-black pt-3"
-                      style={{ borderTop: "1px solid var(--accent-ln)" }}>
+                    <div className="flex justify-between text-sm font-bold pt-3"
+                      style={{ borderTop: "1px solid var(--line)" }}>
                       <span>Итого</span>
-                      <span style={{ color: "var(--accent)" }}>{totalCNY.toFixed(0)} ¥</span>
+                      <span style={{ color: "var(--ink)" }}>{totalCNY.toFixed(0)} ¥</span>
                     </div>
                   </div>
 
@@ -225,7 +222,7 @@ export default function PriceCalculator({ rates }: { rates: Rates }) {
                               {c.label}
                             </span>
                           </div>
-                          <p className="text-base font-black tracking-tight leading-none">
+                          <p className="text-base font-bold tracking-tight leading-none">
                             {fmtAmount(amount, c.symbol)}
                           </p>
                         </motion.div>
@@ -240,7 +237,7 @@ export default function PriceCalculator({ rates }: { rates: Rates }) {
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 py-3.5 rounded-2xl text-white font-bold text-sm"
                     style={{
-                      background:  "linear-gradient(135deg, var(--ink-block), #2563EB)",
+                      background:  "var(--ink-block)",
                       boxShadow:   "0 6px 24px rgba(17,17,19,0.16)",
                     }}
                     whileHover={{ scale: 1.02, boxShadow: "0 10px 30px rgba(17,17,19,0.16)" }}

@@ -37,7 +37,7 @@ function BottomMarquee() {
       <div className="marquee-inner-rev flex items-center whitespace-nowrap">
         {items.map((t, i) => (
           <span key={i} className="inline-flex items-center shrink-0">
-            <span className="text-xs font-black uppercase tracking-[.22em]"
+            <span className="text-xs font-bold uppercase tracking-[.22em]"
               style={{ color: i % 8 < 2 ? "var(--accent)" : "var(--ink-4)" }}>
               {t}
             </span>

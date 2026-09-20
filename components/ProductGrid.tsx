@@ -36,10 +36,12 @@ const RATE_MAP: Record<Country, { key: keyof Rates; symbol: string }> = {
 const CATEGORIES = ["Все", "Кроссовки", "Одежда", "Футболки", "Сумки", "Кепки", "Аксессуары"]
 const PAGE_SIZE = 12
 
+// Бейджи монохромные: цвет на карточке должен идти от фотографии товара,
+// а не от подписи. Красный оставлен только дефициту — он и должен «жечь».
 const TAG_COLOR: Record<string, { bg: string; text: string }> = {
-  "Хит":    { bg: "var(--accent)", text: "#fff" },
-  "Новинка":{ bg: "#10b981", text: "#fff" },
-  "Лимит":  { bg: "#ef4444", text: "#fff" },
+  "Хит":    { bg: "var(--ink-block)", text: "#fff" },
+  "Новинка":{ bg: "#fff",             text: "var(--ink)" },
+  "Лимит":  { bg: "var(--danger)",    text: "#fff" },
 }
 
 const FALLBACK: Product[] = [
@@ -182,20 +184,20 @@ function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | 
           />
         </motion.div>
         {p.tag && TAG_COLOR[p.tag] && (
-          <span className="absolute top-3 left-3 text-[9px] font-black px-2.5 py-1 rounded-full tracking-wide"
+          <span className="absolute top-3 left-3 text-[9px] font-bold px-2.5 py-1 rounded-full tracking-wide"
             style={{ background: TAG_COLOR[p.tag].bg, color: TAG_COLOR[p.tag].text }}>
             {p.tag}
           </span>
         )}
         {savePct && (
-          <span className="absolute top-3 right-3 text-[9px] font-black px-2 py-1 rounded-full"
-            style={{ background: "#22c55e", color: "#fff" }}>
+          <span className="absolute top-3 right-3 text-[9px] font-bold px-2 py-1 rounded-full"
+            style={{ background: "var(--ink-block)", color: "#fff" }}>
             -{savePct}%
           </span>
         )}
       </div>
       <div className="flex-shrink-0 p-4" style={{ background: "var(--card)", borderTop: "1px solid var(--line)" }}>
-        <p className="text-[9px] font-black uppercase tracking-[0.18em] mb-0.5" style={{ color: "var(--accent)" }}>{p.brand}</p>
+        <p className="text-[9px] font-bold uppercase tracking-[0.18em] mb-0.5" style={{ color: "var(--ink-4)" }}>{p.brand}</p>
         <p className="font-bold text-sm leading-tight mb-3 line-clamp-2">{displayName}</p>
         <div className="flex items-center justify-between gap-3">
           {local !== null ? (
@@ -205,13 +207,13 @@ function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | 
                   {fmtPrice(retail, symbol)}
                 </span>
               )}
-              <p className="text-xl font-black tracking-tight">{fmtPrice(local, symbol)}</p>
+              <p className="text-xl font-bold tracking-tight" style={{ color: "var(--ink)" }}>{fmtPrice(local, symbol)}</p>
             </div>
           ) : (
             <p className="text-xs" style={{ color: "var(--ink-4)" }}>Укажите страну</p>
           )}
           <a href={tgUrl} target="_blank" rel="noopener noreferrer"
-            className="flex-shrink-0 px-5 py-2 text-white text-xs font-bold rounded-xl transition-all duration-150 hover:scale-105 active:scale-95"
+            className="flex-shrink-0 px-5 py-2.5 text-white text-xs font-semibold rounded-full transition-all duration-150 hover:scale-105 active:scale-95"
             style={{ background: "var(--ink-block)" }}
             onClick={e => e.stopPropagation()}>
             Купить →
@@ -256,22 +258,22 @@ function SmallCard({ p, local, symbol, priority }: { p: Product; local: number |
           />
         </motion.div>
         {p.tag && TAG_COLOR[p.tag] && (
-          <span className="absolute top-2 left-2 text-[8px] font-black px-1.5 py-0.5 rounded-full"
+          <span className="absolute top-2 left-2 text-[8px] font-bold px-1.5 py-0.5 rounded-full"
             style={{ background: TAG_COLOR[p.tag].bg, color: TAG_COLOR[p.tag].text }}>
             {p.tag}
           </span>
         )}
       </div>
       <div className="flex-shrink-0 p-2.5" style={{ background: "var(--card)", borderTop: "1px solid var(--line)" }}>
-        <p className="text-[8px] font-black uppercase tracking-[0.16em] mb-0.5" style={{ color: "var(--accent)" }}>{p.brand}</p>
+        <p className="text-[8px] font-bold uppercase tracking-[0.16em] mb-0.5" style={{ color: "var(--ink-4)" }}>{p.brand}</p>
         <p className="text-[10px] font-semibold leading-tight line-clamp-1 mb-2">{displayName}</p>
         <div className="flex items-center justify-between gap-1">
           {local !== null
-            ? <p className="text-xs font-black tracking-tight">{fmtPrice(local, symbol)}</p>
+            ? <p className="text-xs font-bold tracking-tight">{fmtPrice(local, symbol)}</p>
             : <p className="text-[9px]" style={{ color: "var(--ink-4)" }}>—</p>
           }
           <a href={tgUrl} target="_blank" rel="noopener noreferrer"
-            className="flex-shrink-0 px-2.5 py-1 text-white text-[9px] font-bold rounded-lg transition-all duration-150 hover:scale-105 active:scale-90"
+            className="flex-shrink-0 px-3 py-1.5 text-white text-[9px] font-semibold rounded-full transition-all duration-150 hover:scale-105 active:scale-90"
             style={{ background: "var(--ink-block)" }}
             onClick={e => e.stopPropagation()}>
             Купить
@@ -412,7 +414,7 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
         <input type="text" value={query} onChange={e => setQuery(e.target.value)}
           placeholder="Поиск по бренду или названию…"
           className="w-full rounded-full pl-11 pr-4 py-3.5 text-sm outline-none"
-          style={{ color: "var(--ink)", caretColor: "var(--accent)", background: "var(--card)", boxShadow: "var(--shadow-xs)", border: "1px solid var(--line)" }} />
+          style={{ color: "var(--ink)", caretColor: "var(--ink)", background: "var(--card)", boxShadow: "var(--shadow-xs)", border: "1px solid var(--line)" }} />
         {query && (
           <button onClick={() => setQuery("")}
             className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[var(--ink-4)] hover:text-[var(--ink-2)]">×</button>
@@ -432,7 +434,7 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
             <p className="text-4xl">🔍</p>
             <p className="text-[var(--ink-3)] text-sm">Ничего не найдено</p>
             <button onClick={() => { setCat("Все"); setQuery("") }}
-              className="text-[var(--accent)] text-xs underline underline-offset-2 mt-1">
+              className="text-[var(--ink)] text-xs underline underline-offset-2 mt-1">
               Сбросить фильтры
             </button>
           </motion.div>
@@ -454,8 +456,7 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
         <div className="mt-6 flex justify-center">
           <button
             onClick={() => setPage(p => p + 1)}
-            className="px-8 py-3 rounded-2xl text-sm font-bold transition-all duration-200 hover:scale-105 active:scale-95"
-            style={{ background: "var(--card-alt)", border: "1px solid var(--line)", color: "var(--ink-2)" }}>
+            className="btn btn-quiet">
             Показать ещё ({filtered.length - items.length})
           </button>
         </div>
@@ -468,12 +469,12 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
           initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.45 }}>
           <div>
-            <p className="text-lg font-black mb-0.5">Нет нужного товара?</p>
+            <p className="text-lg font-bold mb-0.5">Нет нужного товара?</p>
             <p className="text-[var(--ink-4)] text-sm">Скинь ссылку с Poizon — выкупим и привезём.</p>
           </div>
           <motion.a href={buildTelegramUrl()} target="_blank" rel="noopener noreferrer"
             className="btn btn-primary flex-shrink-0"
-            whileHover={{ scale: 1.04, backgroundColor: "#3a86ef" }} whileTap={{ scale: 0.97 }}>
+            whileTap={{ scale: 0.97 }}>
             Написать в Telegram →
           </motion.a>
         </motion.div>

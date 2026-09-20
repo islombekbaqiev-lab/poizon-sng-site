@@ -85,7 +85,7 @@ export async function generateMetadata(
 }
 
 const TAG_COLOR: Record<string, string> = {
-  "Хит": "var(--accent)", "Новинка": "#10b981", "Лимит": "#ef4444",
+  "Хит": "var(--ink-block)", "Новинка": "var(--ink-block)", "Лимит": "var(--danger)",
 }
 
 export default async function CategoryPage(
@@ -132,14 +132,15 @@ export default async function CategoryPage(
 
         {/* Header */}
         <div className="mb-12">
-          <p className="text-xs font-black uppercase tracking-[0.2em] mb-3" style={{ color: "var(--accent)" }}>
+          <p className="eyebrow mb-3">
             POIZON SNG
           </p>
-          <h1 className="font-black leading-tight tracking-tighter mb-4"
+          <h1 className="font-display leading-[1.0] mb-4"
             style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}>
-            {cat.label.toUpperCase()}
-            <span className="block" style={{ color: "var(--ink-4)" }}>
-              С POIZON
+            {cat.label}
+            <span className="block font-sans font-bold"
+              style={{ color: "var(--ink-3)", letterSpacing: "-0.03em", fontSize: "0.8em" }}>
+              с Poizon
             </span>
           </h1>
           <p className="text-base max-w-xl leading-relaxed" style={{ color: "var(--ink-3)" }}>
@@ -192,22 +193,22 @@ export default async function CategoryPage(
                     : <div className="w-full h-full flex items-center justify-center text-[#ccc] text-xs">{p.brand}</div>
                   }
                   {p.tag && TAG_COLOR[p.tag] && (
-                    <span className="absolute top-2 left-2 text-[8px] font-black px-1.5 py-0.5 rounded-full text-white"
+                    <span className="absolute top-2 left-2 text-[8px] font-bold px-1.5 py-0.5 rounded-full text-white"
                       style={{ background: TAG_COLOR[p.tag] }}>
                       {p.tag}
                     </span>
                   )}
-                  <span className="absolute top-2 right-2 text-[8px] font-black px-1.5 py-0.5 rounded-full text-white"
-                    style={{ background: "#22c55e" }}>
+                  <span className="absolute top-2 right-2 text-[8px] font-bold px-1.5 py-0.5 rounded-full text-white"
+                    style={{ background: "var(--ink-block)" }}>
                     -{save}%
                   </span>
                 </Link>
 
                 <div className="flex-shrink-0 p-3" style={{ background: "var(--card)", borderTop: "1px solid var(--line)" }}>
-                  <p className="text-[8px] font-black uppercase tracking-[0.16em] mb-0.5" style={{ color: "var(--accent)" }}>{p.brand}</p>
+                  <p className="text-[8px] font-bold uppercase tracking-[0.16em] mb-0.5" style={{ color: "var(--accent)" }}>{p.brand}</p>
                   <p className="text-[11px] font-semibold leading-tight line-clamp-1 mb-2">{displayName}</p>
                   <div className="flex items-center justify-between gap-1">
-                    <p className="text-sm font-black">{p.priceRUB.toLocaleString("ru")} ₽</p>
+                    <p className="text-sm font-bold">{p.priceRUB.toLocaleString("ru")} ₽</p>
                     <a href={tgUrl} target="_blank" rel="noopener noreferrer"
                       className="px-2.5 py-1 text-white text-[9px] font-bold rounded-lg transition-all duration-150 hover:scale-105"
                       style={{ background: "var(--ink-block)" }}>
@@ -224,7 +225,7 @@ export default async function CategoryPage(
         <div className="mt-16 rounded-3xl p-8 flex flex-col sm:flex-row items-center justify-between gap-4"
           style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}>
           <div>
-            <p className="font-black text-lg mb-1">Нет нужного товара?</p>
+            <p className="font-bold text-lg mb-1">Нет нужного товара?</p>
             <p className="text-sm" style={{ color: "var(--ink-3)" }}>
               Скинь ссылку с Poizon — выкупим любой товар с платформы.
             </p>

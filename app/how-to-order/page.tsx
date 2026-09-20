@@ -123,10 +123,10 @@ export default function HowToOrderPage() {
 
         {/* Header */}
         <div className="mb-14">
-          <p className="text-xs font-black uppercase tracking-[0.2em] mb-3" style={{ color: "var(--accent)" }}>
+          <p className="eyebrow mb-3">
             Инструкция
           </p>
-          <h1 className="font-black leading-tight mb-4" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
+          <h1 className="font-display leading-[1.0] mb-4" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
             Как заказать<br />с Poizon в СНГ
           </h1>
           <p className="text-base max-w-xl leading-relaxed" style={{ color: "var(--ink-3)" }}>
@@ -140,12 +140,12 @@ export default function HowToOrderPage() {
           {STEPS.map((s, i) => (
             <div key={i} className="flex gap-5 rounded-2xl p-5 transition-all"
               style={{ background: "var(--card)", border: "1px solid var(--line)" }}>
-              <span className="text-3xl font-black flex-shrink-0 leading-none mt-0.5"
+              <span className="text-3xl font-bold flex-shrink-0 leading-none mt-0.5"
                 style={{ color: "var(--accent)", fontVariantNumeric: "tabular-nums" }}>
                 {s.n}
               </span>
               <div>
-                <h2 className="font-black text-base mb-1.5">{s.title}</h2>
+                <h2 className="font-bold text-base mb-1.5">{s.title}</h2>
                 <p className="text-sm leading-relaxed" style={{ color: "var(--ink-3)" }}>{s.body}</p>
                 {(s.n === "02" || s.n === "04" || s.n === "06") && (
                   <a
@@ -167,7 +167,7 @@ export default function HowToOrderPage() {
         <div className="rounded-3xl p-7 flex flex-col sm:flex-row items-center justify-between gap-5 mb-16"
           style={{ background: "var(--accent-sf)", border: "1px solid var(--accent-ln)" }}>
           <div>
-            <p className="font-black text-lg mb-1">Готовы сделать заказ?</p>
+            <p className="font-bold text-lg mb-1">Готовы сделать заказ?</p>
             <p className="text-sm" style={{ color: "var(--ink-3)" }}>
               Напишите в Telegram — ответим за 15 минут в рабочее время.
             </p>
@@ -181,7 +181,7 @@ export default function HowToOrderPage() {
 
         {/* FAQ */}
         <div className="mb-16">
-          <h2 className="font-black text-xl mb-6">Частые вопросы</h2>
+          <h2 className="font-bold text-xl mb-6">Частые вопросы</h2>
           <div className="space-y-3">
             {FAQS.map((f, i) => (
               <div key={i} className="rounded-2xl p-5"
@@ -195,7 +195,7 @@ export default function HowToOrderPage() {
 
         {/* Size guides */}
         <div>
-          <h2 className="text-sm font-black uppercase tracking-[0.18em] mb-4" style={{ color: "var(--ink-4)" }}>
+          <h2 className="eyebrow mb-4" style={{ color: "var(--ink-4)" }}>
             Размерные сетки брендов
           </h2>
           <div className="flex flex-wrap gap-2">
