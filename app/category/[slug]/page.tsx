@@ -5,7 +5,8 @@ import Link from "next/link"
 import { getProducts, type Product } from "@/lib/catalog"
 import { SITE_URL, TG_LINK } from "@/lib/site"
 import { breadcrumbList, itemList, wrapGraph } from "@/lib/seo/jsonld"
-import { buildTelegramUrl, categoryStart, productStart } from "@/lib/telegram"
+import { buildTelegramUrl, categoryStart } from "@/lib/telegram"
+import BuyButton from "@/components/BuyButton"
 
 const CATEGORY_MAP: Record<string, { label: string; desc: string; keywords: string[] }> = {
   "sneakers": {
@@ -166,7 +167,6 @@ export default async function CategoryPage(
         {/* Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {products.map(p => {
-            const tgUrl  = buildTelegramUrl({ start: productStart(p.id) })
             const retail = Math.round(p.priceRUB * 1.45 / 100) * 100
             const save   = Math.round((1 - p.priceRUB / retail) * 100)
             const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
@@ -199,11 +199,11 @@ export default async function CategoryPage(
                   <p className="text-[11px] font-semibold leading-tight line-clamp-1 mb-2">{displayName}</p>
                   <div className="flex items-center justify-between gap-1">
                     <p className="text-sm font-bold">{p.priceRUB.toLocaleString("ru")} ₽</p>
-                    <a href={tgUrl} target="_blank" rel="noopener noreferrer"
+                    <BuyButton product={p} price={`${p.priceRUB.toLocaleString("ru")} ₽`}
                       className="px-2.5 py-1 text-white text-[9px] font-bold rounded-lg transition-all duration-150 hover:scale-105"
                       style={{ background: "var(--ink-block)" }}>
                       Купить
-                    </a>
+                    </BuyButton>
                   </div>
                 </div>
               </div>

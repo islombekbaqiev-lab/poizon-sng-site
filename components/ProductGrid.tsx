@@ -5,7 +5,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion, useScroll, useTransform, useMotionValue } from "framer-motion"
 import { Country, Rates } from "@/lib/types"
-import { buildTelegramUrl, productStart } from "@/lib/telegram"
+import { buildTelegramUrl } from "@/lib/telegram"
+import BuyButton from "@/components/BuyButton"
 
 function useIsDesktop() {
   const [desktop, setDesktop] = useState(false)
@@ -47,6 +48,13 @@ const TAG_COLOR: Record<string, { bg: string; text: string }> = {
 
 const FALLBACK: Product[] = []
 
+// Точная цена для сообщения менеджеру (на карточке — сокращённая «9.2к»).
+function exactPrice(p: Product, local: number | null, sym: string) {
+  return local !== null
+    ? `${Math.round(local).toLocaleString("ru")} ${sym}`
+    : `${p.priceRUB.toLocaleString("ru")} ₽`
+}
+
 function fmtPrice(n: number, sym: string) {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M ${sym}`
   if (n >= 1_000)     return `${+(n / 1000).toFixed(1)}к ${sym}`
@@ -81,7 +89,6 @@ function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | 
   const imgYStatic  = useMotionValue("0%")
   const imgY = desktop ? imgYDesktop : imgYStatic
 
-  const tgUrl       = buildTelegramUrl({ start: productStart(p.id) })
   const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
   const retail      = local !== null ? Math.round(local * 1.45 / 100) * 100 : null
   const savePct     = retail !== null && local !== null ? Math.round((1 - local / retail) * 100) : null
@@ -137,12 +144,11 @@ function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | 
           ) : (
             <p className="text-xs" style={{ color: "var(--ink-4)" }}>Укажите страну</p>
           )}
-          <a href={tgUrl} target="_blank" rel="noopener noreferrer"
+          <BuyButton product={p} price={exactPrice(p, local, symbol)}
             className="flex-shrink-0 px-5 py-2.5 text-white text-xs font-semibold rounded-full transition-all duration-150 hover:scale-105 active:scale-95"
-            style={{ background: "var(--ink-block)" }}
-            onClick={e => e.stopPropagation()}>
+            style={{ background: "var(--ink-block)" }}>
             Купить →
-          </a>
+          </BuyButton>
         </div>
       </div>
     </div>
@@ -160,7 +166,6 @@ function SmallCard({ p, local, symbol, priority }: { p: Product; local: number |
   const imgYStatic  = useMotionValue("0%")
   const imgY = desktop ? imgYDesktop : imgYStatic
 
-  const tgUrl       = buildTelegramUrl({ start: productStart(p.id) })
   const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
 
   if (imgFailed || !p.image) return null
@@ -199,12 +204,11 @@ function SmallCard({ p, local, symbol, priority }: { p: Product; local: number |
             ? <p className="text-xs font-bold tracking-tight">{fmtPrice(local, symbol)}</p>
             : <p className="text-[9px]" style={{ color: "var(--ink-4)" }}>—</p>
           }
-          <a href={tgUrl} target="_blank" rel="noopener noreferrer"
+          <BuyButton product={p} price={exactPrice(p, local, symbol)}
             className="flex-shrink-0 px-3 py-1.5 text-white text-[9px] font-semibold rounded-full transition-all duration-150 hover:scale-105 active:scale-90"
-            style={{ background: "var(--ink-block)" }}
-            onClick={e => e.stopPropagation()}>
+            style={{ background: "var(--ink-block)" }}>
             Купить
-          </a>
+          </BuyButton>
         </div>
       </div>
     </div>

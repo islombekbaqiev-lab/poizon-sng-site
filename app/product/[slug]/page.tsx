@@ -4,8 +4,7 @@ import { notFound } from "next/navigation"
 import { getProducts, getProductById, type Product } from "@/lib/catalog"
 import { SITE_URL, TG_LINK } from "@/lib/site"
 import { breadcrumbList, productLd, wrapGraph } from "@/lib/seo/jsonld"
-import { buildTelegramUrl, productStart } from "@/lib/telegram"
-import CopyToTelegram from "@/components/CopyToTelegram"
+import BuyButton from "@/components/BuyButton"
 
 async function getProduct(slug: string): Promise<Product | null> {
   return getProductById(slug) as Product | null
@@ -52,7 +51,6 @@ export default async function ProductPage(
   const p = await getProduct(slug)
   if (!p) notFound()
 
-  const tgUrl  = buildTelegramUrl({ start: productStart(slug) })
   const retail = Math.round(p.priceRUB * 1.45 / 100) * 100
   const save   = Math.round((1 - p.priceRUB / retail) * 100)
 
@@ -148,29 +146,14 @@ export default async function ProductPage(
             )}
 
             {/* CTA */}
-            <a href={tgUrl} target="_blank" rel="noopener noreferrer"
+            <BuyButton product={p} price={`${p.priceRUB.toLocaleString("ru")} ₽`}
               className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-white font-bold text-base transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
               style={{ background: "var(--ink-block)", boxShadow: "0 8px 28px rgba(17,17,19,0.16)" }}>
-              Написать менеджеру →
-            </a>
-            <CopyToTelegram
-              href={tgUrl}
-              copyText={[
-                `Хочу заказать: ${p.name}`,
-                `Ссылка: ${SITE_URL}/product/${slug}`,
-                `Размер:`,
-                `Страна доставки:`,
-                `Доставка (авиа/экспресс/стандарт):`,
-              ].join("\n")}
-              className="flex items-center justify-center mt-3 w-full py-3.5 rounded-2xl text-sm font-semibold transition-all duration-200 hover:scale-[1.01]"
-              style={{
-                background: "var(--card-alt)",
-                border: "1px solid var(--line)",
-                color: "var(--ink-2)",
-              }}
-            >
-              Отправить товар (с копированием) →
-            </CopyToTelegram>
+              Купить →
+            </BuyButton>
+            <p className="text-[11px] text-center mt-2 mb-1" style={{ color: "var(--ink-4)" }}>
+              Откроется чат с @PoizonAdvisor — ссылка и цена уже в сообщении
+            </p>
 
             {/* Badges */}
             <div className="grid grid-cols-2 gap-3 mt-8">
