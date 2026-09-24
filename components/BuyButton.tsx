@@ -11,7 +11,7 @@ export default function BuyButton({
   style,
   children,
 }: {
-  product: { id: string; name: string; url?: string; article?: string }
+  product: { name: string; article?: string }
   price: string
   className?: string
   style?: React.CSSProperties

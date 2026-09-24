@@ -40,6 +40,14 @@ export async function generateMetadata(
       locale: "ru_RU",
       type: "website",
     },
+    // Без своего twitter-блока наследуется общий из layout с фото AF1 —
+    // и Telegram показывал в превью кроссовки на любом товаре.
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: desc,
+      images: p.image ? [p.image] : [],
+    },
     alternates: { canonical: `${SITE_URL}/product/${slug}` },
   }
 }
