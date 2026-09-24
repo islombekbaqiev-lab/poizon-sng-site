@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform, useMotionValue } from "framer-motion"
 import { Country, Rates } from "@/lib/types"
 import { buildTelegramUrl } from "@/lib/telegram"
 import BuyButton from "@/components/BuyButton"
+import AddToCart from "@/components/AddToCart"
 
 function useIsDesktop() {
   const [desktop, setDesktop] = useState(false)
@@ -21,7 +22,7 @@ const MARKUP  = 1.15
 interface Product {
   id: string; name: string; brand: string
   category: string; priceRUB: number
-  image: string; url: string; tag?: string
+  image: string; url: string; tag?: string; article?: string
 }
 
 const RATE_MAP: Record<Country, { key: keyof Rates; symbol: string }> = {
@@ -49,10 +50,16 @@ const TAG_COLOR: Record<string, { bg: string; text: string }> = {
 const FALLBACK: Product[] = []
 
 // Точная цена для сообщения менеджеру (на карточке — сокращённая «9.2к»).
+// Без выбранной страны — рубли, как на странице товара.
+function priceOf(p: Product, local: number | null, sym: string) {
+  return local !== null ? { price: Math.round(local), sym } : { price: p.priceRUB, sym: "₽" }
+}
 function exactPrice(p: Product, local: number | null, sym: string) {
-  return local !== null
-    ? `${Math.round(local).toLocaleString("ru")} ${sym}`
-    : `${p.priceRUB.toLocaleString("ru")} ₽`
+  const x = priceOf(p, local, sym)
+  return `${x.price.toLocaleString("ru")} ${x.sym}`
+}
+function cartItem(p: Product, local: number | null, sym: string) {
+  return { id: p.id, name: p.name, article: p.article, image: p.image, ...priceOf(p, local, sym) }
 }
 
 function fmtPrice(n: number, sym: string) {
@@ -144,11 +151,14 @@ function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | 
           ) : (
             <p className="text-xs" style={{ color: "var(--ink-4)" }}>Укажите страну</p>
           )}
+          <div className="flex items-center gap-2 flex-shrink-0">
+          <AddToCart item={cartItem(p, local, symbol)} className="w-10 h-10 flex items-center justify-center rounded-full transition-all duration-150 hover:scale-105 active:scale-90" />
           <BuyButton product={p} price={exactPrice(p, local, symbol)}
             className="flex-shrink-0 px-5 py-2.5 text-white text-xs font-semibold rounded-full transition-all duration-150 hover:scale-105 active:scale-95"
             style={{ background: "var(--ink-block)" }}>
             Купить →
           </BuyButton>
+          </div>
         </div>
       </div>
     </div>
@@ -204,11 +214,14 @@ function SmallCard({ p, local, symbol, priority }: { p: Product; local: number |
             ? <p className="text-xs font-bold tracking-tight">{fmtPrice(local, symbol)}</p>
             : <p className="text-[9px]" style={{ color: "var(--ink-4)" }}>—</p>
           }
+          <div className="flex items-center gap-1 flex-shrink-0">
+          <AddToCart item={cartItem(p, local, symbol)} className="w-7 h-7 flex items-center justify-center rounded-full transition-all duration-150 hover:scale-105 active:scale-90" />
           <BuyButton product={p} price={exactPrice(p, local, symbol)}
             className="flex-shrink-0 px-3 py-1.5 text-white text-[9px] font-semibold rounded-full transition-all duration-150 hover:scale-105 active:scale-90"
             style={{ background: "var(--ink-block)" }}>
             Купить
           </BuyButton>
+          </div>
         </div>
       </div>
     </div>

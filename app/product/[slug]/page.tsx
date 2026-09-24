@@ -5,6 +5,7 @@ import { getProducts, getProductById, type Product } from "@/lib/catalog"
 import { SITE_URL, TG_LINK } from "@/lib/site"
 import { breadcrumbList, productLd, wrapGraph } from "@/lib/seo/jsonld"
 import BuyButton from "@/components/BuyButton"
+import AddToCart from "@/components/AddToCart"
 
 async function getProduct(slug: string): Promise<Product | null> {
   return getProductById(slug) as Product | null
@@ -159,6 +160,10 @@ export default async function ProductPage(
               style={{ background: "var(--ink-block)", boxShadow: "0 8px 28px rgba(17,17,19,0.16)" }}>
               Купить →
             </BuyButton>
+            <div className="mt-3">
+              <AddToCart variant="full"
+                item={{ id: p.id, name: p.name, article: p.article, image: p.image, price: p.priceRUB, sym: "₽" }} />
+            </div>
             <p className="text-[11px] text-center mt-2 mb-1" style={{ color: "var(--ink-4)" }}>
               Откроется чат с @PoizonAdvisor — ссылка и цена уже в сообщении
             </p>

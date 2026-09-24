@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import SmoothScroll from "@/components/SmoothScroll"
+import Cart from "@/components/Cart"
 import PageTracker from "@/components/PageTracker"
 import CookieConsent from "@/components/CookieConsent"
 import AnalyticsScripts from "@/components/AnalyticsScripts"
@@ -194,6 +195,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <SmoothScroll>{children}</SmoothScroll>
+        <Cart />
 
         {/* Аналитика — только после согласия (см. /cookies) */}
         <CookieConsent />

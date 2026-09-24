@@ -7,6 +7,7 @@ import { SITE_URL, TG_LINK } from "@/lib/site"
 import { breadcrumbList, itemList, wrapGraph } from "@/lib/seo/jsonld"
 import { buildTelegramUrl, categoryStart } from "@/lib/telegram"
 import BuyButton from "@/components/BuyButton"
+import AddToCart from "@/components/AddToCart"
 
 const CATEGORY_MAP: Record<string, { label: string; desc: string; keywords: string[] }> = {
   "sneakers": {
@@ -199,11 +200,15 @@ export default async function CategoryPage(
                   <p className="text-[11px] font-semibold leading-tight line-clamp-1 mb-2">{displayName}</p>
                   <div className="flex items-center justify-between gap-1">
                     <p className="text-sm font-bold">{p.priceRUB.toLocaleString("ru")} ₽</p>
+                    <div className="flex items-center gap-1">
+                    <AddToCart item={{ id: p.id, name: p.name, article: p.article, image: p.image, price: p.priceRUB, sym: "₽" }}
+                      className="w-7 h-7 flex items-center justify-center rounded-lg transition-all duration-150 hover:scale-105" />
                     <BuyButton product={p} price={`${p.priceRUB.toLocaleString("ru")} ₽`}
                       className="px-2.5 py-1 text-white text-[9px] font-bold rounded-lg transition-all duration-150 hover:scale-105"
                       style={{ background: "var(--ink-block)" }}>
                       Купить
                     </BuyButton>
+                    </div>
                   </div>
                 </div>
               </div>

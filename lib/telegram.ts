@@ -32,9 +32,24 @@ export function leadStart(source: string) {
 // готовое сообщение в поле ввода, а BuyButton дублирует его в буфер.
 // Ссылок в тексте нет намеренно: Telegram разворачивал их в большое превью
 // с фото. Товар однозначно находится по артикулу.
+function itemLine(p: { name: string; article?: string }) {
+  return p.article ? `${p.name} (арт. ${p.article})` : p.name
+}
+
 export function buyMessage(p: { name: string; article?: string }, price: string) {
-  const article = p.article ? ` (арт. ${p.article})` : ""
-  return `Здравствуйте! Хочу купить ${p.name}${article} — ${price}\nРазмер: `
+  return `Здравствуйте! Хочу приобрести ${itemLine(p)} — ${price}. Уточните, пожалуйста, наличие.`
+}
+
+export function cartMessage(
+  items: { name: string; article?: string; qty: number; line: string }[],
+  total: string,
+) {
+  return [
+    "Здравствуйте! Хочу приобрести:",
+    ...items.map((i, n) => `${n + 1}. ${itemLine(i)}${i.qty > 1 ? ` ×${i.qty}` : ""} — ${i.line}`),
+    `Итого: ${total}`,
+    "Уточните, пожалуйста, наличие.",
+  ].join("\n")
 }
 
 export function buyUrl(text: string) {
