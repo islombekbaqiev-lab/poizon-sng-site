@@ -4,18 +4,20 @@ import { useSyncExternalStore } from "react"
 
 // Корзина живёт в localStorage и шарится между всеми страницами без провайдера:
 // карточки на главной, категории и страница товара пишут в один стор.
-// Цена фиксируется в момент добавления — в той валюте, что видел клиент.
+// Храним исходную цену в рублях источника, а в валюту клиента пересчитываем
+// при показе (lib/pricing) — так корзина всегда в одной валюте и совпадает
+// с ценами на карточках, даже если клиент сменил страну.
 export interface CartItem {
   id: string
   name: string
   article?: string
   image?: string
-  price: number
-  sym: string
+  category?: string
+  priceRUB: number
   qty: number
 }
 
-const KEY = "poizon_cart_v1"
+const KEY = "poizon_cart_v2"
 const EMPTY: CartItem[] = []
 let items: CartItem[] = EMPTY
 let loaded = false
@@ -65,16 +67,4 @@ export const cart = {
     commit(qty <= 0 ? items.filter(i => i.id !== id) : items.map(i => i.id === id ? { ...i, qty } : i))
   },
   clear() { commit(EMPTY) },
-}
-
-export function fmtMoney(n: number, sym: string) {
-  return `${Math.round(n).toLocaleString("ru")} ${sym}`
-}
-
-// Если клиент успел сменить страну, в корзине могут быть разные валюты —
-// складываем по каждой отдельно, а не смешиваем рубли с тенге.
-export function cartTotal(list: CartItem[]) {
-  const by = new Map<string, number>()
-  for (const i of list) by.set(i.sym, (by.get(i.sym) ?? 0) + i.price * i.qty)
-  return Array.from(by, ([sym, sum]) => fmtMoney(sum, sym)).join(" + ")
 }

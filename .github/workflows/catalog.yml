@@ -1,0 +1,31 @@
+# Раз в неделю пересобирает data/catalog.json с thepoizon.ru и коммитит,
+# если цены/ассортимент изменились — пуш сам запускает деплой на Vercel.
+# Если источник закроется анти-ботом, скрипт выходит с ошибкой и старый
+# каталог не трогает.
+name: Обновление каталога
+
+on:
+  schedule:
+    - cron: "0 3 * * 1"   # пн 06:00 МСК
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/scrape-poizon.mjs --pages 3
+      - name: Коммит, если есть изменения
+        run: |
+          git diff --quiet data/catalog.json && { echo "без изменений"; exit 0; }
+          git config user.name  "catalog-bot"
+          git config user.email "catalog-bot@users.noreply.github.com"
+          git add data/catalog.json
+          git commit -m "catalog: еженедельное обновление"
+          git push

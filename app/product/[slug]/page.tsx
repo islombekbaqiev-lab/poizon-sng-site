@@ -6,13 +6,18 @@ import { SITE_URL, TG_LINK } from "@/lib/site"
 import { breadcrumbList, productLd, wrapGraph } from "@/lib/seo/jsonld"
 import BuyButton from "@/components/BuyButton"
 import AddToCart from "@/components/AddToCart"
+import Price from "@/components/Price"
+import { fmtFull, sitePrice } from "@/lib/pricing"
+import { poizonImg } from "@/lib/img"
 
 async function getProduct(slug: string): Promise<Product | null> {
   return getProductById(slug) as Product | null
 }
 
 export async function generateStaticParams() {
-  return getProducts().map(p => ({ slug: p.id }))
+  // Заранее собираем только ходовые позиции (каталог отсортирован по продажам),
+  // остальные ~3000 страниц рендерятся при первом заходе и кэшируются.
+  return getProducts().slice(0, 300).map(p => ({ slug: p.id }))
 }
 
 export const dynamicParams = true
@@ -24,7 +29,7 @@ export async function generateMetadata(
   const p = await getProduct(slug)
   if (!p) return { title: "Товар не найден — POIZON SNG" }
 
-  const price = `от ${p.priceRUB.toLocaleString("ru")} ₽`
+  const price = `от ${fmtFull(sitePrice(p.priceRUB, "RU"))}`
   const title = `${p.name} — купить оригинал | POIZON SNG`
   const desc  = `${p.name} с Poizon (得物) под ключ: помощь с размером, выкуп, фото перед отправкой и доставка в страны СНГ. ${price}. Трек-номер на каждый заказ.`
 
@@ -60,8 +65,6 @@ export default async function ProductPage(
   const p = await getProduct(slug)
   if (!p) notFound()
 
-  const retail = Math.round(p.priceRUB * 1.45 / 100) * 100
-  const save   = Math.round((1 - p.priceRUB / retail) * 100)
 
   const jsonLd = wrapGraph([
     breadcrumbList([
@@ -75,7 +78,7 @@ export default async function ProductPage(
       image: p.image,
       description:
         `Товар ${p.name} с платформы Poizon (得物) с премиум‑сопровождением: помощь с размером, выкуп, фото перед отправкой и доставка в СНГ.`,
-      priceRUB: p.priceRUB,
+      priceRUB: sitePrice(p.priceRUB, "RU").amount,
       sellerName: "POIZON SNG",
       article: p.article,
     }),
@@ -107,7 +110,9 @@ export default async function ProductPage(
           <div className="rounded-3xl overflow-hidden flex items-center justify-center"
             style={{ background: "#fff", aspectRatio: "1/1" }}>
             {p.image
-              ? <img src={p.image} alt={p.name}
+              ? <img src={poizonImg(p.image, 828)} alt={p.name} fetchPriority="high"
+                  srcSet={`${poizonImg(p.image, 480)} 480w, ${poizonImg(p.image, 828)} 828w, ${poizonImg(p.image, 1080)} 1080w`}
+                  sizes="(max-width: 768px) 100vw, 560px"
                   className="w-full h-full object-contain p-10"
                   style={{ maxHeight: "520px" }} />
               : <div className="w-full h-full flex items-center justify-center"
@@ -136,17 +141,12 @@ export default async function ProductPage(
             </h1>
 
             {/* Price */}
-            <div className="flex items-baseline gap-3 mb-2">
-              <span className="text-3xl font-bold">
-                {p.priceRUB.toLocaleString("ru")} ₽
-              </span>
-              <span className="text-sm line-through" style={{ color: "var(--ink-4)" }}>
-                {retail.toLocaleString("ru")} ₽
-              </span>
-              <span className="text-sm font-bold" style={{ color: "var(--ink)" }}>−{save}%</span>
+            <div className="flex items-baseline gap-2 mb-2">
+              <span className="text-sm" style={{ color: "var(--ink-4)" }}>от</span>
+              <Price priceRUB={p.priceRUB} className="text-3xl font-bold" />
             </div>
             <p className="text-xs mb-3" style={{ color: "var(--ink-4)" }}>
-              Цена в юанях — уточняется в Telegram по актуальному курсу
+              Цена за самый доступный размер, с выкупом и сопровождением. Доставка считается отдельно — видно в корзине.
             </p>
             {p.article && (
               <p className="text-xs mb-8" style={{ color: "var(--ink-3)" }}>
@@ -155,17 +155,17 @@ export default async function ProductPage(
             )}
 
             {/* CTA */}
-            <BuyButton product={p} price={`${p.priceRUB.toLocaleString("ru")} ₽`}
+            <BuyButton product={p}
               className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-white font-bold text-base transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
               style={{ background: "var(--ink-block)", boxShadow: "0 8px 28px rgba(17,17,19,0.16)" }}>
               Купить →
             </BuyButton>
             <div className="mt-3">
               <AddToCart variant="full"
-                item={{ id: p.id, name: p.name, article: p.article, image: p.image, price: p.priceRUB, sym: "₽" }} />
+                item={{ id: p.id, name: p.name, article: p.article, image: p.image, category: p.category, priceRUB: p.priceRUB }} />
             </div>
             <p className="text-[11px] text-center mt-2 mb-1" style={{ color: "var(--ink-4)" }}>
-              Откроется чат с @PoizonAdvisor — ссылка и цена уже в сообщении
+              Откроется чат с @PoizonAdvisor — товар и цена уже в сообщении
             </p>
 
             {/* Badges */}

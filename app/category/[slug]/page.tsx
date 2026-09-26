@@ -8,6 +8,8 @@ import { breadcrumbList, itemList, wrapGraph } from "@/lib/seo/jsonld"
 import { buildTelegramUrl, categoryStart } from "@/lib/telegram"
 import BuyButton from "@/components/BuyButton"
 import AddToCart from "@/components/AddToCart"
+import Price from "@/components/Price"
+import { poizonImg } from "@/lib/img"
 
 const CATEGORY_MAP: Record<string, { label: string; desc: string; keywords: string[] }> = {
   "sneakers": {
@@ -88,7 +90,7 @@ export default async function CategoryPage(
   if (!cat) notFound()
 
   const all      = getProducts()
-  const products = all.filter(p => p.category === cat.label).slice(0, 60)
+  const products = all.filter(p => p.category === cat.label).slice(0, 120)
 
   const jsonLd = wrapGraph([
     breadcrumbList([
@@ -168,8 +170,6 @@ export default async function CategoryPage(
         {/* Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {products.map(p => {
-            const retail = Math.round(p.priceRUB * 1.45 / 100) * 100
-            const save   = Math.round((1 - p.priceRUB / retail) * 100)
             const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
 
             return (
@@ -179,7 +179,7 @@ export default async function CategoryPage(
                 <Link href={`/product/${p.id}`} className="flex-1 relative overflow-hidden flex items-center justify-center"
                   style={{ background: "#fff", aspectRatio: "1/1" }}>
                   {p.image
-                    ? <img src={p.image} alt={p.name} loading="lazy"
+                    ? <img src={poizonImg(p.image, 480)} alt={p.name} loading="lazy"
                         className="w-full h-full object-contain p-4 group-hover:scale-[1.04] transition-transform duration-500" />
                     : <div className="w-full h-full flex items-center justify-center text-[#ccc] text-xs">{p.brand}</div>
                   }
@@ -189,21 +189,17 @@ export default async function CategoryPage(
                       {p.tag}
                     </span>
                   )}
-                  <span className="absolute top-2 right-2 text-[8px] font-bold px-1.5 py-0.5 rounded-full text-white"
-                    style={{ background: "var(--ink-block)" }}>
-                    -{save}%
-                  </span>
                 </Link>
 
                 <div className="flex-shrink-0 p-3" style={{ background: "var(--card)", borderTop: "1px solid var(--line)" }}>
                   <p className="text-[8px] font-bold uppercase tracking-[0.16em] mb-0.5" style={{ color: "var(--accent)" }}>{p.brand}</p>
                   <p className="text-[11px] font-semibold leading-tight line-clamp-1 mb-2">{displayName}</p>
                   <div className="flex items-center justify-between gap-1">
-                    <p className="text-sm font-bold">{p.priceRUB.toLocaleString("ru")} ₽</p>
+                    <Price priceRUB={p.priceRUB} short className="text-sm font-bold" />
                     <div className="flex items-center gap-1">
-                    <AddToCart item={{ id: p.id, name: p.name, article: p.article, image: p.image, price: p.priceRUB, sym: "₽" }}
+                    <AddToCart item={{ id: p.id, name: p.name, article: p.article, image: p.image, category: p.category, priceRUB: p.priceRUB }}
                       className="w-7 h-7 flex items-center justify-center rounded-lg transition-all duration-150 hover:scale-105" />
-                    <BuyButton product={p} price={`${p.priceRUB.toLocaleString("ru")} ₽`}
+                    <BuyButton product={p}
                       className="px-2.5 py-1 text-white text-[9px] font-bold rounded-lg transition-all duration-150 hover:scale-105"
                       style={{ background: "var(--ink-block)" }}>
                       Купить

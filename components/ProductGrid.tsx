@@ -5,6 +5,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion, useScroll, useTransform, useMotionValue } from "framer-motion"
 import { Country, Rates } from "@/lib/types"
+import type { CardProduct, ProductPage } from "@/lib/catalog"
+import { fmtShort, sitePrice } from "@/lib/pricing"
 import { buildTelegramUrl } from "@/lib/telegram"
 import BuyButton from "@/components/BuyButton"
 import AddToCart from "@/components/AddToCart"
@@ -17,24 +19,8 @@ function useIsDesktop() {
   return desktop
 }
 
-const MARKUP  = 1.15
 
-interface Product {
-  id: string; name: string; brand: string
-  category: string; priceRUB: number
-  image: string; url: string; tag?: string; article?: string
-}
-
-const RATE_MAP: Record<Country, { key: keyof Rates; symbol: string }> = {
-  RU: { key: "RUB", symbol: "₽"   },
-  BY: { key: "BYN", symbol: "Br"  },
-  KZ: { key: "KZT", symbol: "₸"   },
-  TJ: { key: "TJS", symbol: "с."  },
-  AM: { key: "AMD", symbol: "֏"   },
-  GE: { key: "GEL", symbol: "₾"   },
-  AZ: { key: "AZN", symbol: "₼"   },
-  UZ: { key: "UZS", symbol: "сум" },
-}
+type Product = CardProduct
 
 const CATEGORIES = ["Все", "Кроссовки", "Одежда", "Футболки", "Сумки", "Кепки", "Аксессуары"]
 const PAGE_SIZE = 12
@@ -47,26 +33,7 @@ const TAG_COLOR: Record<string, { bg: string; text: string }> = {
   "Лимит":  { bg: "var(--danger)",    text: "#fff" },
 }
 
-const FALLBACK: Product[] = []
 
-// Точная цена для сообщения менеджеру (на карточке — сокращённая «9.2к»).
-// Без выбранной страны — рубли, как на странице товара.
-function priceOf(p: Product, local: number | null, sym: string) {
-  return local !== null ? { price: Math.round(local), sym } : { price: p.priceRUB, sym: "₽" }
-}
-function exactPrice(p: Product, local: number | null, sym: string) {
-  const x = priceOf(p, local, sym)
-  return `${x.price.toLocaleString("ru")} ${x.sym}`
-}
-function cartItem(p: Product, local: number | null, sym: string) {
-  return { id: p.id, name: p.name, article: p.article, image: p.image, ...priceOf(p, local, sym) }
-}
-
-function fmtPrice(n: number, sym: string) {
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M ${sym}`
-  if (n >= 1_000)     return `${+(n / 1000).toFixed(1)}к ${sym}`
-  return `${Math.round(n)} ${sym}`
-}
 
 // ── No-image placeholder ──────────────────────────────────────────────────────
 function NoImg({ brand }: { brand: string }) {
@@ -84,7 +51,13 @@ function NoImg({ brand }: { brand: string }) {
 }
 
 // ── BIG hero card ────────────────────────────────────────────────────────────
-function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | null; symbol: string; priority?: boolean }) {
+type Money = { amount: number; sym: string }
+
+function cartItem(p: Product) {
+  return { id: p.id, name: p.name, article: p.article, image: p.image, category: p.category, priceRUB: p.priceRUB }
+}
+
+function HeroCard({ p, price, priority }: { p: Product; price: Money | null; priority?: boolean }) {
   // ВАЖНО: все хуки вызываются до любого return. Ранний выход выше по коду
   // менял количество хуков между рендерами (когда картинка падала в ошибку)
   // и ронял всё дерево — React error #300.
@@ -97,8 +70,6 @@ function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | 
   const imgY = desktop ? imgYDesktop : imgYStatic
 
   const displayName = p.name.replace(new RegExp(`^${p.brand}\\s*`, 'i'), '').trim() || p.name
-  const retail      = local !== null ? Math.round(local * 1.45 / 100) * 100 : null
-  const savePct     = retail !== null && local !== null ? Math.round((1 - local / retail) * 100) : null
 
   if (imgFailed || !p.image) return null
 
@@ -126,12 +97,6 @@ function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | 
             {p.tag}
           </span>
         )}
-        {savePct && (
-          <span className="absolute top-3 right-3 text-[9px] font-bold px-2 py-1 rounded-full"
-            style={{ background: "var(--ink-block)", color: "#fff" }}>
-            -{savePct}%
-          </span>
-        )}
       </Link>
       <div className="flex-shrink-0 p-4" style={{ background: "var(--card)", borderTop: "1px solid var(--line)" }}>
         <p className="text-[9px] font-bold uppercase tracking-[0.18em] mb-0.5" style={{ color: "var(--ink-4)" }}>{p.brand}</p>
@@ -139,21 +104,17 @@ function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | 
           {displayName}
         </Link>
         <div className="flex items-center justify-between gap-3">
-          {local !== null ? (
+          {price !== null ? (
             <div className="flex flex-col">
-              {retail && (
-                <span className="text-[10px] line-through" style={{ color: "var(--ink-4)" }}>
-                  {fmtPrice(retail, symbol)}
-                </span>
-              )}
-              <p className="text-xl font-bold tracking-tight" style={{ color: "var(--ink)" }}>{fmtPrice(local, symbol)}</p>
+              <span className="text-[10px]" style={{ color: "var(--ink-4)" }}>от</span>
+              <p className="text-xl font-bold tracking-tight" style={{ color: "var(--ink)" }}>{fmtShort(price)}</p>
             </div>
           ) : (
             <p className="text-xs" style={{ color: "var(--ink-4)" }}>Укажите страну</p>
           )}
           <div className="flex items-center gap-2 flex-shrink-0">
-          <AddToCart item={cartItem(p, local, symbol)} className="w-10 h-10 flex items-center justify-center rounded-full transition-all duration-150 hover:scale-105 active:scale-90" />
-          <BuyButton product={p} price={exactPrice(p, local, symbol)}
+          <AddToCart item={cartItem(p)} className="w-10 h-10 flex items-center justify-center rounded-full transition-all duration-150 hover:scale-105 active:scale-90" />
+          <BuyButton product={p}
             className="flex-shrink-0 px-5 py-2.5 text-white text-xs font-semibold rounded-full transition-all duration-150 hover:scale-105 active:scale-95"
             style={{ background: "var(--ink-block)" }}>
             Купить →
@@ -166,7 +127,7 @@ function HeroCard({ p, local, symbol, priority }: { p: Product; local: number | 
 }
 
 // ── Small card ───────────────────────────────────────────────────────────────
-function SmallCard({ p, local, symbol, priority }: { p: Product; local: number | null; symbol: string; priority?: boolean }) {
+function SmallCard({ p, price, priority }: { p: Product; price: Money | null; priority?: boolean }) {
   // Хуки — строго до раннего return (см. комментарий в HeroCard).
   const [imgFailed, setImgFailed] = useState(false)
   const desktop = useIsDesktop()
@@ -210,13 +171,13 @@ function SmallCard({ p, local, symbol, priority }: { p: Product; local: number |
           {displayName}
         </Link>
         <div className="flex items-center justify-between gap-1">
-          {local !== null
-            ? <p className="text-xs font-bold tracking-tight">{fmtPrice(local, symbol)}</p>
+          {price !== null
+            ? <p className="text-xs font-bold tracking-tight">{fmtShort(price)}</p>
             : <p className="text-[9px]" style={{ color: "var(--ink-4)" }}>—</p>
           }
           <div className="flex items-center gap-1 flex-shrink-0">
-          <AddToCart item={cartItem(p, local, symbol)} className="w-7 h-7 flex items-center justify-center rounded-full transition-all duration-150 hover:scale-105 active:scale-90" />
-          <BuyButton product={p} price={exactPrice(p, local, symbol)}
+          <AddToCart item={cartItem(p)} className="w-7 h-7 flex items-center justify-center rounded-full transition-all duration-150 hover:scale-105 active:scale-90" />
+          <BuyButton product={p}
             className="flex-shrink-0 px-3 py-1.5 text-white text-[9px] font-semibold rounded-full transition-all duration-150 hover:scale-105 active:scale-90"
             style={{ background: "var(--ink-block)" }}>
             Купить
@@ -245,65 +206,51 @@ function SkeletonGrid() {
   )
 }
 
-function interleave(products: Product[]): Product[] {
-  const groups: Record<string, Product[]> = {}
-  for (const p of products) {
-    if (!groups[p.category]) groups[p.category] = []
-    groups[p.category].push(p)
-  }
-  const keys = Object.keys(groups)
-  const result: Product[] = []
-  let i = 0
-  while (result.length < products.length) {
-    const key = keys[i % keys.length]
-    const item = groups[key].shift()
-    if (item) result.push(item)
-    i++
-  }
-  return result
-}
-
 // ── Main ──────────────────────────────────────────────────────────────────────
-export default function ProductGrid({ country, rates }: { country: Country | null; rates: Rates }) {
-  const [cat,      setCat]      = useState("Все")
-  const [query,    setQuery]    = useState("")
-  const [products, setProducts] = useState<Product[]>([])
-  const [loading,  setLoading]  = useState(true)
-  const [page,     setPage]     = useState(1)
+export default function ProductGrid({ country, rates, initial }:
+  { country: Country | null; rates: Rates; initial: ProductPage }) {
+  const [cat,     setCat]     = useState("Все")
+  const [query,   setQuery]   = useState("")
+  // Первая порция приходит с сервера вместе с HTML — сетка видна сразу,
+  // без запроса и скелетона. Дальше — порциями через /api/products.
+  const [items,   setItems]   = useState<Product[]>(initial.items)
+  const [total,   setTotal]   = useState(initial.total)
+  const [loading, setLoading] = useState(false)
+  const [more,    setMore]    = useState(false)
+  const first = useRef(true)
 
-  useEffect(() => {
-    const ctrl = new AbortController()
-    const timeout = setTimeout(() => ctrl.abort(), 8000)
-
-    fetch('/api/products', { signal: ctrl.signal })
-      .then(r => r.json())
-      .then((d: Product[]) => { if (Array.isArray(d) && d.length > 0) setProducts(d) })
-      .catch(() => {})
-      .finally(() => { clearTimeout(timeout); setLoading(false) })
-
-    return () => { ctrl.abort(); clearTimeout(timeout) }
-  }, [])
-
-  const rateMeta = country ? RATE_MAP[country] : null
-  const raw    = products.length > 0 ? products : (!loading ? FALLBACK : [])
-  const source = cat === "Все" ? interleave(raw) : raw
-
-  const filtered = source
-    .filter(p => !!p.image)
-    .filter(p => cat === "Все" || p.category === cat)
-    .filter(p => !query ||
-      p.name.toLowerCase().includes(query.toLowerCase()) ||
-      p.brand.toLowerCase().includes(query.toLowerCase())
-    )
-
-  const items    = filtered.slice(0, page * PAGE_SIZE)
-  const hasMore  = filtered.length > items.length
-
-  const calcLocal = (p: Product) => {
-    const priceCNY = p.priceRUB / rates.RUB
-    return rateMeta ? priceCNY * MARKUP * rates[rateMeta.key] : null
+  const load = (offset: number, signal?: AbortSignal) => {
+    const qs = new URLSearchParams({ cat, q: query.trim(), offset: String(offset), limit: String(PAGE_SIZE) })
+    return fetch(`/api/products?${qs}`, { signal }).then(r => r.json() as Promise<ProductPage>)
   }
-  const sym = rateMeta?.symbol ?? ""
+
+  // Смена категории/поиска — новая выборка; поиск ждёт паузу в наборе.
+  useEffect(() => {
+    if (first.current) { first.current = false; return }
+    const ctrl = new AbortController()
+    setLoading(true)
+    const t = setTimeout(() => {
+      load(0, ctrl.signal)
+        .then(d => { setItems(d.items); setTotal(d.total) })
+        .catch(() => {})
+        .finally(() => { if (!ctrl.signal.aborted) setLoading(false) })
+    }, query ? 250 : 0)
+    return () => { ctrl.abort(); clearTimeout(t) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cat, query])
+
+  const loadMore = () => {
+    setMore(true)
+    load(items.length)
+      .then(d => { setItems(prev => [...prev, ...d.items]); setTotal(d.total) })
+      .catch(() => {})
+      .finally(() => setMore(false))
+  }
+
+  const hasMore = total > items.length
+
+  // Та же формула, что на страницах товара и в корзине (lib/pricing).
+  const priceFor = (p: Product) => country ? sitePrice(p.priceRUB, country, rates) : null
 
   const [hero, ...rest] = items
 
@@ -326,13 +273,13 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
             </span>
           </h2>
           <p className="text-xs mt-3" style={{ color: "var(--ink-4)" }}>
-            {loading ? "Загружаем товары…" : `${filtered.length} позиций · 100% оригиналы`}
+            {`${total.toLocaleString("ru")} позиций · 100% оригиналы`}
           </p>
         </div>
         <div className="flex gap-1 rounded-full p-1 max-w-full overflow-x-auto"
           style={{ background: "var(--card)", boxShadow: "var(--shadow-xs)", scrollbarWidth: "none" } as React.CSSProperties}>
           {CATEGORIES.map(c => (
-            <motion.button key={c} onClick={() => { setCat(c); setPage(1) }}
+            <motion.button key={c} onClick={() => setCat(c)}
               className="relative shrink-0 px-4 py-2 rounded-full text-sm font-semibold z-10 transition-colors"
               style={{ color: cat === c ? "#fff" : "var(--ink-3)" }}
               whileTap={{ scale: 0.95 }}>
@@ -386,11 +333,11 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
         ) : (
           <>
             {/* Hero card — always first */}
-            {hero && <HeroCard p={hero} local={calcLocal(hero)} symbol={sym} priority />}
+            {hero && <HeroCard p={hero} price={priceFor(hero)} priority />}
 
             {/* Small cards */}
             {rest.map((p, i) => (
-              <SmallCard key={p.id} p={p} local={calcLocal(p)} symbol={sym} priority={i < 4} />
+              <SmallCard key={p.id} p={p} price={priceFor(p)} priority={i < 4} />
             ))}
           </>
         )}
@@ -400,9 +347,9 @@ export default function ProductGrid({ country, rates }: { country: Country | nul
       {hasMore && (
         <div className="mt-6 flex justify-center">
           <button
-            onClick={() => setPage(p => p + 1)}
+            onClick={loadMore} disabled={more}
             className="btn btn-quiet">
-            Показать ещё ({filtered.length - items.length})
+            {more ? "Загружаем…" : `Показать ещё (${(total - items.length).toLocaleString("ru")})`}
           </button>
         </div>
       )}

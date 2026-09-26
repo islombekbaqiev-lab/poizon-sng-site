@@ -42,11 +42,13 @@ export function buyMessage(p: { name: string; article?: string }, price: string)
 
 export function cartMessage(
   items: { name: string; article?: string; qty: number; line: string }[],
+  delivery: string,
   total: string,
 ) {
   return [
     "Здравствуйте! Хочу приобрести:",
     ...items.map((i, n) => `${n + 1}. ${itemLine(i)}${i.qty > 1 ? ` ×${i.qty}` : ""} — ${i.line}`),
+    delivery,
     `Итого: ${total}`,
     "Уточните, пожалуйста, наличие.",
   ].join("\n")

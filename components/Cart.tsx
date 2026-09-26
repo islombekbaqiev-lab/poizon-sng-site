@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { cart, cartTotal, fmtMoney, useCart } from "@/lib/cart"
+import { cart, useCart } from "@/lib/cart"
+import { deliveryEstimate, fmtFull } from "@/lib/pricing"
+import { usePricing } from "@/lib/usePricing"
 import { buyUrl, cartMessage } from "@/lib/telegram"
+import { poizonImg } from "@/lib/img"
 
 export default function Cart() {
   const items = useCart()
@@ -12,9 +15,21 @@ export default function Cart() {
 
   useEffect(() => { if (!items.length) setOpen(false) }, [items.length])
 
-  const total = cartTotal(items)
+  const { country, rates, price } = usePricing()
+  const lines = items.map(i => {
+    const unit = price(i.priceRUB)
+    return { ...i, sum: { amount: unit.amount * i.qty, sym: unit.sym } }
+  })
+  const goods = {
+    amount: lines.reduce((n, l) => n + l.sum.amount, 0),
+    sym: price(0).sym,
+  }
+  const ship  = deliveryEstimate(items, country, rates)
+  const total = fmtFull({ amount: goods.amount + ship.amount, sym: goods.sym })
+  const shipLine = `Доставка ${ship.name.toLowerCase()} (~${ship.kg} кг): ≈ ${fmtFull(ship)}`
   const text = cartMessage(
-    items.map(i => ({ ...i, line: fmtMoney(i.price * i.qty, i.sym) })),
+    lines.map(l => ({ ...l, line: fmtFull(l.sum) })),
+    shipLine,
     total,
   )
 
@@ -71,10 +86,10 @@ export default function Cart() {
               </div>
 
               <ul className="flex-1 overflow-y-auto px-5 divide-y" style={{ borderColor: "var(--line)" }}>
-                {items.map(i => (
+                {lines.map(i => (
                   <li key={i.id} className="flex gap-3 py-3" style={{ borderColor: "var(--line)" }}>
                     <div className="w-16 h-16 flex-shrink-0 rounded-xl overflow-hidden" style={{ background: "#fff", border: "1px solid var(--line)" }}>
-                      {i.image && <img src={i.image} alt="" className="w-full h-full object-contain p-1" />}
+                      {i.image && <img src={poizonImg(i.image, 128)} alt="" className="w-full h-full object-contain p-1" />}
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-semibold leading-tight line-clamp-2">{i.name}</p>
@@ -85,7 +100,7 @@ export default function Cart() {
                           <span className="w-6 text-center text-xs font-semibold">{i.qty}</span>
                           <button type="button" onClick={() => cart.setQty(i.id, i.qty + 1)} className="w-7 h-7 text-sm" aria-label="Больше">+</button>
                         </div>
-                        <p className="text-sm font-bold">{fmtMoney(i.price * i.qty, i.sym)}</p>
+                        <p className="text-sm font-bold">{fmtFull(i.sum)}</p>
                       </div>
                     </div>
                   </li>
@@ -93,6 +108,12 @@ export default function Cart() {
               </ul>
 
               <div className="px-5 pt-3 pb-6" style={{ borderTop: "1px solid var(--line)" }}>
+                <div className="flex items-baseline justify-between text-sm mb-1" style={{ color: "var(--ink-3)" }}>
+                  <span>Товары</span><span>{fmtFull(goods)}</span>
+                </div>
+                <div className="flex items-baseline justify-between text-sm mb-2" style={{ color: "var(--ink-3)" }}>
+                  <span>Доставка {ship.name.toLowerCase()}, {ship.days} · ~{ship.kg} кг</span><span>≈ {fmtFull(ship)}</span>
+                </div>
                 <div className="flex items-baseline justify-between mb-3">
                   <span className="text-sm" style={{ color: "var(--ink-3)" }}>Итого</span>
                   <span className="text-xl font-bold">{total}</span>
@@ -108,7 +129,7 @@ export default function Cart() {
                   Оформить в Telegram →
                 </a>
                 <p className="text-[11px] text-center mt-2" style={{ color: "var(--ink-4)" }}>
-                  Откроется чат с @PoizonAdvisor — весь список и сумма уже в сообщении
+                  Цены «от» — за самый доступный размер. Менеджер подтвердит итог под ваш размер.
                 </p>
               </div>
             </motion.aside>

@@ -1,9 +1,10 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react"
-import { motion, useInView, animate } from "framer-motion"
+import { useInView, animate } from "framer-motion"
 
 import { buildTelegramUrl, leadStart } from "@/lib/telegram"
+import { poizonImg } from "@/lib/img"
 
 const CARDS = [
   {
@@ -50,12 +51,9 @@ function CountUp({ value }: { value: string }) {
 function HeroCard({ card, i }: { card: typeof CARDS[number]; i: number }) {
   const [err, setErr] = useState(false)
   return (
-    <motion.article
-      className="card-lift overflow-hidden flex flex-col"
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.25 + i * 0.09, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-    >
+    <article
+      className="rise card-lift overflow-hidden flex flex-col"
+      style={{ animationDelay: `${250 + i * 90}ms` }}>
       {/* Товар всегда на чистом белом — так его видно, а не оформление вокруг */}
       {/* Растягиваем сцену с товаром на всю доступную высоту карточки,
           иначе у вытянутой «главной» карточки под фото остаётся пустота */}
@@ -73,7 +71,9 @@ function HeroCard({ card, i }: { card: typeof CARDS[number]; i: number }) {
           <span className="text-sm font-bold" style={{ color: "var(--ink-4)" }}>{card.brand}</span>
         ) : (
           <img
-            src={card.img} alt={card.name} draggable={false} loading={i === 0 ? "eager" : "lazy"}
+            src={poizonImg(card.img, 480)} alt={card.name} draggable={false}
+            loading={i === 0 ? "eager" : "lazy"} fetchPriority={i === 0 ? "high" : "auto"}
+            width={480} height={480}
             onError={() => setErr(true)}
             style={{ width: "100%", height: "100%", objectFit: "contain", padding: "12%" }}
           />
@@ -84,7 +84,7 @@ function HeroCard({ card, i }: { card: typeof CARDS[number]; i: number }) {
         <p className="eyebrow mb-1" style={{ fontSize: ".625rem", letterSpacing: ".14em" }}>{card.brand}</p>
         <p className="text-sm font-semibold leading-snug" style={{ color: "var(--ink)" }}>{card.name}</p>
       </div>
-    </motion.article>
+    </article>
   )
 }
 
@@ -108,24 +108,20 @@ export default function Hero() {
 
           {/* ── Текстовая колонка ── */}
           <div>
-            <motion.div
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-7"
+            <div
+              className="rise inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-7"
               style={{ background: "var(--card)", boxShadow: "var(--shadow-xs)" }}
-              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45 }}
             >
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--ink)" }} />
               <span className="text-[11px] font-semibold tracking-[.12em] uppercase" style={{ color: "var(--ink-2)" }}>
                 Доставка по СНГ
               </span>
-            </motion.div>
+            </div>
 
             {/* Заголовок: антиква + гротеск, как в референсе «Discover / Your Best Clothes» */}
-            <motion.h1
-              className="mb-6"
-              initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            >
+            <h1
+              className="rise mb-6"
+             style={{ animationDelay: "60ms" }}>
               <span className="font-display block leading-[0.95]"
                 style={{ fontSize: "clamp(2.9rem, 7vw, 5rem)", color: "var(--ink)" }}>
                 Оригиналы
@@ -134,22 +130,18 @@ export default function Hero() {
                 style={{ fontSize: "clamp(2.4rem, 5.6vw, 4rem)", color: "var(--ink-4)", letterSpacing: "-0.03em" }}>
                 из Китая
               </span>
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              className="text-base sm:text-lg leading-relaxed mb-8 max-w-md"
-              style={{ color: "var(--ink-3)" }}
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              transition={{ delay: 0.16, duration: 0.5 }}
+            <p
+              className="rise text-base sm:text-lg leading-relaxed mb-8 max-w-md"
+              style={{ animationDelay: "160ms",  color: "var(--ink-3)" }}
             >
               Выкупаем на Poizon, привозим к тебе. Кроссовки, одежда, аксессуары.
-            </motion.p>
+            </p>
 
-            <motion.div
-              className="flex flex-wrap items-center gap-3 mb-8"
-              initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.22, duration: 0.5 }}
-            >
+            <div
+              className="rise flex flex-wrap items-center gap-3 mb-8"
+             style={{ animationDelay: "220ms" }}>
               <a
                 href={buildTelegramUrl({ start: leadStart("hero") })}
                 target="_blank" rel="noopener noreferrer"
@@ -168,14 +160,12 @@ export default function Hero() {
               <a href="#catalog" className="btn btn-ghost">
                 Смотреть каталог <span aria-hidden>↓</span>
               </a>
-            </motion.div>
+            </div>
 
             {/* Микро-гарантии */}
-            <motion.ul
-              className="flex flex-wrap items-center gap-x-5 gap-y-2 mb-9"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-            >
+            <ul
+              className="rise flex flex-wrap items-center gap-x-5 gap-y-2 mb-9"
+             style={{ animationDelay: "300ms" }}>
               {TRUST.map(t => (
                 <li key={t} className="inline-flex items-center gap-1.5 text-[13px]" style={{ color: "var(--ink-3)" }}>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" strokeWidth="3"
@@ -183,14 +173,12 @@ export default function Hero() {
                   {t}
                 </li>
               ))}
-            </motion.ul>
+            </ul>
 
             {/* Цифры */}
-            <motion.div
-              className="flex flex-wrap gap-x-9 gap-y-5 pt-7"
-              style={{ borderTop: "1px solid var(--line)" }}
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              transition={{ delay: 0.36, duration: 0.5 }}
+            <div
+              className="rise flex flex-wrap gap-x-9 gap-y-5 pt-7"
+              style={{ animationDelay: "360ms",  borderTop: "1px solid var(--line)" }}
             >
               {STATS.map(s => (
                 <div key={s.label}>
@@ -200,7 +188,7 @@ export default function Hero() {
                   <div className="text-[11px] mt-1.5 tracking-wide" style={{ color: "var(--ink-4)" }}>{s.label}</div>
                 </div>
               ))}
-            </motion.div>
+            </div>
           </div>
 
           {/* ── Витрина ── */}
@@ -210,11 +198,9 @@ export default function Hero() {
             ))}
 
             {/* Четвёртая ячейка — не товар, а причина довериться */}
-            <motion.div
-              className="rounded-[28px] p-6 flex flex-col justify-between"
-              style={{ background: "var(--ink-block)", minHeight: 260, boxShadow: "var(--shadow-ink)" }}
-              initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.52, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            <div
+              className="rise rounded-[28px] p-6 flex flex-col justify-between"
+              style={{ animationDelay: "520ms",  background: "var(--ink-block)", minHeight: 260, boxShadow: "var(--shadow-ink)" }}
             >
               <div>
                 <p className="font-display text-[2.1rem] leading-none mb-2.5" style={{ color: "#fff" }}>
@@ -231,7 +217,7 @@ export default function Hero() {
               >
                 Открыть каталог <span aria-hidden>→</span>
               </a>
-            </motion.div>
+            </div>
           </div>
 
         </div>

@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Rates } from "@/lib/types"
+import { MARKUP as SERVICE_MARKUP } from "@/lib/pricing"
 
 const DELIVERY_OPTIONS = [
   { id: "air",      icon: "✈️", label: "Авиа",     days: "3–5 дн",   rate: 225 },
@@ -17,7 +18,7 @@ const CURRENCIES = [
   { key: "UZS" as keyof Rates, label: "Узбекистан",  symbol: "сум", flag: "🇺🇿" },
 ]
 
-const MARKUP = 1.15
+const MARKUP = 1 + SERVICE_MARKUP
 
 function fmtAmount(n: number, sym: string) {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(2)}M ${sym}`

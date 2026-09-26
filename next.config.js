@@ -9,7 +9,7 @@ const csp = [
   "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://mc.yandex.ru https://yandex.ru https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com",
   // Инлайновые стили активно используются в компонентах (style={{...}}).
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://cdn-img.thepoizon.ru https://cdn.dewu.com https://proxy.b2baisolutions.io https://mc.yandex.ru https://www.google-analytics.com",
+  "img-src 'self' data: blob: https://cdn-img.thepoizon.ru https://cdn.dewu.com https://proxy.b2baisolutions.io https://hkpoizon-oversea.poizon.com https://mc.yandex.ru https://www.google-analytics.com",
   "font-src 'self' data:",
   "connect-src 'self' https://mc.yandex.ru https://www.google-analytics.com https://region1.google-analytics.com https://va.vercel-scripts.com https://vitals.vercel-insights.com",
   "frame-src https://mc.yandex.ru",
@@ -56,25 +56,9 @@ const nextConfig = {
   },
 
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "cdn-img.thepoizon.ru",
-        // Каталог отдаёт и cut-img, и origin-img — сужать до одной папки нельзя,
-        // иначе половина карточек остаётся без фотографии.
-        pathname: "/pro-img/**",
-      },
-      {
-        protocol: "https",
-        hostname: "cdn.dewu.com",
-      },
-      {
-        protocol: "https",
-        hostname: "proxy.b2baisolutions.io",
-      },
-    ],
-    formats: ["image/avif", "image/webp"],
-    minimumCacheTTL: 86400,
+    // Ресайз делает сам CDN Poizon (см. lib/img.ts), оптимизатор Vercel не нужен.
+    loader: "custom",
+    loaderFile: "./lib/img.ts",
     deviceSizes: [320, 480, 640, 750, 828, 1080],
     imageSizes: [64, 128, 256, 384],
   },

@@ -9,6 +9,8 @@ import { CONSENT_EVENT, readConsent } from "@/lib/consent"
 // Первый экран — в основном бандле, он нужен сразу.
 import Header from "@/components/Header"
 import Hero   from "@/components/Hero"
+import { setCountry as saveCountry } from "@/lib/usePricing"
+import type { ProductPage } from "@/lib/catalog"
 
 // Всё ниже первого экрана — отдельными чанками. HTML по-прежнему рендерится на
 // сервере (ssr не отключаем, SEO не страдает), но JS этих секций больше не
@@ -21,8 +23,8 @@ const Testimonials = dynamic(() => import("@/components/Testimonials"))
 const CTASection  = dynamic(() => import("@/components/CTASection"))
 const Footer      = dynamic(() => import("@/components/Footer"))
 
-// Чисто декоративное и модальное — только на клиенте, без SSR-разметки.
-const Intro             = dynamic(() => import("@/components/Intro"),             { ssr: false })
+// Модальное — только на клиенте, без SSR-разметки. Заставка — components/Splash
+// (чистый CSS в HTML, видна до загрузки JS).
 const CountryModal      = dynamic(() => import("@/components/CountryModal"),      { ssr: false })
 const MobileFloatingCTA = dynamic(() => import("@/components/MobileFloatingCTA"), { ssr: false })
 
@@ -49,11 +51,10 @@ function BottomMarquee() {
   )
 }
 
-export default function ClientShell() {
+export default function ClientShell({ initialProducts }: { initialProducts: ProductPage }) {
   const [country,   setCountry]   = useState<Country | null>(null)
   const [showModal, setShowModal] = useState(false)
   const [rates,     setRates]     = useState<Rates>(DEFAULT_RATES)
-  const [showIntro, setShowIntro] = useState(false)
   // На первом визите пользователя встречали сразу два перекрывающих слоя:
   // модалка выбора страны (z-50, блокирует всю страницу) и cookie-баннер
   // поверх неё. Показываем страну только после решения по cookie.
@@ -64,13 +65,6 @@ export default function ClientShell() {
     const onChange = () => setConsentDone(!!readConsent())
     window.addEventListener(CONSENT_EVENT, onChange)
     return () => window.removeEventListener(CONSENT_EVENT, onChange)
-  }, [])
-
-  useEffect(() => {
-    if (!sessionStorage.getItem("pzn_intro")) {
-      sessionStorage.setItem("pzn_intro", "1")
-      setShowIntro(true)
-    }
   }, [])
 
   useEffect(() => {
@@ -91,19 +85,18 @@ export default function ClientShell() {
 
   const handleCountrySelect = (c: Country) => {
     setCountry(c)
-    localStorage.setItem("pzn_country", c)
+    saveCountry(c)
     setShowModal(false)
   }
 
   return (
     <>
-      {showIntro && <Intro onDone={() => setShowIntro(false)} />}
       {showModal && consentDone && <CountryModal onSelect={handleCountrySelect} />}
       <Header country={country} rates={rates} onChangeCountry={() => setShowModal(true)} />
       <Hero />
       <Marquee />
       <div id="catalog">
-        <ProductGrid country={country} rates={rates} />
+        <ProductGrid country={country} rates={rates} initial={initialProducts} />
       </div>
       <HowItWorks country={country} />
       <FAQ />

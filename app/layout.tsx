@@ -179,12 +179,23 @@ const jsonLd = wrapGraph([
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" className={`${inter.variable} ${playfair.variable}`}>
+    // suppressHydrationWarning: инлайн-скрипт ниже до гидрации ставит data-intro
+    <html lang="ru" className={`${inter.variable} ${playfair.variable}`} suppressHydrationWarning>
       <head>
+        {/* Заставка (components/Splash): только на главной и раз за сессию.
+            Скрипт синхронный, чтобы решение принималось до первой отрисовки;
+            через 2 с атрибут снимается, чтобы возврат на главную её не повторял. */}
+        <script dangerouslySetInnerHTML={{ __html:
+          `try{if(location.pathname==="/"&&!sessionStorage.getItem("pzn_intro")){sessionStorage.setItem("pzn_intro","1");` +
+          `var h=document.documentElement,off=function(){h.removeAttribute("data-intro")};h.setAttribute("data-intro","");` +
+          `setTimeout(off,2000);addEventListener("click",function(e){if(e.target.closest&&e.target.closest(".splash"))off()})}}catch(e){}`
+        }} />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <meta name="theme-color" content="#F2F2F4" />
-        {/* Прогреваем соединение к CDN картинок — он на критическом пути LCP */}
-        <link rel="preconnect" href="https://cdn-img.thepoizon.ru" crossOrigin="" />
+        {/* Прогреваем соединение к CDN картинок — он на критическом пути LCP.
+            Без crossOrigin: картинки грузятся no-cors, и CORS-соединение
+            им бы не пригодилось — браузер открыл бы второе. */}
+        <link rel="preconnect" href="https://cdn-img.thepoizon.ru" />
         <link rel="dns-prefetch" href="https://cdn-img.thepoizon.ru" />
         <meta name="yandex-verification" content="9363a32cf61007d4" />
         <meta name="google-site-verification" content="dvUw6mvHVsCIfUr1M-kVZGQp-cgXfWXVTy9x9BNjm58" />
