@@ -1,4 +1,5 @@
 import catalog from "@/data/catalog.json"
+import showcase from "@/data/showcase.json"
 
 export interface Product {
   id: string
@@ -10,6 +11,8 @@ export interface Product {
   url: string
   tag?: string
   article?: string
+  /** Исходное название с Poizon — для SEO-описаний; на карточках короткое `name`. */
+  fullName?: string
   sold?: number
   releaseDate?: string
 }
@@ -32,8 +35,23 @@ export function getCatalog(): Catalog {
   return catalog as Catalog
 }
 
+/**
+ * Витрина сайта — ~200 отобранных товаров (data/showcase.json): известные
+ * бренды, ходовые модели, короткие английские названия вместо длинных
+ * машинных переводов с Poizon. Цены, фото и теги берутся из общего каталога,
+ * который еженедельно обновляет GitHub Action, — витрина задаёт только
+ * состав, порядок и подписи.
+ */
+let shown: Product[] | null = null
 export function getProducts(): Product[] {
-  return getCatalog().products
+  if (shown) return shown
+  const byId = new Map(getCatalog().products.map(p => [p.id, p]))
+  const out: Product[] = []
+  for (const s of showcase as { id: string; brand: string; name: string }[]) {
+    const p = byId.get(s.id)
+    if (p) out.push({ ...p, brand: s.brand, name: `${s.brand} ${s.name}`, fullName: p.name })
+  }
+  return (shown = out)
 }
 
 export function getProductById(id: string): Product | null {

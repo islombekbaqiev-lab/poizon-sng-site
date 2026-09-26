@@ -1,7 +1,7 @@
 import AnnouncementBar from "@/components/AnnouncementBar"
 import ClientShell     from "@/components/ClientShell"
 import Splash          from "@/components/Splash"
-import { getProducts, listProducts } from "@/lib/catalog"
+import { listProducts } from "@/lib/catalog"
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
     // фон работает как чистая подложка, а внимание держит сам товар.
     <main className="min-h-screen" style={{ background: "var(--page)" }}>
       {/* Полоса с условиями — в общем потоке, шапка встаёт под ней */}
-      <Splash count={getProducts().length} />
+      <Splash />
       <AnnouncementBar />
       <ClientShell initialProducts={listProducts({ limit: 12 })} />
     </main>

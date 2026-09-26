@@ -15,9 +15,8 @@ async function getProduct(slug: string): Promise<Product | null> {
 }
 
 export async function generateStaticParams() {
-  // Заранее собираем только ходовые позиции (каталог отсортирован по продажам),
-  // остальные ~3000 страниц рендерятся при первом заходе и кэшируются.
-  return getProducts().slice(0, 300).map(p => ({ slug: p.id }))
+  // Витрина ~200 товаров — собираем все страницы заранее.
+  return getProducts().map(p => ({ slug: p.id }))
 }
 
 export const dynamicParams = true

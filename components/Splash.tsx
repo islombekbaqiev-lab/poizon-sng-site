@@ -11,15 +11,14 @@ const WORD = "POIZON"
 
 const STICKERS = [
   { text: "✓ 100% оригинал", pos: "splash-st-1" },
-  { text: "", pos: "splash-st-2" }, // сюда подставится число товаров
+  { text: "Любой товар с Poizon", pos: "splash-st-2" },
   { text: "✈ от 3 дней", pos: "splash-st-3" },
   { text: "8 стран СНГ", pos: "splash-st-4" },
 ]
 
 const RIBBON = "POIZON ✦ SNG ✦ ОРИГИНАЛЫ ИЗ КИТАЯ ✦ КРОССОВКИ ✦ ОДЕЖДА ✦ СУМКИ ✦ "
 
-export default function Splash({ count }: { count: number }) {
-  const countLabel = `${(Math.floor(count / 100) * 100).toLocaleString("ru")}+ товаров`
+export default function Splash() {
   return (
     <div className="splash" aria-hidden="true">
       <div className="splash-ribbon">
@@ -39,7 +38,7 @@ export default function Splash({ count }: { count: number }) {
 
       {STICKERS.map((s, i) => (
         <span key={s.pos} className={`splash-st ${s.pos}`} style={{ animationDelay: `${420 + i * 80}ms` }}>
-          {s.text || countLabel}
+          {s.text}
         </span>
       ))}
     </div>
