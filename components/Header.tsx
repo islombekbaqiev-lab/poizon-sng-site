@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Country, Rates } from "@/lib/types"
-import { buildTelegramUrl, leadStart } from "@/lib/telegram"
+import { buildTelegramUrl } from "@/lib/telegram"
 
 const META: Record<Country, { flag: string; name: string; currency: string; rateKey: keyof Rates }> = {
   RU: { flag: "🇷🇺", name: "Россия",       currency: "₽",   rateKey: "RUB" },
@@ -115,7 +115,7 @@ export default function Header({ country, rates, onChangeCountry }: {
 
             {/* Постоянная кнопка конверсии — desktop */}
             <motion.a
-              href={buildTelegramUrl({ start: leadStart("header") })}
+              href={buildTelegramUrl()}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden md:inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-xs font-semibold text-white"
@@ -192,7 +192,7 @@ export default function Header({ country, rates, onChangeCountry }: {
                 </div>
               )}
               <a
-                href={buildTelegramUrl({ start: leadStart("menu") })}
+                href={buildTelegramUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 px-3 py-3.5 mt-2 rounded-full text-sm font-semibold text-white"

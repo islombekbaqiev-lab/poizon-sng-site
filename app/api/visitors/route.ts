@@ -4,7 +4,7 @@ import { kv } from "@vercel/kv"
 /**
  * Уникальные посетители за последние N часов (по умолчанию 24) с разбивкой по странам.
  * Данные пишет middleware.ts. Доступ — заголовок `Authorization: Bearer $STATS_TOKEN`
- * (читает лид-бот @PoizonAdvisor_bot для ежедневной сводки).
+ * (читает @pznsng_bot для ежедневной сводки).
  */
 export const dynamic = "force-dynamic"
 

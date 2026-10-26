@@ -55,7 +55,7 @@ export function fmtShort(x: { amount: number; sym: string }) {
 }
 
 // ── Доставка ────────────────────────────────────────────────────────────────
-// Тарифы те же, что в @po1zoncalculator_bot: ¥ за кг, минимум 1 кг на заказ.
+// Тарифы доставки: ¥ за кг, минимум 1 кг на заказ.
 export const DELIVERY: Record<Country, { name: string; days: string; perKgCNY: number }> = {
   RU: { name: "Авиа", days: "3–5 дней", perKgCNY: 225 },
   BY: { name: "Авиа", days: "3–5 дней", perKgCNY: 225 },

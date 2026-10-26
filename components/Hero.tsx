@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import { useInView, animate } from "framer-motion"
 
-import { buildTelegramUrl, leadStart } from "@/lib/telegram"
+import { buildTelegramUrl } from "@/lib/telegram"
 import { poizonImg } from "@/lib/img"
 
 const CARDS = [
@@ -143,7 +143,7 @@ export default function Hero() {
               className="rise flex flex-wrap items-center gap-3 mb-8"
              style={{ animationDelay: "220ms" }}>
               <a
-                href={buildTelegramUrl({ start: leadStart("hero") })}
+                href={buildTelegramUrl()}
                 target="_blank" rel="noopener noreferrer"
                 className="btn btn-primary"
               >

@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest, type NextFetchEvent } from "next/server
 import { kv } from "@vercel/kv"
 
 /**
- * Счётчик посетителей без cookies — для ежедневной сводки в @PoizonAdvisor_bot.
+ * Счётчик посетителей без cookies — для ежедневной сводки в @pznsng_bot.
  *
  * На каждый заход страницы (не ассеты, не API, не боты, не prefetch) пишем в KV
  * член множества «хеш посетителя | страна» в часовой бакет pzn:v:YYYYMMDDHH (UTC).

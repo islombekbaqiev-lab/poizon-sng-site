@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 
-import { buildTelegramUrl, leadStart } from "@/lib/telegram"
+import { buildTelegramUrl } from "@/lib/telegram"
 
 const BADGES = ["Оплата после фото товара", "Не нашли — вернём деньги", "Трек-номер", "Авиа 3–5 дней"]
 
@@ -36,7 +36,7 @@ export default function CTASection() {
           </p>
 
           <motion.a
-            href={buildTelegramUrl({ start: leadStart("cta") })}
+            href={buildTelegramUrl()}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2.5 px-10 py-4 rounded-full text-white font-semibold text-base"

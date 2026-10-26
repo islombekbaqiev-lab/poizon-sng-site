@@ -1,6 +1,5 @@
 export const SITE_URL = "https://poizonsng.com"
-// Лиды идут в лид-бота @PoizonAdvisor_bot: ловит источник (?start=), тепло
-// встречает, шлёт уведомление о лиде и работает как relay-чат с менеджером.
-export const TG_LINK = "https://t.me/PoizonAdvisor_bot"
+// Все кнопки Telegram ведут сразу в личку менеджера @PoizonAdvisor (лид-бот убран 2026-10-26).
 export const MANAGER_LINK = "https://t.me/PoizonAdvisor"
+export const TG_LINK = MANAGER_LINK
 

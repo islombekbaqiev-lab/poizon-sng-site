@@ -1,9 +1,9 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import Link from "next/link"
+import { TG_LINK } from "@/lib/site"
 
 const SITE_URL = "https://poizonsng.com"
-const TG_LINK  = "https://t.me/PoizonAdvisor_bot?start=site_lead_sizeguide"
 
 interface BrandGuide {
   name: string

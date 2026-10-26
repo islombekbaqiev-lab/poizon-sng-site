@@ -5,7 +5,7 @@ import Link from "next/link"
 import { getProducts, type Product } from "@/lib/catalog"
 import { SITE_URL, TG_LINK } from "@/lib/site"
 import { breadcrumbList, itemList, wrapGraph } from "@/lib/seo/jsonld"
-import { buildTelegramUrl, categoryStart } from "@/lib/telegram"
+import { buildTelegramUrl } from "@/lib/telegram"
 import BuyButton from "@/components/BuyButton"
 import AddToCart from "@/components/AddToCart"
 import Price from "@/components/Price"
@@ -157,7 +157,7 @@ export default async function CategoryPage(
             </p>
           </div>
           <a
-            href={buildTelegramUrl({ start: categoryStart(slug) })}
+            href={buildTelegramUrl()}
             target="_blank"
             rel="noopener noreferrer"
             className="px-5 py-2.5 rounded-xl text-white text-sm font-bold transition-all hover:scale-105 flex-shrink-0"
