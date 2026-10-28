@@ -77,8 +77,8 @@ export default function LegalLayout({
           <p className="font-bold text-sm mb-3">Реквизиты и контакты для обращений</p>
           <dl className="text-sm space-y-1.5" style={{ color: "var(--ink-3)" }}>
             <div><span style={{ color: "var(--ink-4)" }}>Оператор: </span>{LEGAL.operator}</div>
-            <div><span style={{ color: "var(--ink-4)" }}>ИНН: </span>{LEGAL.inn}</div>
-            <div><span style={{ color: "var(--ink-4)" }}>ОГРНИП: </span>{LEGAL.ogrn}</div>
+            {LEGAL.inn && <div><span style={{ color: "var(--ink-4)" }}>ИНН: </span>{LEGAL.inn}</div>}
+            {LEGAL.ogrn && <div><span style={{ color: "var(--ink-4)" }}>ОГРНИП: </span>{LEGAL.ogrn}</div>}
             <div><span style={{ color: "var(--ink-4)" }}>Адрес: </span>{LEGAL.address}</div>
             <div>
               <span style={{ color: "var(--ink-4)" }}>E-mail: </span>

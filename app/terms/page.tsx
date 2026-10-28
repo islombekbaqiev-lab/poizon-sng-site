@@ -23,7 +23,7 @@ export default function TermsPage() {
     >
       <LegalSection title="1. Термины">
         <ul>
-          <li><strong>Исполнитель</strong> — {LEGAL.operator}, ИНН {LEGAL.inn}.</li>
+          <li><strong>Исполнитель</strong> — {LEGAL.operator}{LEGAL.inn && `, ИНН ${LEGAL.inn}`}.</li>
           <li><strong>Заказчик</strong> — физическое лицо, направившее Исполнителю поручение на выкуп товара.</li>
           <li><strong>Площадка</strong> — китайский сервис Poizon (得物, dewu.com), на котором совершается выкуп.</li>
           <li><strong>Товар</strong> — предмет, выбранный Заказчиком на Площадке.</li>
